@@ -1,0 +1,23 @@
+﻿using OpenTK;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
+
+namespace OpenGLTest
+{
+    public class Camera : Component
+    {
+
+        private readonly Matrix4 projectionMatrix;
+
+        public Camera(Matrix4 projectionMatrix)
+        {
+            this.projectionMatrix = projectionMatrix;
+        }
+
+        public void Render(GameObject sceneGraph)
+        {
+            sceneGraph.Render(GameObject.ModelMatrix, projectionMatrix);
+        }
+
+    }
+}
