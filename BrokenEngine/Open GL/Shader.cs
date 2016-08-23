@@ -1,6 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
 
-namespace OpenGLTest
+namespace BrokenEngine.Open_GL
 {
     public class Shader
     {
@@ -12,6 +12,10 @@ namespace OpenGLTest
 
             GL.ShaderSource(this.handle, code);
             GL.CompileShader(this.handle);
+
+            string log = GL.GetShaderInfoLog(this.handle);
+            if (!string.IsNullOrWhiteSpace(log))
+                Globals.Logger.Error("Shader Error: " + log);
         }
 
         #region Operators

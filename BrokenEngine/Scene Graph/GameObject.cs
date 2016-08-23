@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using OpenGLTest.Utils;
+using BrokenEngine.Scene_Graph.Components;
+using BrokenEngine.Utils;
 using OpenTK;
 
-namespace OpenGLTest
+namespace BrokenEngine.Scene_Graph
 {
     public sealed class GameObject : IEnumerable<GameObject>
     {
@@ -25,8 +25,6 @@ namespace OpenGLTest
 
             if (parent != null)
                 this.SetParent(parent);
-
-            Console.WriteLine($"GameObject {Name} created!");
         }
 
         #region Transformation Helpers

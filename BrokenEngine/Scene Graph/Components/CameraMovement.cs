@@ -2,7 +2,7 @@
 using OpenTK;
 using OpenTK.Input;
 
-namespace OpenGLTest
+namespace BrokenEngine.Scene_Graph.Components
 {
     public class CameraMovement : Component
     {

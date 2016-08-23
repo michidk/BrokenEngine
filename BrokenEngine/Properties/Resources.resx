@@ -117,29 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="unlit_frag" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\unlit_frag.glsl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="unlit_vert" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\unlit_vert.glsl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="WPN_AKM" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\WPN_AKM.obj;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="airboat" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\airboat.obj;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="DefaultSkin1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DefaultSkin.skin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="sphere" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sphere.obj;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="cube" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\cube.obj;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="polygon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\polygon.obj;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
 </root>

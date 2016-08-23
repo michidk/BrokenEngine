@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace OpenGLTest
+namespace BrokenEngine.Mesh
 {
     public class Face
     {

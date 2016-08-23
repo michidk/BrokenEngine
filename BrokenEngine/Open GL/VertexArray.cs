@@ -1,6 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
 
-namespace OpenGLTest
+namespace BrokenEngine.Open_GL
 {
     public class VertexArray<TVertex> where TVertex : struct
     {

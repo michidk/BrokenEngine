@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace OpenGLTest.Utils
+namespace BrokenEngine.Utils
 {
     public static class MathUtils
     {

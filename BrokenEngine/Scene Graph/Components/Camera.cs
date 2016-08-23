@@ -1,8 +1,6 @@
 ﻿using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 
-namespace OpenGLTest
+namespace BrokenEngine.Scene_Graph.Components
 {
     public class Camera : Component
     {

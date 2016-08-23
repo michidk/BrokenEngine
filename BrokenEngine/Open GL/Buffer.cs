@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
-namespace OpenGLTest
+namespace BrokenEngine.Open_GL
 {
     public class Buffer<TElem> : IDisposable where TElem : struct
     {

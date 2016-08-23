@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OpenGLTest
+namespace BrokenEngine.Mesh
 {
     public class FaceGroup
     {

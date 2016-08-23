@@ -1,28 +1,30 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using BrokenEngine.Materials;
+using BrokenEngine.Mesh;
+using BrokenEngine.Mesh.OBJ_Parser;
+using BrokenEngine.Scene_Graph;
+using BrokenEngine.Scene_Graph.Components;
 using Gwen.Control;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-using Gwen.Control;
-using OpenGLTest.OBJ_Parser;
 using OpenTK.Input;
 
-namespace OpenGLTest
+namespace BrokenEngine
 {
     public class Game : GameWindow
     {
 
-        public Camera CurrentCamera;
-
         public readonly GameObject SceneGraph = new GameObject("root", Vector3.Zero);
+        public Camera CurrentCamera;
+        public Canvas UI;
 
         // UI stuff
         private Gwen.Input.OpenTK input;
         private Gwen.Renderer.OpenTK renderer;
         private Gwen.Skin.Base skin;
-        private Canvas canvas;
 
         private bool altDown = false;
 
@@ -32,6 +34,8 @@ namespace OpenGLTest
             4, 3, GraphicsContextFlags.ForwardCompatible    // opengl version
             )
         {
+            Globals.Game = this;
+
             // register events
             Keyboard.KeyDown += OnKeyDown;
             Keyboard.KeyUp += OnKeyUp;
@@ -41,30 +45,37 @@ namespace OpenGLTest
             Mouse.Move += OnMove;
             Mouse.WheelChanged += OnWheel;
 
-            Console.WriteLine("gl version: " + GL.GetString(StringName.Version));
+            Globals.Logger.Info($"Using OpenGL Version { GL.GetString(StringName.Version) }");
+            Globals.Logger.Info("Broken Engine Initialized!");
         }
 
         // called when window starts running
         protected override void OnLoad(EventArgs e)
         {
+            Globals.Logger.Debug("Initialize Renderer");
+
             // init UI
             renderer = new Gwen.Renderer.OpenTK();
-            using (Stream stream = new MemoryStream(Properties.Resources.DefaultSkin1))
+            using (Stream stream = new MemoryStream(ResourceManager.GetBytes("DefaultSkin.skin")))
                 skin = new Gwen.Skin.TexturedBase(renderer, stream);
-            canvas = new Canvas(skin);
+            UI = new Canvas(skin);
+
             input = new Gwen.Input.OpenTK(this);
-            input.Initialize(canvas);
+            input.Initialize(UI);
             
-            canvas.SetSize(Width, Height);
-            canvas.KeyboardInputEnabled = true;
+            UI.SetSize(Width, Height);
+            UI.KeyboardInputEnabled = true;
 
+
+            Globals.Logger.Debug("Loading Resources");
             // create scene graph
-            ObjMesh airboat = ObjParser.ParseFile(Properties.Resources.airboat);
-            ObjMesh akm = ObjParser.ParseFile(Properties.Resources.WPN_AKM);
-            ObjMesh sphere = ObjParser.ParseFile(Properties.Resources.sphere);
-            ObjMesh cube = ObjParser.ParseFile(Properties.Resources.cube);
-            ObjMesh polygon = ObjParser.ParseFile(Properties.Resources.polygon);
+            ObjMesh airboat = ObjParser.ParseFile("airboat");
+            ObjMesh akm = ObjParser.ParseFile("akm");
+            ObjMesh sphere = ObjParser.ParseFile("sphere");
+            ObjMesh cube = ObjParser.ParseFile("cube");
+            ObjMesh polygon = ObjParser.ParseFile("polygon");
 
+            Globals.Logger.Debug("Loading Scene");
             var go = new GameObject("test object", Vector3.One, SceneGraph);
             go.AddComponent(new MeshRenderer(MeshUtils.CreateQuad()), false);
             new GameObject("Test", Vector3.Zero, go);
@@ -83,7 +94,7 @@ namespace OpenGLTest
 
             go = new GameObject("Airboat", new Vector3(0, -5, -10), SceneGraph);
             //go.AddComponent(new MeshRenderer(airboat), false);
-            go.AddComponent(new MeshRenderer(akm), false);
+            go.AddComponent(new MeshRenderer(akm, new PhongMaterial(Color.Crimson)), false);
 
             var cameraObj = new GameObject("Camera", new Vector3(0, 0, 5), SceneGraph);
             // TODO: move following camera initialiion things to camera settings
@@ -93,17 +104,19 @@ namespace OpenGLTest
             cameraObj.AddComponent(camera, false);
             cameraObj.AddComponent(new CameraMovement(CameraMovement.Type.FirstPerson), false);
 
+            Globals.Logger.Debug("Loading UI");
             // create ui
-            TreeControl tree = new TreeControl(canvas);
-            
+            TreeControl tree = new TreeControl(UI);
             BuildSceneGraphUI(tree);
             tree.SetBounds(10, 10, 250, 300);
 
             // init logic
             CurrentCamera = camera;
 
+            Globals.Logger.Debug("Starting Game Logic");
             SceneGraph.Start();
 
+            Globals.Logger.Debug("Apply Settings");
             // GL settings
             // turn vsync of to measure performance by counting frames
             //this.VSync = VSyncMode.Adaptive;
@@ -114,6 +127,8 @@ namespace OpenGLTest
             //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);    // wire frame
             GL.ClearColor(Color4.AliceBlue);
             GL.FrontFace(FrontFaceDirection.Ccw);  // Ccw = Counter-clockwise = default = right hand rule
+
+            Globals.Logger.Info("Broken Engine Successfully Initialized!");
         }
 
         private void BuildSceneGraphUI(TreeControl tree)
@@ -160,7 +175,9 @@ namespace OpenGLTest
             // TODO: implement image effects: http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-14-render-to-texture/
 
             // render UI
-            canvas.RenderCanvas();
+            GL.FrontFace(FrontFaceDirection.Cw);
+            UI.RenderCanvas();
+            GL.FrontFace(FrontFaceDirection.Ccw);
 
             // swap backbuffer
             SwapBuffers();
@@ -215,9 +232,12 @@ namespace OpenGLTest
 
         public override void Dispose()
         {
-            canvas.Dispose();
+            UI.Dispose();
             skin.Dispose();
             renderer.Dispose();
+
+            Globals.Game = null;
+
             base.Dispose();
         }
 

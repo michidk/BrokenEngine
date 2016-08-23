@@ -1,26 +1,29 @@
-﻿using OpenTK;
+﻿using BrokenEngine.Materials;
+using BrokenEngine.Mesh;
+using BrokenEngine.Open_GL;
+using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
-namespace OpenGLTest
+namespace BrokenEngine.Scene_Graph.Components
 {
     public class MeshRenderer : Component
     {
 
-        public Mesh Mesh;
+        public Mesh.Mesh Mesh;
         public Material Material;
 
         private Buffer<Vertex> vertexBuffer;
         private Buffer<ushort> indexBuffer;
         private VertexArray<Vertex> vertexArray;
 
-        public MeshRenderer(Mesh mesh)
+        public MeshRenderer(Mesh.Mesh mesh)
         {
             Mesh = mesh;
-            Material = new UnlitMaterial();
+            Material = new VertexColorMaterial();
         }
 
-        public MeshRenderer(Mesh mesh, Material material)
+        public MeshRenderer(Mesh.Mesh mesh, Material material)
         {
             Mesh = mesh;
             Material = material;
@@ -48,20 +51,25 @@ namespace OpenGLTest
                 }
             }
 
-            vertexArray = new VertexArray<Vertex>(
-                vertexBuffer, Material.ShaderProgram,
-                new VertexAttribute("vPosition", 3, VertexAttribPointerType.Float, Vertex.Size, 0),
-                new VertexAttribute("vColor", 4, VertexAttribPointerType.Float, Vertex.Size, 12)
-            );
+            unsafe
+            {
+                vertexArray = new VertexArray<Vertex>(
+                   vertexBuffer, Material.ShaderProgram,
+                   new VertexAttribute("v_position", 3, VertexAttribPointerType.Float, Vertex.Size, 0),
+                   new VertexAttribute("v_color", 4, VertexAttribPointerType.Float, Vertex.Size, sizeof(Vector3)),  // TODO: make builder, which calc size automaticly
+                   new VertexAttribute("v_normal", 3, VertexAttribPointerType.Float, Vertex.Size, sizeof(Vector3) + sizeof(Color4)),
+                   new VertexAttribute("v_uv", 3, VertexAttribPointerType.Float, Vertex.Size, sizeof(Vector3) + sizeof(Color4) + sizeof(Vector3))
+                );
+            }
         }
 
         public void Render(Matrix4 viewMatrix, Matrix4 projMatrix)
         {
             Matrix4 modelViewProjection = this.GameObject.ModelMatrix * viewMatrix * projMatrix;
-
-            Material.Apply(new Material.MaterialProperties {
-                ModelViewProjMatrix = modelViewProjection
-            });
+            Material.ModelViewProjMatrix = modelViewProjection;
+            Material.ModelWorldMatrix = this.GameObject.ModelMatrix;
+            Material.WorldViewMatrix = viewMatrix;
+            Material.Apply();
 
             // TODO: only bind the vertex array every frame, the other stuff can be bind and buffered in OnLoad() (https://github.com/opentk/opentk/blob/master/Source/Examples/OpenGL/3.x/HelloGL3.cs)
             vertexBuffer.Bind();

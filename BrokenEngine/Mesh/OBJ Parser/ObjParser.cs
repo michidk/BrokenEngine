@@ -1,15 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using OpenTK;
 using OpenTK.Graphics;
 
-namespace OpenGLTest.OBJ_Parser
+namespace BrokenEngine.Mesh.OBJ_Parser
 {
     public class ObjParser
     {
 
-        public static ObjMesh ParseFile(byte[] file)
+        public static ObjMesh ParseFile(string name)
         {
             ObjMesh mesh = new ObjMesh();
 
@@ -17,19 +18,22 @@ namespace OpenGLTest.OBJ_Parser
             FaceGroup currentFaceGroup = new FaceGroup("default");
             mesh.FaceGroups.Add(currentFaceGroup);
 
-            using (Stream stream = new MemoryStream(file))
+            List<Vector3> normals = new List<Vector3>();
+            List<Vector2> uvs = new List<Vector2>();
+
+            using (Stream stream = new MemoryStream(ResourceManager.GetBytes(name + ".obj")))
             using (StreamReader reader = new StreamReader(stream))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
                     if (!string.IsNullOrWhiteSpace(line))
-                        ProcessLine(mesh, line, ref currentFaceGroup, ref header);
+                        ProcessLine(mesh, line, ref currentFaceGroup, ref normals, ref uvs, ref header);
             }
 
             return mesh;
         }
 
-        private static void ProcessLine(ObjMesh mesh, string line, ref FaceGroup currentFaceGroup, ref bool header)
+        private static void ProcessLine(ObjMesh mesh, string line, ref FaceGroup currentFaceGroup, ref List<Vector3> normals, ref List<Vector2> uvs, ref bool header)
         {
             string[] split = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             string type = split[0];
@@ -59,12 +63,12 @@ namespace OpenGLTest.OBJ_Parser
                     break;
                 case "vn":
                     var normal = new Vector3(float.Parse(split[1]), float.Parse(split[2]), float.Parse(split[3]));
-                    mesh.Normals.Add(normal);
+                    normals.Add(normal);
                     header = false;
                     break;
                 case "vt":
                     var uv = new Vector2(float.Parse(split[1]), float.Parse(split[2]));
-                    mesh.UVs.Add(uv);
+                    uvs.Add(uv);
                     header = false;
                     break;
                 case "g":
@@ -84,15 +88,22 @@ namespace OpenGLTest.OBJ_Parser
                     currentFaceGroup.Faces.Add(face);
                     for (int i = 0; i < length; i++)
                     {
-                        var fvert = new Face.FaceVertex();
+                        var fvert = new Face.FaceVertex();  // TODO: remove UVIndex and NormalIndex from FaceVerty, then simplify because that info is already directly inserted into the Vertex.
                         string[] parts = split[i + 1].Split('/');
                         fvert.VertexIndex = Convert.ToUInt16(ushort.Parse(parts[0]) - 1);
 
                         if (parts.Length > 1 && !string.IsNullOrEmpty(parts[1]))
-                            fvert.UVIndex = Convert.ToUInt16(ushort.Parse(parts[1]) - 1);
+                        {
+                            fvert.UVIndex = Convert.ToUInt16(ushort.Parse(parts[1]) - 1);   // unnersesary
+                            mesh.Vertices[fvert.VertexIndex].SetUV(uvs[fvert.UVIndex]); // doesn not work cuz value type?
+                            // solution: clean up obj parser; work with temporary obj construction mesh.. collect vert, normls, uvs; after parsing -> construct mesh 
+                        }
 
                         if (parts.Length > 2 && !string.IsNullOrEmpty(parts[2]))
-                            fvert.NormalIndex = Convert.ToUInt16(ushort.Parse(parts[2]) - 1);
+                        {
+                            fvert.NormalIndex = Convert.ToUInt16(ushort.Parse(parts[2]) - 1);   // unnersesary
+                            mesh.Vertices[fvert.VertexIndex].SetNormal(normals[fvert.NormalIndex]);
+                        }
 
                         if (i < 3)
                         {

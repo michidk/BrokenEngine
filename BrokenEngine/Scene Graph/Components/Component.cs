@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenGLTest
+﻿namespace BrokenEngine.Scene_Graph.Components
 {
     public abstract class Component
     {
@@ -8,7 +6,7 @@ namespace OpenGLTest
 
         public virtual void OnStart()
         {
-            Console.WriteLine($"{this.GetType().Name} of {GameObject.Name} started!");
+            
         }
 
         public virtual void OnUpdate()

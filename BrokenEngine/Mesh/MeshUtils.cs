@@ -1,7 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
 
-namespace OpenGLTest
+namespace BrokenEngine.Mesh
 {
     public static class MeshUtils
     {
