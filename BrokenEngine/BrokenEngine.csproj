@@ -135,8 +135,12 @@
   <ItemGroup>
     <Compile Include="Globals.cs" />
     <Compile Include="Materials\PhongMaterial.cs" />
+    <Compile Include="Mesh\Face.cs" />
+    <Compile Include="Mesh\Mesh Parser\IMeshParser.cs" />
     <Compile Include="Mesh\MeshUtils.cs" />
-    <Compile Include="Open GL\Buffer.cs" />
+    <Compile Include="Open GL\Buffer\Buffer.cs" />
+    <Compile Include="Open GL\Buffer\DynamicBuffer.cs" />
+    <Compile Include="Open GL\Buffer\StaticBuffer.cs" />
     <Compile Include="ResourceManager.cs" />
     <Compile Include="Scene Graph\Components\Camera.cs" />
     <Compile Include="Scene Graph\Components\Component.cs" />
@@ -146,11 +150,9 @@
     <Compile Include="Scene Graph\Components\MeshRenderer.cs" />
     <Compile Include="Materials\Material.cs" />
     <Compile Include="Materials\VertexColorMaterial.cs" />
-    <Compile Include="Mesh\Face.cs" />
     <Compile Include="Mesh\FaceGroup.cs" />
     <Compile Include="Mesh\Mesh.cs" />
-    <Compile Include="Mesh\OBJ Parser\ObjMesh.cs" />
-    <Compile Include="Mesh\OBJ Parser\ObjParser.cs" />
+    <Compile Include="Mesh\Mesh Parser\ObjParser.cs" />
     <Compile Include="Mesh\Vertex.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

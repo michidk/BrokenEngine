@@ -5,9 +5,10 @@ namespace BrokenEngine
 {
 
     // T O  D O ' S:
-    // TODO: copy resources after build
-    // TODO: Fix logging
-    // TODO: fix UI
+    // 
+
+    // NOTES:
+    // https://github.com/opentk/opentk/blob/master/Source/Examples/OpenGL/3.x/HelloGL3.cs
 
     class Program
     {

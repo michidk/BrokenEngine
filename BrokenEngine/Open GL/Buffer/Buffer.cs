@@ -5,30 +5,21 @@ using OpenTK.Graphics.OpenGL;
 
 namespace BrokenEngine.Open_GL
 {
-    public class Buffer<TElem> : IDisposable where TElem : struct
+    public abstract class Buffer<T> : IDisposable where T : struct
     {
 
-        public List<TElem> Data;
+        public abstract int Count { get; }
 
         private readonly int handle;
         private int elementSize;
         private BufferTarget bufferTarget;
 
-        public int Count { get { return Data.Count; } }
-
-
-        public Buffer(int elementSize, List<TElem> data, BufferTarget target)
+        public Buffer(int elementSize, BufferTarget target)
         {
             this.elementSize = elementSize;
-            this.Data = data;
             this.bufferTarget = target;
 
             this.handle = GL.GenBuffer();
-        }
-
-        public Buffer(int elementSize, BufferTarget target) : this(elementSize, new List<TElem>(), target)
-        {
-
         }
 
         public void Bind()
@@ -36,14 +27,26 @@ namespace BrokenEngine.Open_GL
             GL.BindBuffer(bufferTarget, this.handle);
         }
 
-        public void BufferData()
+        public abstract int BufferData();
+
+        protected int BufferData(T[] data)
         {
-            GL.BufferData(bufferTarget, (IntPtr) (elementSize * Data.Count), Data.ToArray(), BufferUsageHint.StaticDraw);
+            int size = elementSize * data.Length;
+            GL.BufferData(bufferTarget, (IntPtr) size, data, BufferUsageHint.StaticDraw);
+            return size;
+        }
+
+        // Untested!
+        public int BufferSubData(T[] data, int offset)
+        {
+            int size = elementSize * data.Length;
+            GL.BufferSubData(bufferTarget, (IntPtr) offset, (IntPtr) size, data);
+            return size;
         }
 
         #region Operators
         // use this as int
-        public static implicit operator int(Buffer<TElem> buffer)
+        public static implicit operator int(Buffer<T> buffer)
         {
             return buffer.handle;
         }

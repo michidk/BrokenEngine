@@ -69,11 +69,11 @@ namespace BrokenEngine
 
             Globals.Logger.Debug("Loading Resources");
             // create scene graph
-            ObjMesh airboat = ObjParser.ParseFile("airboat");
-            ObjMesh akm = ObjParser.ParseFile("akm");
-            ObjMesh sphere = ObjParser.ParseFile("sphere");
-            ObjMesh cube = ObjParser.ParseFile("cube");
-            ObjMesh polygon = ObjParser.ParseFile("polygon");
+            Mesh.Mesh airboat = ObjParser.ParseFile("airboat");
+            Mesh.Mesh akm = ObjParser.ParseFile("akm");
+            Mesh.Mesh sphere = ObjParser.ParseFile("sphere");
+            Mesh.Mesh cube = ObjParser.ParseFile("cube");
+            Mesh.Mesh polygon = ObjParser.ParseFile("polygon");
 
             Globals.Logger.Debug("Loading Scene");
             var go = new GameObject("test object", Vector3.One, SceneGraph);
@@ -92,7 +92,7 @@ namespace BrokenEngine
             go = new GameObject("Model 2", new Vector3(5, 0, 0), SceneGraph);
             go.AddComponent(new MeshRenderer(polygon), false);
 
-            go = new GameObject("Airboat", new Vector3(0, -5, -10), SceneGraph);
+            go = new GameObject("AKM", new Vector3(0, -5, -10), SceneGraph);
             //go.AddComponent(new MeshRenderer(airboat), false);
             go.AddComponent(new MeshRenderer(akm, new PhongMaterial(Color.Crimson)), false);
 
