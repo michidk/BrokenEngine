@@ -10,7 +10,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace BrokenEngine.Scene_Graph.Components
 {
-    public class MeshRenderer : Component
+    public class MeshRenderer : Component, IRenderable
     {
 
         public Mesh.Mesh Mesh;
@@ -19,6 +19,8 @@ namespace BrokenEngine.Scene_Graph.Components
         private Buffer<Vertex> vertexBuffer;
         private Buffer<ushort> indexBuffer;
         private VertexArray<Vertex> vertexArray;
+
+        private SubmeshRenderer[] subMeshRenderers;
 
         public MeshRenderer(Mesh.Mesh mesh) : this (mesh, new VertexColorMaterial())
         {
@@ -59,16 +61,35 @@ namespace BrokenEngine.Scene_Graph.Components
                 );
             }
 
+
+            // create subs
+            int submeshCnt = Mesh.Submeshes.Count(e => e.Faces.Length != 0);
+            if (subMeshRenderers == null)
+                subMeshRenderers = new SubmeshRenderer[submeshCnt];
+
+            int c = 0;
+            foreach (var submesh in Mesh.Submeshes.Where(e => e.Faces.Length != 0))
+            {
+                // create / restore objects if lost
+                if (subMeshRenderers[c] == null)
+                {
+                    var go = new GameObject(submesh.Name, parent: this.GameObject);
+                    var comp = new SubmeshRenderer(submesh, Material);
+                    go.AddComponent(comp);
+                    subMeshRenderers[c] = comp;
+                }
+                else
+                {
+                    subMeshRenderers[c].Submesh = submesh;
+                }
+
+                c++;
+            }
         }
 
         public void Render(Matrix4 viewMatrix, Matrix4 projMatrix)
         {
-            Matrix4 modelViewProjection = this.GameObject.ModelMatrix * viewMatrix * projMatrix;
-            Material.ModelViewProjMatrix = modelViewProjection;
-            Material.ModelWorldMatrix = this.GameObject.ModelMatrix;
-            Material.WorldViewMatrix = viewMatrix;
-            Material.Apply();
-
+            SetDefaultMaterialParameter(ref Material, this.GameObject.ModelMatrix, viewMatrix, projMatrix);
 
             vertexBuffer.Bind();
             vertexBuffer.BufferData();
@@ -80,12 +101,34 @@ namespace BrokenEngine.Scene_Graph.Components
 
             GL.DrawElements(BeginMode.Triangles, indexBuffer.Count, DrawElementsType.UnsignedShort, 0);
 
+            foreach (var renderer in subMeshRenderers)
+                renderer.Render(viewMatrix, projMatrix);
 
             // reset state for potential further draw calls (optional, but good practice)
             GL.BindVertexArray(0);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
             Material.CleanUp();
+        }
+
+        public static void SetDefaultMaterialParameter(ref Material material, Matrix4 modelMatrix, Matrix4 viewMatrix, Matrix4 projMatrix)
+        {
+            //Console.WriteLine(viewMatrix.ExtractTranslation() + "\n==========");
+            material.Parameters.ModelWorldMatrix = modelMatrix;
+            material.Parameters.WorldViewMatrix = viewMatrix;
+            material.Parameters.ModelViewProjMatrix = modelMatrix * viewMatrix * projMatrix;
+            material.Parameters.NormalMatrix = Matrix4.Transpose(Matrix4.Invert(modelMatrix));
+            material.Apply();
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            foreach (var go in subMeshRenderers)
+            {
+                go.GameObject.Destroy();
+            }
         }
 
     }

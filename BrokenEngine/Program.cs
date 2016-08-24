@@ -5,7 +5,7 @@ namespace BrokenEngine
 {
 
     // T O  D O ' S:
-    // 
+    // TO DO: child matrix multiplication
 
     // NOTES:
     // https://github.com/opentk/opentk/blob/master/Source/Examples/OpenGL/3.x/HelloGL3.cs

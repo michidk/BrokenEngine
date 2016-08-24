@@ -132,13 +132,13 @@ namespace BrokenEngine.Mesh.OBJ_Parser
                 {
                     // convert faces
                     var objFace = faceGroup.Faces[i];
-                    var indexedVerts = new ushort[3];
+                    submesh.Faces[i] = new Face(3);
 
                     for (int v = 0; v < 3; v++)
                     {
                         ObjFaceVertex faceVertex = objFace.Vertices[v];
                         ushort vertexId = faceVertex.VertexIndex;
-                        indexedVerts[v] = vertexId;
+                        submesh.Faces[i].Indices[v] = vertexId;
 
                         // add missing (indexed / referenced) data to vertex
                         if (normals.Count > 0)
@@ -350,7 +350,8 @@ namespace BrokenEngine.Mesh.OBJ_Parser
             for (int i = idx; i < split.Length; i++)
             {
                 result.Append(split[i]);
-                result.Append(" ");
+                if (i + 1 < split.Length)
+                    result.Append(" ");
             }
             return result.ToString();
         }

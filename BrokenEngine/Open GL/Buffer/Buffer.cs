@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BrokenEngine.Utils;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
@@ -36,7 +37,7 @@ namespace BrokenEngine.Open_GL
             return size;
         }
 
-        // Untested!
+        [Untested]
         public int BufferSubData(T[] data, int offset)
         {
             int size = elementSize * data.Length;

@@ -15,9 +15,9 @@ namespace BrokenEngine.Open_GL
             Data = data;
         }
 
-        public override void BufferData()
+        public override int BufferData()
         {
-            base.BufferData(Data.ToArray());
+            return base.BufferData(Data.ToArray());
         }
 
     }

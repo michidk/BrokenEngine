@@ -6,14 +6,12 @@ namespace BrokenEngine.Materials
 {
     public class Material
     {
+
         public readonly string Name;
 
         public ShaderProgram ShaderProgram { get { return shaderProgram; } }
 
-        // shader parameters
-        public Matrix4 ModelViewProjMatrix;
-        public Matrix4 ModelWorldMatrix;
-        public Matrix4 WorldViewMatrix;
+        public dynamic Parameters = new System.Dynamic.ExpandoObject();
 
         protected ShaderProgram shaderProgram;
         private bool loaded = false;
@@ -34,8 +32,8 @@ namespace BrokenEngine.Materials
 
         protected void LoadShaders()
         {
-            var vertTxt = ResourceManager.GetString(Name + "_vert.glsl");
-            var fragTxt = ResourceManager.GetString(Name + "_frag.glsl");
+            var vertTxt = ResourceManager.GetString($"Shader/{Name}_vert.glsl");
+            var fragTxt = ResourceManager.GetString($"Shader/{Name}_frag.glsl");
 
             var vert = new Shader(ShaderType.VertexShader, vertTxt);
             var frag = new Shader(ShaderType.FragmentShader, fragTxt);
@@ -47,9 +45,10 @@ namespace BrokenEngine.Materials
         {
             shaderProgram.Use();
 
-            SetMatrixUniform("u_modelViewProjMatrix", ModelViewProjMatrix, GL.UniformMatrix4);
-            SetMatrixUniform("u_modelWorldMatrix", ModelWorldMatrix, GL.UniformMatrix4);
-            SetMatrixUniform("u_worldViewMatrix", WorldViewMatrix, GL.UniformMatrix4);
+            SetMatrixUniform("u_modelViewProjMatrix", (Matrix4) Parameters.ModelViewProjMatrix, GL.UniformMatrix4);
+            SetMatrixUniform("u_modelWorldMatrix", (Matrix4) Parameters.ModelWorldMatrix, GL.UniformMatrix4);
+            SetMatrixUniform("u_worldViewMatrix", (Matrix4) Parameters.WorldViewMatrix, GL.UniformMatrix4);
+            SetMatrixUniform("u_normalMatrix", (Matrix4) Parameters.NormalMatrix, GL.UniformMatrix4);
         }
 
         public void CleanUp()

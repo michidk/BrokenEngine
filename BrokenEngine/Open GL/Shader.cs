@@ -15,7 +15,7 @@ namespace BrokenEngine.Open_GL
 
             string log = GL.GetShaderInfoLog(this.handle);
             if (!string.IsNullOrWhiteSpace(log))
-                Globals.Logger.Error("Shader Error: " + log);
+                Globals.Logger.Error($"Shader Error ({type}): {log}");
         }
 
         #region Operators

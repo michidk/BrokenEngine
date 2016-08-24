@@ -9,7 +9,7 @@ using BrokenEngine.Scene_Graph.Components;
 using Gwen.Control;
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 
 namespace BrokenEngine
@@ -26,7 +26,9 @@ namespace BrokenEngine
         private Gwen.Renderer.OpenTK renderer;
         private Gwen.Skin.Base skin;
 
+        // to be removed
         private bool altDown = false;
+        private TreeControl sceneGraphUI;
 
         public Game(int resX, int resY, string title) : base(
             resX, resY, GraphicsMode.Default, title, // Game settings
@@ -52,11 +54,20 @@ namespace BrokenEngine
         // called when window starts running
         protected override void OnLoad(EventArgs e)
         {
-            Globals.Logger.Debug("Initialize Renderer");
+            // load objects
+            Globals.Logger.Debug("Loading Resources");
+            Mesh.Mesh airboat = ObjParser.ParseFile("Models/airboat");
+            Mesh.Mesh akm = ObjParser.ParseFile("Models/akm");
+            Mesh.Mesh sphere = ObjParser.ParseFile("Models/sphere");
+            Mesh.Mesh cube = ObjParser.ParseFile("Models/cube");
+            Mesh.Mesh polygon = ObjParser.ParseFile("Models/polygon");
+            var uiSkin = ResourceManager.GetBytes("DefaultSkin.skin");
+
 
             // init UI
+            Globals.Logger.Debug("Loading UI");
             renderer = new Gwen.Renderer.OpenTK();
-            using (Stream stream = new MemoryStream(ResourceManager.GetBytes("DefaultSkin.skin")))
+            using (Stream stream = new MemoryStream(uiSkin))
                 skin = new Gwen.Skin.TexturedBase(renderer, stream);
             UI = new Canvas(skin);
 
@@ -66,15 +77,13 @@ namespace BrokenEngine
             UI.SetSize(Width, Height);
             UI.KeyboardInputEnabled = true;
 
+            // create ui
+            sceneGraphUI = new TreeControl(UI);
+            sceneGraphUI.SetBounds(10, 10, 250, 300);
+            BuildSceneGraphUI();
 
-            Globals.Logger.Debug("Loading Resources");
+
             // create scene graph
-            Mesh.Mesh airboat = ObjParser.ParseFile("airboat");
-            Mesh.Mesh akm = ObjParser.ParseFile("akm");
-            Mesh.Mesh sphere = ObjParser.ParseFile("sphere");
-            Mesh.Mesh cube = ObjParser.ParseFile("cube");
-            Mesh.Mesh polygon = ObjParser.ParseFile("polygon");
-
             Globals.Logger.Debug("Loading Scene");
             var go = new GameObject("test object", Vector3.One, SceneGraph);
             go.AddComponent(new MeshRenderer(MeshUtils.CreateQuad()), false);
@@ -94,7 +103,7 @@ namespace BrokenEngine
 
             go = new GameObject("AKM", new Vector3(0, -5, -10), SceneGraph);
             //go.AddComponent(new MeshRenderer(airboat), false);
-            go.AddComponent(new MeshRenderer(akm, new PhongMaterial(Color.Crimson)), false);
+            go.AddComponent(new MeshRenderer(akm, new PhongMaterial(Color.SaddleBrown)), false);
 
             var cameraObj = new GameObject("Camera", new Vector3(0, 0, 5), SceneGraph);
             // TODO: move following camera initialiion things to camera settings
@@ -104,38 +113,37 @@ namespace BrokenEngine
             cameraObj.AddComponent(camera, false);
             cameraObj.AddComponent(new CameraMovement(CameraMovement.Type.FirstPerson), false);
 
-            Globals.Logger.Debug("Loading UI");
-            // create ui
-            TreeControl tree = new TreeControl(UI);
-            BuildSceneGraphUI(tree);
-            tree.SetBounds(10, 10, 250, 300);
 
             // init logic
+            Globals.Logger.Debug("Starting Game Logic");
             CurrentCamera = camera;
 
-            Globals.Logger.Debug("Starting Game Logic");
             SceneGraph.Start();
 
-            Globals.Logger.Debug("Apply Settings");
+
             // GL settings
+            Globals.Logger.Debug("Apply Settings");
             // turn vsync of to measure performance by counting frames
             //this.VSync = VSyncMode.Adaptive;
 
             //GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.CullFace);    // backface culling
+            //GL.Enable(EnableCap.FramebufferSrgb);   // gamma correction -> turned off, because we dont want gamma correction over ui etc
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
             //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);    // wire frame
             GL.ClearColor(Color4.AliceBlue);
             GL.FrontFace(FrontFaceDirection.Ccw);  // Ccw = Counter-clockwise = default = right hand rule
-
+            //GL.ShadeModel(ShadingModel.Flat);     // Flat = flat shading; not suppoted in GL4
             Globals.Logger.Info("Broken Engine Successfully Initialized!");
         }
 
-        private void BuildSceneGraphUI(TreeControl tree)
+        public void BuildSceneGraphUI()
         {
+            sceneGraphUI.RemoveAll();
+
             foreach (var child in SceneGraph)
             {
-                SubBuildSceneGraphUI(child, tree.AddNode(child.Name));
+                SubBuildSceneGraphUI(child, sceneGraphUI.AddNode(child.Name));
             }
         }
 
@@ -148,7 +156,7 @@ namespace BrokenEngine
 
             foreach (var comp in go.Components)
             {
-                node.AddNode(comp.GetType()+"");
+                node.AddNode(comp.GetType().Name +"");
             }
         }
 
@@ -162,6 +170,17 @@ namespace BrokenEngine
         // called every frame, game logic
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
+            if (Keyboard[Key.Q])
+                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+            else
+                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+
+            /*
+            if (Keyboard[Key.E])
+                GL.ShadeModel(ShadingModel.Flat);
+            else
+                GL.ShadeModel(ShadingModel.Smooth);*/
+
             SceneGraph.Update();
         }
 
@@ -191,11 +210,11 @@ namespace BrokenEngine
 
         private void OnKeyDown(object sender, KeyboardKeyEventArgs e)
         {
-            if (e.Key == global::OpenTK.Input.Key.Escape)
+            if (e.Key == Key.Escape)
                 Exit();
-            else if (e.Key == global::OpenTK.Input.Key.AltLeft)
+            else if (e.Key == Key.AltLeft)
                 altDown = true;
-            else if (altDown && e.Key == global::OpenTK.Input.Key.Enter)
+            else if (altDown && e.Key == Key.Enter)
                 if (WindowState == WindowState.Fullscreen)
                     WindowState = WindowState.Normal;
                 else

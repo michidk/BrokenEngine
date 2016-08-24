@@ -99,6 +99,7 @@ namespace BrokenEngine.Scene_Graph
         }
         #endregion
 
+        #region Component Helpers
         // set callStart to false if building a scene graph before initializing it
         public void AddComponent(Component comp, bool callStart = true)
         {
@@ -107,6 +108,8 @@ namespace BrokenEngine.Scene_Graph
 
             if (callStart)
                 comp.OnStart();
+
+            Globals.Game.BuildSceneGraphUI();
         }
 
         public void RemoveComponent(Component comp)
@@ -114,7 +117,15 @@ namespace BrokenEngine.Scene_Graph
             components.Remove(comp);
             comp.GameObject = null;
             comp.OnDestroy();
+
+            Globals.Game.BuildSceneGraphUI();
         }
+
+        public T FindComponentOfType<T>() where T : Component
+        {
+            return (T) components.Find(e => e.GetType() == typeof (T));
+        }
+        #endregion
 
         public void Start()
         {
@@ -122,6 +133,8 @@ namespace BrokenEngine.Scene_Graph
                 child.Start();
             foreach (var comp in components)
                 comp.OnStart();
+
+            Globals.Game.BuildSceneGraphUI();
         }
 
         public void Update()
@@ -138,6 +151,8 @@ namespace BrokenEngine.Scene_Graph
                 child.Destroy();
             foreach (var comp in components)
                 comp.OnDestroy();
+
+            Globals.Game.BuildSceneGraphUI();
         }
 
         public void Render(Matrix4 viewMatrix, Matrix4 projMatrix)
