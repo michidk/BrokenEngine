@@ -13,7 +13,6 @@ namespace BrokenEngine
     // TODO: other todos
 
     // BUGS:
-    // - Translate doesnt work as expected
     // - Fix UI
 
     // NOTES:
@@ -39,7 +38,7 @@ namespace BrokenEngine
             SetConsolePosition(1280/2-500, 800, 1000, 200);
 
             Globals.Logger.Info("Starting Broken Engine...");
-            using (var game = new Game(1280, 720, "OpenGL Test"))
+            using (var game = new Game(1280, 720, "Broken Engine: OpenGL Test"))
             {
                 //game.Run(60.0); // 60 FPS
                 //game.Run(0.0, 0.0); // 0 = infinite, to measure performance   

@@ -69,7 +69,7 @@ namespace BrokenEngine
             Mesh.Mesh sphere = ObjParser.ParseFile("Models/sphere");
             Mesh.Mesh cube = ObjParser.ParseFile("Models/cube");
             Mesh.Mesh polygon = ObjParser.ParseFile("Models/polygon");
-            var uiSkin = ResourceManager.GetBytes("DefaultSkin.skin");
+            var uiSkin = ResourceManager.GetBytes("DefaultSkin.png");
 
 
             // init UI
@@ -88,9 +88,11 @@ namespace BrokenEngine
                 UI.KeyboardInputEnabled = true;
 
                 // create ui
-                sceneGraphUI = new TreeControl(UI);
-                sceneGraphUI.SetBounds(10, 10, 250, 300);
-                BuildSceneGraphUI();
+                //sceneGraphUI = new TreeControl(UI);
+                //sceneGraphUI.SetBounds(10, 10, 250, 300);
+                //BuildSceneGraphUI();
+
+                var btn = new Button(UI);
             }
 
 
@@ -109,7 +111,7 @@ namespace BrokenEngine
             new GameObject("Test 5", new Vector3(-5, 0, 0), go).AddComponent(new MeshRenderer(MeshUtils.CreateCube()), false);
 
             go = new GameObject("Model", new Vector3(15, 15, 10), SceneGraph);
-            go.AddComponent(new MeshRenderer(sphere));
+            go.AddComponent(new MeshRenderer(airboat, new PhongMaterial(Color.SaddleBrown)));
             //go.AddComponent(MeshRenderer.CreateTestTriangle(), false);
 
             go = new GameObject("Model 2", new Vector3(5, 0, 0), SceneGraph);
@@ -121,8 +123,7 @@ namespace BrokenEngine
 
             var cameraObj = new GameObject("Camera", new Vector3(0, 0, 0), SceneGraph);
             cameraObj.LocalEulerRotation = new Vector3(0,90,0);
-            //cameraObj.LocalRotation.
-            // TODO: move following camera initialiion things to camera settings
+
             float aspectRatio = ClientSize.Width / (float)(ClientSize.Height);
             var camera = new Camera(60f, aspectRatio);
             

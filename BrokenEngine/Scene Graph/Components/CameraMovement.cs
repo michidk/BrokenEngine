@@ -104,7 +104,7 @@ namespace BrokenEngine.Scene_Graph.Components
             var yRotation = Quaternion.FromAxisAngle(Vector3.UnitY, _mouseAbsolute.Y);
 
             GameObject.LocalRotation = xRotation * yRotation;
-            GameObject.Translate(vel * speed, true);
+            GameObject.Translate(vel * speed, false);
         }
 
         private void DoDebugMovement(Vector2 mousePos)
