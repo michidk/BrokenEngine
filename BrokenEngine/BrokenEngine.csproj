@@ -165,10 +165,16 @@
     <Compile Include="Open GL\Shader.cs" />
     <Compile Include="Open GL\ShaderProgram.cs" />
     <Compile Include="Scene Graph\IRenderable.cs" />
-    <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Open GL\VertexArray.cs" />
     <Compile Include="Open GL\VertexAttribute.cs" />
-    <Compile Include="Utils\Untested.cs" />
+    <Compile Include="Utils\MathUtils.cs" />
+    <Compile Include="Utils\MatrixUtils.cs" />
+    <Compile Include="Utils\QuaternionExtensions.cs" />
+    <Compile Include="Utils\QuaternionUtils.cs" />
+    <Compile Include="Utils\Attributes\Bullshit.cs" />
+    <Compile Include="Utils\Attributes\Untested.cs" />
+    <Compile Include="Utils\Vector3Extensions.cs" />
+    <Compile Include="Utils\VectorUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -197,10 +203,10 @@
     <Content Include="Resources\Models\sphere.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Shader\phong_frag.glsl">
+    <Content Include="Resources\Shaders\phong_frag.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Shader\phong_vert.glsl">
+    <Content Include="Resources\Shaders\phong_vert.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -211,12 +217,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Shader\vertex_color_frag.glsl">
+    <Content Include="Resources\Shaders\vertex_color_frag.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Shader\vertex_color_vert.glsl">
+    <Content Include="Resources\Shaders\vertex_color_vert.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

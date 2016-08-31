@@ -32,8 +32,9 @@ namespace BrokenEngine.Materials
 
         protected void LoadShaders()
         {
-            var vertTxt = ResourceManager.GetString($"Shader/{Name}_vert.glsl");
-            var fragTxt = ResourceManager.GetString($"Shader/{Name}_frag.glsl");
+            // TODO: use consts
+            var vertTxt = ResourceManager.GetString($"Shaders/{Name}_vert.glsl");
+            var fragTxt = ResourceManager.GetString($"Shaders/{Name}_frag.glsl");
 
             var vert = new Shader(ShaderType.VertexShader, vertTxt);
             var frag = new Shader(ShaderType.FragmentShader, fragTxt);

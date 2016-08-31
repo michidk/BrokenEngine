@@ -89,7 +89,7 @@ namespace BrokenEngine.Scene_Graph.Components
 
         public void Render(Matrix4 viewMatrix, Matrix4 projMatrix)
         {
-            SetDefaultMaterialParameter(ref Material, this.GameObject.ModelMatrix, viewMatrix, projMatrix);
+            SetDefaultMaterialParameter(ref Material, this.GameObject.LocalToWorldMatrix, viewMatrix, projMatrix);
 
             vertexBuffer.Bind();
             vertexBuffer.BufferData();

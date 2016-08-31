@@ -6,6 +6,7 @@ using BrokenEngine.Mesh;
 using BrokenEngine.Mesh.OBJ_Parser;
 using BrokenEngine.Scene_Graph;
 using BrokenEngine.Scene_Graph.Components;
+using BrokenEngine.Utils;
 using Gwen.Control;
 using OpenTK;
 using OpenTK.Graphics;
@@ -17,9 +18,11 @@ namespace BrokenEngine
     public class Game : GameWindow
     {
 
+        public const bool UI_ENABLED = true;
+
         public readonly GameObject SceneGraph = new GameObject("root", Vector3.Zero);
-        public Camera CurrentCamera;
         public Canvas UI;
+        public Camera CurrentCamera;
 
         // UI stuff
         private Gwen.Input.OpenTK input;
@@ -37,6 +40,11 @@ namespace BrokenEngine
             )
         {
             Globals.Game = this;
+            Globals.GameName = title;
+
+            // window pos
+            this.X = 200;
+            this.Y = 150;
 
             // register events
             Keyboard.KeyDown += OnKeyDown;
@@ -48,7 +56,7 @@ namespace BrokenEngine
             Mouse.WheelChanged += OnWheel;
 
             Globals.Logger.Info($"Using OpenGL Version { GL.GetString(StringName.Version) }");
-            Globals.Logger.Info("Broken Engine Initialized!");
+            Globals.Logger.Info(Globals.GameName + " Initialized!");
         }
 
         // called when window starts running
@@ -65,22 +73,25 @@ namespace BrokenEngine
 
 
             // init UI
-            Globals.Logger.Debug("Loading UI");
-            renderer = new Gwen.Renderer.OpenTK();
-            using (Stream stream = new MemoryStream(uiSkin))
-                skin = new Gwen.Skin.TexturedBase(renderer, stream);
-            UI = new Canvas(skin);
+            if (UI_ENABLED)
+            {
+                Globals.Logger.Debug("Loading UI");
+                renderer = new Gwen.Renderer.OpenTK();
+                using (Stream stream = new MemoryStream(uiSkin))
+                    skin = new Gwen.Skin.TexturedBase(renderer, stream);
+                UI = new Canvas(skin);
 
-            input = new Gwen.Input.OpenTK(this);
-            input.Initialize(UI);
-            
-            UI.SetSize(Width, Height);
-            UI.KeyboardInputEnabled = true;
+                input = new Gwen.Input.OpenTK(this);
+                input.Initialize(UI);
 
-            // create ui
-            sceneGraphUI = new TreeControl(UI);
-            sceneGraphUI.SetBounds(10, 10, 250, 300);
-            BuildSceneGraphUI();
+                UI.SetSize(Width, Height);
+                UI.KeyboardInputEnabled = true;
+
+                // create ui
+                sceneGraphUI = new TreeControl(UI);
+                sceneGraphUI.SetBounds(10, 10, 250, 300);
+                BuildSceneGraphUI();
+            }
 
 
             // create scene graph
@@ -90,6 +101,9 @@ namespace BrokenEngine
             new GameObject("Test", Vector3.Zero, go);
             new GameObject("Test 2", new Vector3(0, 4, -10), go).AddComponent(new MeshRenderer(MeshUtils.CreateTriangle()), false);
             new GameObject("Coordinate Origin", new Vector3(-15, -15, -15), go).AddComponent(new MeshRenderer(MeshUtils.CreateCoordinateOrigin()), false);
+            new GameObject("Coordinate Origin", new Vector3(0, -13, -13), go).AddComponent(new MeshRenderer(MeshUtils.CreateCoordinateOrigin()), false);
+            new GameObject("Coordinate Origin", new Vector3(-13, 0, -13), go).AddComponent(new MeshRenderer(MeshUtils.CreateCoordinateOrigin()), false);
+            new GameObject("Coordinate Origin", new Vector3(-13, -13, 0), go).AddComponent(new MeshRenderer(MeshUtils.CreateCoordinateOrigin()), false);
             go = new GameObject("Test 4", new Vector3(12, 0, 0), go);
             go.AddComponent(new MeshRenderer(cube), false);
             new GameObject("Test 5", new Vector3(-5, 0, 0), go).AddComponent(new MeshRenderer(MeshUtils.CreateCube()), false);
@@ -105,11 +119,13 @@ namespace BrokenEngine
             //go.AddComponent(new MeshRenderer(airboat), false);
             go.AddComponent(new MeshRenderer(akm, new PhongMaterial(Color.SaddleBrown)), false);
 
-            var cameraObj = new GameObject("Camera", new Vector3(0, 0, 5), SceneGraph);
+            var cameraObj = new GameObject("Camera", new Vector3(0, 0, 0), SceneGraph);
+            cameraObj.LocalEulerRotation = new Vector3(0,90,0);
+            //cameraObj.LocalRotation.
             // TODO: move following camera initialiion things to camera settings
             float aspectRatio = ClientSize.Width / (float)(ClientSize.Height);
-            float fov = MathHelper.PiOver2;
-            var camera = new Camera(Matrix4.CreatePerspectiveFieldOfView(fov, aspectRatio, 0.1f, 100f));
+            var camera = new Camera(60f, aspectRatio);
+            
             cameraObj.AddComponent(camera, false);
             cameraObj.AddComponent(new CameraMovement(CameraMovement.Type.FirstPerson), false);
 
@@ -126,7 +142,7 @@ namespace BrokenEngine
             // turn vsync of to measure performance by counting frames
             //this.VSync = VSyncMode.Adaptive;
 
-            //GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.CullFace);    // backface culling
             //GL.Enable(EnableCap.FramebufferSrgb);   // gamma correction -> turned off, because we dont want gamma correction over ui etc
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
@@ -137,6 +153,7 @@ namespace BrokenEngine
             Globals.Logger.Info("Broken Engine Successfully Initialized!");
         }
 
+        [Bullshit(Reason = "just a quick dirty rec call to test; plz do it properly later")]
         public void BuildSceneGraphUI()
         {
             sceneGraphUI.RemoveAll();
@@ -147,6 +164,7 @@ namespace BrokenEngine
             }
         }
 
+        [Bullshit(Reason = "YES U TOO")]
         private void SubBuildSceneGraphUI(GameObject go, TreeNode node)
         {
             foreach (var child in go)
@@ -168,18 +186,13 @@ namespace BrokenEngine
         }
 
         // called every frame, game logic
+        [Bullshit]
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            if (Keyboard[Key.Q])
+            if (Keyboard[Key.Q]) 
                 GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
             else
                 GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
-
-            /*
-            if (Keyboard[Key.E])
-                GL.ShadeModel(ShadingModel.Flat);
-            else
-                GL.ShadeModel(ShadingModel.Smooth);*/
 
             SceneGraph.Update();
         }
@@ -194,9 +207,12 @@ namespace BrokenEngine
             // TODO: implement image effects: http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-14-render-to-texture/
 
             // render UI
-            GL.FrontFace(FrontFaceDirection.Cw);
-            UI.RenderCanvas();
-            GL.FrontFace(FrontFaceDirection.Ccw);
+            if (Game.UI_ENABLED)
+            {
+                GL.FrontFace(FrontFaceDirection.Cw);
+                UI.RenderCanvas();
+                GL.FrontFace(FrontFaceDirection.Ccw);
+            }
 
             // swap backbuffer
             SwapBuffers();
@@ -220,40 +236,49 @@ namespace BrokenEngine
                 else
                     WindowState = WindowState.Fullscreen;
 
-            input.ProcessKeyDown(e);
+            if (UI_ENABLED)
+                input.ProcessKeyDown(e);
         }
 
         private void OnKeyUp(object sender, KeyboardKeyEventArgs e)
         {
             altDown = false;
-            input.ProcessKeyUp(e);
+            if (UI_ENABLED)
+                input.ProcessKeyUp(e);
         }
 
         private void OnButtonDown(object sender, MouseButtonEventArgs args)
         {
-            input.ProcessMouseMessage(args);
+            if (UI_ENABLED)
+                input.ProcessMouseMessage(args);
         }
 
         private void OnButtonUp(object sender, MouseButtonEventArgs args)
         {
-            input.ProcessMouseMessage(args);
+            if (UI_ENABLED)
+                input.ProcessMouseMessage(args);
         }
 
         private void OnMove(object sender, MouseMoveEventArgs args)
         {
-            input.ProcessMouseMessage(args);
+            if (UI_ENABLED)
+                input.ProcessMouseMessage(args);
         }
 
         private void OnWheel(object sender, MouseWheelEventArgs args)
         {
-            input.ProcessMouseMessage(args);
+            if (UI_ENABLED)
+                input.ProcessMouseMessage(args);
         }
 
         public override void Dispose()
         {
-            UI.Dispose();
-            skin.Dispose();
-            renderer.Dispose();
+            if (UI_ENABLED)
+            {
+                UI.Dispose();
+                skin.Dispose();
+                renderer.Dispose();
+            }
 
             Globals.Game = null;
 

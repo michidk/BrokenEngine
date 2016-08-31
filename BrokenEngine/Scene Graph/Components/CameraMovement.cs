@@ -1,5 +1,7 @@
 ﻿using System;
+using BrokenEngine.Utils;
 using OpenTK;
+using OpenTK.Compute.CL10;
 using OpenTK.Input;
 
 namespace BrokenEngine.Scene_Graph.Components
@@ -10,16 +12,11 @@ namespace BrokenEngine.Scene_Graph.Components
         public enum Type
         {
             FirstPerson,
-            MouseOrbit
+            DebugMovement
         }
 
         public Type CurrentType;
-        public Vector2 MouseSensitivity = new Vector2(0.005f, 0.005f);
-        public float Speed = 0.12f;
 
-        public Vector3 LookAtTarget = Vector3.Zero;
-        public float Distance = 5;
-        public Vector3 RotationAxis = new Vector3(0, 1, 0);
 
         public CameraMovement(Type type = Type.FirstPerson)
         {
@@ -29,8 +26,6 @@ namespace BrokenEngine.Scene_Graph.Components
         public override void OnStart()
         {
             base.OnStart();
-
-            eyeVector = GameObject.Position;
         }
 
         private Vector2 oldMousePos;
@@ -44,63 +39,97 @@ namespace BrokenEngine.Scene_Graph.Components
                 case Type.FirstPerson:
                     DoFirstPerson(mousePos);
                     break;
-                case Type.MouseOrbit:
-                    DoMouseOrbit(mousePos);
+                case Type.DebugMovement:
+                    DoDebugMovement(mousePos);
                     break;
             }
 
             oldMousePos = mousePos;
         }
 
-        private float yaw, pitch;
-        private Vector3 eyeVector;
+        private float speed = 0.25f;
+        private float sensitivity = 0.009f;
+        private float smoothing = 1.25f;
+        private float clampX = 360;
+        private float clampY = 180;
+
+        private Vector2 _mouseAbsolute;
+        private Vector2 _smoothMouse;
+        
         private void DoFirstPerson(Vector2 mousePos)
         {
-            var delta = mousePos - oldMousePos;
+            Vector3 vel;
+            if (Globals.Game.Keyboard[Key.W])
+            {
+                vel = new Vector3(0, 0, 1);
+            }
+            else if (Globals.Game.Keyboard[Key.S])
+            {
+                vel = new Vector3(0, 0, -1);
+            }
+            else if (Globals.Game.Keyboard[Key.A])
+            {
+                vel = new Vector3(1, 0, 0);
+            }
+            else if (Globals.Game.Keyboard[Key.D])
+            {
+                vel = new Vector3(-1, 0, 0);
+            }
+            else
+            {
+                vel = default(Vector3);
+            }
 
-            yaw += delta.X * MouseSensitivity.X;
-            pitch += delta.Y * MouseSensitivity.Y;
+            if (Globals.Game.Keyboard[Key.ShiftLeft])
+                vel *= 4;
+            
+            var mouseDelta = mousePos - oldMousePos;
 
-            int dx = 0, dz = 0, speedMult = 1;
-            var key = Keyboard.GetState();
-            if (key[Key.W])
-                dz = 2;
-            if (key[Key.S])
-                dz = -2;
-            if (key[Key.A])
-                dx = -2;
-            if (key[Key.D])
-                dx = 2;
-            if (key[Key.ShiftLeft])
-                speedMult = 2;
+            // unity screen coordinate system
+            mouseDelta = new Vector2(mouseDelta.Y, mouseDelta.X) * sensitivity * smoothing;
 
-            var mat = GameObject.ModelMatrix;
-            var forward = new Vector3(mat[0, 2], mat[1, 2], mat[2, 2]);
-            var strafe = new Vector3(mat[0, 0], mat[1, 0], mat[2,0]);
+            _smoothMouse.X = MathUtils.Lerp(_smoothMouse.X, mouseDelta.X, 1f / smoothing);
+            _smoothMouse.Y = MathUtils.Lerp(_smoothMouse.Y, mouseDelta.Y, 1f / smoothing);
+            
+            // find the absolute mouse movement value from point zero
+            _mouseAbsolute += _smoothMouse;
 
-            eyeVector += (-dz*forward + dx*strafe)*Speed* speedMult;
+            if (clampX < 360)
+                _mouseAbsolute.X = MathUtils.Clamp(_mouseAbsolute.X, -clampX * 0.5f, clampX * 0.5f);
 
-            var pitchMat = Matrix4.CreateFromAxisAngle(new Vector3(1f, 0f, 0f), pitch);
-            var yawMat = Matrix4.CreateFromAxisAngle(new Vector3(0f, 1f, 0f), yaw);
-            Matrix4 rotate = yawMat * pitchMat;
-            Matrix4 translate = Matrix4.CreateTranslation(-eyeVector);
+            if (clampY < 360)
+                _mouseAbsolute.Y = MathUtils.Clamp(_mouseAbsolute.Y, -clampY * 0.5f, clampY * 0.5f);
 
-            GameObject.ModelMatrix = translate * rotate;
+            var xRotation = Quaternion.FromAxisAngle(Vector3.UnitX, _mouseAbsolute.X);
+            var yRotation = Quaternion.FromAxisAngle(Vector3.UnitY, _mouseAbsolute.Y);
+
+            GameObject.LocalRotation = xRotation * yRotation;
+            GameObject.Translate(vel * speed, true);
         }
 
-        private float theta, phi;
-        private void DoMouseOrbit(Vector2 mousePos)
+        private void DoDebugMovement(Vector2 mousePos)
         {
-            theta += (mousePos.X - oldMousePos.X) * MouseSensitivity.X;
-            phi += (mousePos.Y - oldMousePos.Y) * MouseSensitivity.Y;
-
-            var pos = new Vector3(
-                Distance * (float)-Math.Sin(theta) * (float)Math.Cos(phi),
-                Distance * (float)-Math.Sin(phi),
-                -Distance * (float)Math.Cos(theta) * (float)Math.Cos(phi)
-            );
-
-            GameObject.ModelMatrix = Matrix4.LookAt(pos, LookAtTarget, RotationAxis);
+            Vector3 vel = Vector3.Zero;
+            if (Globals.Game.Keyboard[Key.W])
+            {
+                vel += new Vector3(0, 0, 1);
+            }
+            if (Globals.Game.Keyboard[Key.S])
+            {
+                vel += new Vector3(0, 0, -1);
+            }
+            if (Globals.Game.Keyboard[Key.A])
+            {
+                vel += new Vector3(1, 0, 0);
+            }
+            if (Globals.Game.Keyboard[Key.D])
+            {
+                vel += new Vector3(-1, 0, 0);
+            }
+            
+            GameObject.Translate(vel * speed);
+            
+            Console.WriteLine(this.GameObject.LocalPosition + " - " + this.GameObject.Position);
         }
 
     }

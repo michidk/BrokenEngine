@@ -1,22 +1,40 @@
-﻿using OpenTK;
+﻿using System;
 
 namespace BrokenEngine.Utils
 {
     public static class MathUtils
     {
-        public static Quaternion FromEuler(float yaw, float pitch, float roll)
+
+        public const float PI = (float) Math.PI;
+        public const float RAD_TO_DEG = 180 / PI;
+        public const float DEG_TO_RAD = PI / 180;
+
+        public static float Clamp(float value, float min, float max)
         {
-            Quaternion rotateX = Quaternion.FromAxisAngle(Vector3.UnitX, yaw);
-            Quaternion rotateY = Quaternion.FromAxisAngle(Vector3.UnitY, pitch);
-            Quaternion rotateZ = Quaternion.FromAxisAngle(Vector3.UnitZ, roll);
-            Quaternion.Multiply(ref rotateZ, ref rotateY, out rotateY);
-            Quaternion.Multiply(ref rotateX, ref rotateY, out rotateY);
-            return rotateY;
+            return Math.Max(min, Math.Min(max, value));
         }
 
-        public static Quaternion FromEuler(Vector3 rotation)
+        public static float ClampAngle(float angle, float min, float max)
         {
-            return FromEuler(rotation.X, rotation.Y, rotation.Z);
+            angle = angle % 360;
+            if ((angle >= -360F) && (angle <= 360F))
+            {
+                if (angle < -360F)
+                {
+                    angle += 360F;
+                }
+                if (angle > 360F)
+                {
+                    angle -= 360F;
+                }
+            }
+            return Clamp(angle, min, max);
         }
+
+        public static float Lerp(float from, float to, float time)
+        {
+            return from * (1 - time) + to * time;
+        }
+
     }
 }

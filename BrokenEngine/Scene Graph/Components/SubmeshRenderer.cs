@@ -27,7 +27,7 @@ namespace BrokenEngine.Scene_Graph.Components
 
         public void Render(Matrix4 viewMatrix, Matrix4 projMatrix)
         {
-            MeshRenderer.SetDefaultMaterialParameter(ref Material, this.GameObject.ModelMatrix, viewMatrix, projMatrix);
+            MeshRenderer.SetDefaultMaterialParameter(ref Material, this.GameObject.LocalToWorldMatrix, viewMatrix, projMatrix);
 
             indexBuffer.Bind();
             indexBuffer.BufferData();
