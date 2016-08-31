@@ -170,7 +170,6 @@ namespace BrokenEngine.Scene_Graph
             return cachedWorldPosition;
         }
 
-        // TODO: test;
         private Quaternion? CalculateWorldRotation()
         {
             if (parent == null)
@@ -275,7 +274,7 @@ namespace BrokenEngine.Scene_Graph
 
         #region Component Helpers
         // set callStart to false if building a scene graph before initializing it
-        public void AddComponent(Component comp, bool callStart = true)
+        public GameObject AddComponent(Component comp, bool callStart = true)
         {
             components.Add(comp);
             comp.GameObject = this;
@@ -285,9 +284,11 @@ namespace BrokenEngine.Scene_Graph
 
             if (Game.UI_ENABLED)
                 Globals.Game.BuildSceneGraphUI();
+
+            return this;
         }
 
-        public void RemoveComponent(Component comp)
+        public GameObject RemoveComponent(Component comp)
         {
             components.Remove(comp);
             comp.GameObject = null;
@@ -295,6 +296,8 @@ namespace BrokenEngine.Scene_Graph
 
             if (Game.UI_ENABLED)
                 Globals.Game.BuildSceneGraphUI();
+
+            return this;
         }
 
         public T FindComponentOfType<T>() where T : Component
@@ -315,12 +318,12 @@ namespace BrokenEngine.Scene_Graph
                 Globals.Game.BuildSceneGraphUI();
         }
 
-        public void Update()
+        public void Update(float deltaTime)
         {
             foreach (var child in Children)
-                child.Update();
+                child.Update(deltaTime);
             foreach (var comp in Components)
-                comp.OnUpdate();
+                comp.OnUpdate(deltaTime);
         }
 
         public void Destroy()

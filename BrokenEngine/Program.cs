@@ -10,10 +10,14 @@ namespace BrokenEngine
     // TODO: child matrix multiplication
     // TODO: Load textures to gpu
     // TODO: Shade using Normal map
+    // TODO: create timemanager, which keeps track of time since startup etc
+    // TODO: gpu instanciating
     // TODO: other todos
 
     // BUGS:
-    // - Fix UI
+    // fix UI scaling
+    // normal recalculation
+    // airboat dont load faces
 
     // NOTES:
     // https://github.com/opentk/opentk/blob/master/Source/Examples/OpenGL/3.x/HelloGL3.cs
@@ -40,9 +44,8 @@ namespace BrokenEngine
             Globals.Logger.Info("Starting Broken Engine...");
             using (var game = new Game(1280, 720, "Broken Engine: OpenGL Test"))
             {
-                //game.Run(60.0); // 60 FPS
                 //game.Run(0.0, 0.0); // 0 = infinite, to measure performance   
-                game.Run(30);
+                game.Run(60.0, 60.0);
             }
         }
         

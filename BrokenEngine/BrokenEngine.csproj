@@ -143,6 +143,8 @@
     <Compile Include="Open GL\Buffer\StaticBuffer.cs" />
     <Compile Include="ResourceManager.cs" />
     <Compile Include="Scene Graph\Components\Camera.cs" />
+    <Compile Include="Scene Graph\Components\DirectionalMovement.cs" />
+    <Compile Include="Scene Graph\Components\CircularMovement.cs" />
     <Compile Include="Scene Graph\Components\Component.cs" />
     <Compile Include="Scene Graph\Components\CameraMovement.cs" />
     <Compile Include="Scene Graph\Components\SubmeshRenderer.cs" />
@@ -185,7 +187,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <Content Include="Resources\DefaultSkin.png" />
+    <Content Include="Resources\DefaultSkin.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Models\airboat.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

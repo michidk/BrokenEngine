@@ -18,7 +18,7 @@ namespace BrokenEngine
     public class Game : GameWindow
     {
 
-        public const bool UI_ENABLED = true;
+        public const bool UI_ENABLED = false;
 
         public readonly GameObject SceneGraph = new GameObject("root", Vector3.Zero);
         public Canvas UI;
@@ -47,6 +47,7 @@ namespace BrokenEngine
             this.Y = 150;
 
             // register events
+            // UI
             Keyboard.KeyDown += OnKeyDown;
             Keyboard.KeyUp += OnKeyUp;
 
@@ -54,6 +55,9 @@ namespace BrokenEngine
             Mouse.ButtonUp += OnButtonUp;
             Mouse.Move += OnMove;
             Mouse.WheelChanged += OnWheel;
+
+            UpdateFrame += OnUpdate;
+            RenderFrame += OnRender;
 
             Globals.Logger.Info($"Using OpenGL Version { GL.GetString(StringName.Version) }");
             Globals.Logger.Info(Globals.GameName + " Initialized!");
@@ -65,6 +69,7 @@ namespace BrokenEngine
             // load objects
             Globals.Logger.Debug("Loading Resources");
             Mesh.Mesh airboat = ObjParser.ParseFile("Models/airboat");
+            airboat.RecalculateNormals();
             Mesh.Mesh akm = ObjParser.ParseFile("Models/akm");
             Mesh.Mesh sphere = ObjParser.ParseFile("Models/sphere");
             Mesh.Mesh cube = ObjParser.ParseFile("Models/cube");
@@ -80,7 +85,7 @@ namespace BrokenEngine
                 using (Stream stream = new MemoryStream(uiSkin))
                     skin = new Gwen.Skin.TexturedBase(renderer, stream);
                 UI = new Canvas(skin);
-
+                
                 input = new Gwen.Input.OpenTK(this);
                 input.Initialize(UI);
 
@@ -88,11 +93,9 @@ namespace BrokenEngine
                 UI.KeyboardInputEnabled = true;
 
                 // create ui
-                //sceneGraphUI = new TreeControl(UI);
-                //sceneGraphUI.SetBounds(10, 10, 250, 300);
-                //BuildSceneGraphUI();
-
-                var btn = new Button(UI);
+                sceneGraphUI = new TreeControl(UI);
+                sceneGraphUI.SetBounds(10, 10, 250, 300);
+                BuildSceneGraphUI();
             }
 
 
@@ -102,10 +105,8 @@ namespace BrokenEngine
             go.AddComponent(new MeshRenderer(MeshUtils.CreateQuad()), false);
             new GameObject("Test", Vector3.Zero, go);
             new GameObject("Test 2", new Vector3(0, 4, -10), go).AddComponent(new MeshRenderer(MeshUtils.CreateTriangle()), false);
-            new GameObject("Coordinate Origin", new Vector3(-15, -15, -15), go).AddComponent(new MeshRenderer(MeshUtils.CreateCoordinateOrigin()), false);
-            new GameObject("Coordinate Origin", new Vector3(0, -13, -13), go).AddComponent(new MeshRenderer(MeshUtils.CreateCoordinateOrigin()), false);
-            new GameObject("Coordinate Origin", new Vector3(-13, 0, -13), go).AddComponent(new MeshRenderer(MeshUtils.CreateCoordinateOrigin()), false);
-            new GameObject("Coordinate Origin", new Vector3(-13, -13, 0), go).AddComponent(new MeshRenderer(MeshUtils.CreateCoordinateOrigin()), false);
+            new GameObject("Coordinate Origin", new Vector3(-15, -15, -15), go).AddComponent(new MeshRenderer(MeshUtils.CreateCoordinateOrigin()), false).AddComponent(new DirectionalMovement(Vector3.One, radius: 1f));
+
             go = new GameObject("Test 4", new Vector3(12, 0, 0), go);
             go.AddComponent(new MeshRenderer(cube), false);
             new GameObject("Test 5", new Vector3(-5, 0, 0), go).AddComponent(new MeshRenderer(MeshUtils.CreateCube()), false);
@@ -113,13 +114,14 @@ namespace BrokenEngine
             go = new GameObject("Model", new Vector3(15, 15, 10), SceneGraph);
             go.AddComponent(new MeshRenderer(airboat, new PhongMaterial(Color.SaddleBrown)));
             //go.AddComponent(MeshRenderer.CreateTestTriangle(), false);
-
+            
             go = new GameObject("Model 2", new Vector3(5, 0, 0), SceneGraph);
             go.AddComponent(new MeshRenderer(polygon), false);
 
             go = new GameObject("AKM", new Vector3(0, -5, -10), SceneGraph);
             //go.AddComponent(new MeshRenderer(airboat), false);
             go.AddComponent(new MeshRenderer(akm, new PhongMaterial(Color.SaddleBrown)), false);
+            go.AddComponent(new CircularMovement(radius:2f), false);
 
             var cameraObj = new GameObject("Camera", new Vector3(0, 0, 0), SceneGraph);
             cameraObj.LocalEulerRotation = new Vector3(0,90,0);
@@ -188,17 +190,17 @@ namespace BrokenEngine
 
         // called every frame, game logic
         [Bullshit]
-        protected override void OnUpdateFrame(FrameEventArgs e)
+        protected void OnUpdate(object sender, FrameEventArgs e)
         {
             if (Keyboard[Key.Q]) 
                 GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
             else
                 GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
 
-            SceneGraph.Update();
+            SceneGraph.Update((float) e.Time);
         }
 
-        protected override void OnRenderFrame(FrameEventArgs e)
+        protected void OnRender(object sender, FrameEventArgs e)
         {
             // Clear the back buffer
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);

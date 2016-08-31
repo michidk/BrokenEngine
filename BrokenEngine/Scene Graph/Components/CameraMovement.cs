@@ -29,7 +29,7 @@ namespace BrokenEngine.Scene_Graph.Components
         }
 
         private Vector2 oldMousePos;
-        public override void OnUpdate()
+        public override void OnUpdate(float deltaTime)
         {
             var mouse = Mouse.GetState();
             var mousePos = new Vector2(mouse.X, mouse.Y);
@@ -58,27 +58,24 @@ namespace BrokenEngine.Scene_Graph.Components
         
         private void DoFirstPerson(Vector2 mousePos)
         {
-            Vector3 vel;
+            Vector3 vel = Vector3.Zero;
             if (Globals.Game.Keyboard[Key.W])
             {
-                vel = new Vector3(0, 0, 1);
+                vel += new Vector3(0, 0, 1);
             }
-            else if (Globals.Game.Keyboard[Key.S])
+            if (Globals.Game.Keyboard[Key.S])
             {
-                vel = new Vector3(0, 0, -1);
+                vel += new Vector3(0, 0, -1);
             }
-            else if (Globals.Game.Keyboard[Key.A])
+            if (Globals.Game.Keyboard[Key.A])
             {
-                vel = new Vector3(1, 0, 0);
+                vel += new Vector3(1, 0, 0);
             }
-            else if (Globals.Game.Keyboard[Key.D])
+            if (Globals.Game.Keyboard[Key.D])
             {
-                vel = new Vector3(-1, 0, 0);
+                vel += new Vector3(-1, 0, 0);
             }
-            else
-            {
-                vel = default(Vector3);
-            }
+            vel.NormalizeFast();
 
             if (Globals.Game.Keyboard[Key.ShiftLeft])
                 vel *= 4;
