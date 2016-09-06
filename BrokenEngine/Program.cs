@@ -6,8 +6,8 @@ namespace BrokenEngine
 {
 
     // T O  D O ' S:
-    // TODO: check if axis are correct (& translations)
-    // TODO: child matrix multiplication
+    // TODO: report FrontFacing.CW only works with gwen to gwen dot net repo
+    // TODO: oninit, onawake,onstart
     // TODO: Load textures to gpu
     // TODO: Shade using Normal map
     // TODO: create timemanager, which keeps track of time since startup etc
@@ -15,9 +15,8 @@ namespace BrokenEngine
     // TODO: other todos
 
     // BUGS:
-    // fix UI scaling
-    // normal recalculation
-    // airboat dont load faces
+    // fix UI scaling (see github issue)
+    // wrong specular highlight (wrong cam position?)
 
     // NOTES:
     // https://github.com/opentk/opentk/blob/master/Source/Examples/OpenGL/3.x/HelloGL3.cs
@@ -33,13 +32,12 @@ namespace BrokenEngine
 
 
         [DllImport("user32")]
-        static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter,
-            int x, int y, int cx, int cy, int flags);
+        static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, int flags);
 
         static void Main(string[] args)
         {
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
-            SetConsolePosition(1280/2-500, 800, 1000, 200);
+            SetConsolePosition(1280-500, 1500, 1000, 200);
 
             Globals.Logger.Info("Starting Broken Engine...");
             using (var game = new Game(1280, 720, "Broken Engine: OpenGL Test"))

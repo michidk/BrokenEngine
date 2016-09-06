@@ -87,37 +87,41 @@ namespace BrokenEngine.Scene_Graph.Components
             }
         }
 
-        public void Render(Matrix4 viewMatrix, Matrix4 projMatrix)
+        public void Render(Matrix4 viewMatrix, Matrix4 projMatrix, Matrix4 viewProjectionMatrix)
         {
-            SetDefaultMaterialParameter(ref Material, this.GameObject.LocalToWorldMatrix, viewMatrix, projMatrix);
+            SetDefaultMaterialParameter(ref Material, this.GameObject.LocalToWorldMatrix, viewMatrix, projMatrix, viewProjectionMatrix, GameObject.NormalMatrix);
 
             vertexBuffer.Bind();
             vertexBuffer.BufferData();
 
             vertexArray.Bind();
-
+            
             indexBuffer.Bind();
             indexBuffer.BufferData();
 
             GL.DrawElements(BeginMode.Triangles, indexBuffer.Count, DrawElementsType.UnsignedShort, 0);
 
             foreach (var renderer in subMeshRenderers)
-                renderer.Render(viewMatrix, projMatrix);
+                renderer.Render(viewMatrix, projMatrix, viewProjectionMatrix);
 
             // reset state for potential further draw calls (optional, but good practice)
-            GL.BindVertexArray(0);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+            vertexArray.Reset();
+            vertexBuffer.Reset();
+            indexBuffer.Reset();
             Material.CleanUp();
         }
 
-        public static void SetDefaultMaterialParameter(ref Material material, Matrix4 modelMatrix, Matrix4 viewMatrix, Matrix4 projMatrix)
+        public static void SetDefaultMaterialParameter(ref Material material, Matrix4 modelMatrix, Matrix4 viewMatrix, Matrix4 projMatrix, Matrix4 viewProjectionMatrix, Matrix4 normalMatrix)
         {
-            //Console.WriteLine(viewMatrix.ExtractTranslation() + "\n==========");
+            // global variables
+            material.Parameters.CameraPosition = Globals.CurrentCamera.GameObject.Position;
+
+            // instance variables
             material.Parameters.ModelWorldMatrix = modelMatrix;
+            material.Parameters.NormalMatrix = normalMatrix;
             material.Parameters.WorldViewMatrix = viewMatrix;
-            material.Parameters.ModelViewProjMatrix = modelMatrix * viewMatrix * projMatrix;
-            material.Parameters.NormalMatrix = Matrix4.Transpose(Matrix4.Invert(modelMatrix));
+            material.Parameters.ModelViewProjMatrix = modelMatrix * viewProjectionMatrix;   // OpenTK matrices are transposed by default
+
             material.Apply();
         }
 

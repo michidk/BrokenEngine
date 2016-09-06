@@ -25,14 +25,16 @@ namespace BrokenEngine.Scene_Graph.Components
             indexBuffer = new StaticBuffer<ushort>(sizeof(ushort), indices.ToArray(), BufferTarget.ElementArrayBuffer);
         }
 
-        public void Render(Matrix4 viewMatrix, Matrix4 projMatrix)
+        public void Render(Matrix4 viewMatrix, Matrix4 projMatrix, Matrix4 viewProjectionMatrix)
         {
-            MeshRenderer.SetDefaultMaterialParameter(ref Material, this.GameObject.LocalToWorldMatrix, viewMatrix, projMatrix);
+            MeshRenderer.SetDefaultMaterialParameter(ref Material, this.GameObject.LocalToWorldMatrix, viewMatrix, projMatrix, viewProjectionMatrix, GameObject.NormalMatrix);
 
             indexBuffer.Bind();
             indexBuffer.BufferData();
 
             GL.DrawElements(BeginMode.Triangles, indexBuffer.Count, DrawElementsType.UnsignedShort, 0);
+
+            indexBuffer.Reset();
         }
 
     }

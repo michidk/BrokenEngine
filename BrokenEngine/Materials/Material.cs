@@ -50,6 +50,7 @@ namespace BrokenEngine.Materials
             SetMatrixUniform("u_modelWorldMatrix", (Matrix4) Parameters.ModelWorldMatrix, GL.UniformMatrix4);
             SetMatrixUniform("u_worldViewMatrix", (Matrix4) Parameters.WorldViewMatrix, GL.UniformMatrix4);
             SetMatrixUniform("u_normalMatrix", (Matrix4) Parameters.NormalMatrix, GL.UniformMatrix4);
+            SetValueUniform("u_cameraPosition", (Vector3) Parameters.CameraPosition, GL.Uniform3);
         }
 
         public void CleanUp()

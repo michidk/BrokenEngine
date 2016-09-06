@@ -31,7 +31,6 @@ namespace BrokenEngine.Utils
         public static Matrix4 CreateTRS(Vector3 translation, Quaternion rotation, Vector3 scale)
         {
             return Matrix4.CreateTranslation(translation) * Matrix4.CreateFromQuaternion(rotation) * Matrix4.CreateScale(scale);
-            //return Matrix4.CreateScale(scale) * Matrix4.CreateFromQuaternion(rotation) * Matrix4.CreateTranslation(translation);
         }
 
     }

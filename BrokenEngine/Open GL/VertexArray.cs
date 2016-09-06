@@ -24,5 +24,11 @@ namespace BrokenEngine.Open_GL
         {
             GL.BindVertexArray(this.handle);
         }
+
+        public void Reset()
+        {
+            GL.BindVertexArray(0);
+        }
+
     }
 }

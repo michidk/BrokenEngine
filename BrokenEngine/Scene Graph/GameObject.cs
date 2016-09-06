@@ -12,6 +12,7 @@ namespace BrokenEngine.Scene_Graph
     {
 
         public string Name { get; set; }
+        public bool BehaveAsCamera { get; set; }
 
         #region Local Space Properties
         public Vector3 LocalPosition
@@ -82,9 +83,9 @@ namespace BrokenEngine.Scene_Graph
                 if (localToWorldDirty)
                 {
                     if (parent == null)
-                        localToWorldMatrix = CalculateLocalToParent();
+                        localToWorldMatrix = CalculateLocal();
                     else
-                        localToWorldMatrix = parent.LocalToWorldMatrix * CalculateLocalToParent();
+                        localToWorldMatrix = parent.LocalToWorldMatrix * CalculateLocal();
 
                     localToWorldDirty = false;
                 }
@@ -107,6 +108,21 @@ namespace BrokenEngine.Scene_Graph
                 return worldToLocalMatrix;
             }
         }
+
+        public Matrix4 NormalMatrix
+        {
+            get
+            {
+                if (normalDirty)
+                {
+                    normalMatrix = Matrix4.Transpose(Matrix4.Invert(LocalToWorldMatrix));
+
+                    normalDirty = false;
+                }
+
+                return normalMatrix;
+            }
+        }
         #endregion
 
         public ReadOnlyCollection<GameObject> Children => children.AsReadOnly();
@@ -118,6 +134,7 @@ namespace BrokenEngine.Scene_Graph
 
         private Matrix4 localToWorldMatrix;
         private Matrix4 worldToLocalMatrix;
+        private Matrix4 normalMatrix;
 
         private GameObject parent;
 
@@ -125,7 +142,7 @@ namespace BrokenEngine.Scene_Graph
         private readonly List<Component> components = new List<Component>();
 
         #region Cache
-        private bool localToWorldDirty = true, worldToLocalDirty = true;
+        private bool localToWorldDirty = true, worldToLocalDirty = true, normalDirty = true;
 
         private Vector3? cachedWorldPosition = null;
         private Quaternion? cachedWorldRotation = null;
@@ -188,9 +205,17 @@ namespace BrokenEngine.Scene_Graph
             return cachedWorldScale;
         }
 
-        public Matrix4 CalculateLocalToParent()
+        // calculates the local matrix (aka LocalToParent)
+        private Matrix4 CalculateLocal()
         {
+            if (BehaveAsCamera)
+                return MatrixUtils.CreateTRS(-LocalPosition, LocalRotation, LocalScale);
             return MatrixUtils.CreateTRS(LocalPosition, LocalRotation, LocalScale);
+        }
+
+        public Matrix4 GetView()
+        {
+                return MatrixUtils.CreateTRS(-Position, Rotation, Scale);
         }
         #endregion
 
@@ -282,9 +307,6 @@ namespace BrokenEngine.Scene_Graph
             if (callStart)
                 comp.OnStart();
 
-            if (Game.UI_ENABLED)
-                Globals.Game.BuildSceneGraphUI();
-
             return this;
         }
 
@@ -293,9 +315,6 @@ namespace BrokenEngine.Scene_Graph
             components.Remove(comp);
             comp.GameObject = null;
             comp.OnDestroy();
-
-            if (Game.UI_ENABLED)
-                Globals.Game.BuildSceneGraphUI();
 
             return this;
         }
@@ -313,9 +332,6 @@ namespace BrokenEngine.Scene_Graph
                 child.Start();
             foreach (var comp in Components)
                 comp.OnStart();
-
-            if (Game.UI_ENABLED)
-                Globals.Game.BuildSceneGraphUI();
         }
 
         public void Update(float deltaTime)
@@ -332,25 +348,22 @@ namespace BrokenEngine.Scene_Graph
                 child.Destroy();
             foreach (var comp in Components)
                 comp.OnDestroy();
-
-            if (Game.UI_ENABLED)
-                Globals.Game.BuildSceneGraphUI();
         }
 
-        public void Render(Matrix4 viewMatrix, Matrix4 projMatrix)
+        public void Render(Matrix4 viewMatrix, Matrix4 projMatrix, Matrix4 vpMatrix)
         {
             // render current object first
             for (int i = 0; i < Components.Count; i++)
             {
                 var comp = Components[i];
                 if (comp is MeshRenderer)
-                    ((MeshRenderer) comp).Render(viewMatrix, projMatrix);
+                    ((MeshRenderer) comp).Render(viewMatrix, projMatrix, vpMatrix);
             }
 
             // render children
             for (int i = 0; i < Children.Count; i++)
             {
-                Children[i].Render(viewMatrix, projMatrix);
+                Children[i].Render(viewMatrix, projMatrix, vpMatrix);
             }
         }
         #endregion

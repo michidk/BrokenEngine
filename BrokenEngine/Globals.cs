@@ -1,4 +1,4 @@
-﻿using Gwen.Control;
+﻿using BrokenEngine.Scene_Graph.Components;
 using NLog;
 
 namespace BrokenEngine
@@ -10,6 +10,8 @@ namespace BrokenEngine
 
         public static Game Game;
         public static Logger Logger = LogManager.GetLogger(GameName);
+
+        public static Camera CurrentCamera => Game.CurrentCamera;
 
     }
 }

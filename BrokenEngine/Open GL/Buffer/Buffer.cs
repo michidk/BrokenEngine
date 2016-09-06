@@ -45,6 +45,12 @@ namespace BrokenEngine.Open_GL
             return size;
         }
 
+        // reset state for potential further draw calls (optional, but good practice)
+        public void Reset()
+        {
+            GL.BindBuffer(bufferTarget, 0);
+        }
+
         #region Operators
         // use this as int
         public static implicit operator int(Buffer<T> buffer)
