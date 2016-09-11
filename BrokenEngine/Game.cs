@@ -17,28 +17,26 @@ namespace BrokenEngine
     public class Game : GameWindow
     {
 
-        public readonly GameObject SceneGraph = new GameObject("root", Vector3.Zero);
-        public Camera CurrentCamera;
+        public Camera CurrentCamera { get; set; }
+        public GameObject SceneGraph { get; private set; }
         
-        private bool altDown = false;
 
-        public Game(int resX, int resY, string title) : base(
-            resX, resY, GraphicsMode.Default, title, // Game settings
-            GameWindowFlags.Default, DisplayDevice.Default, // unimportant stuff
+        public Game(int resX, int resY, bool fullscreen, string title) : base(
+            resX, resY, GraphicsMode.Default, title,        // Game settings
+            fullscreen ? GameWindowFlags.Fullscreen : GameWindowFlags.Default, 
+            DisplayDevice.Default,                          // unimportant stuff
             4, 3, GraphicsContextFlags.ForwardCompatible    // opengl version
             )
         {
             Globals.Game = this;
             Globals.GameName = title;
 
-            // window pos
+            // TODO: move to constructor and make it a programm parameter
             this.X = 200;
             this.Y = 150;
 
             // register events
-            // UI
             Keyboard.KeyDown += OnKeyDown;
-            Keyboard.KeyUp += OnKeyUp;
 
             UpdateFrame += OnUpdate;
             RenderFrame += OnRender;
@@ -50,7 +48,31 @@ namespace BrokenEngine
         // called when window starts running
         protected override void OnLoad(EventArgs e)
         {
-            // load objects
+            SceneGraph = new GameObject("root", Vector3.Zero);
+            BuildTestScene();
+
+            // init logic
+            Globals.Logger.Debug("Starting Game Logic");
+            SceneGraph.Start();
+            
+            // GL settings
+            Globals.Logger.Debug("Apply Settings");
+            // turn vsync off to measure performance by counting frames
+            // this.VSync = VSyncMode.Adaptive;
+
+            GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.CullFace);          // backface culling
+            GL.Enable(EnableCap.FramebufferSrgb);   // textures are not in linear space
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+            GL.FrontFace(FrontFaceDirection.Ccw);   // Ccw = Counter-clockwise = default = right hand rule
+            GL.ClearColor(Color4.AliceBlue);
+
+            Globals.Logger.Info("Broken Engine Successfully Initialized!");
+        }
+
+        // this scene might look a little bit odd, because there is only testing stuff in it
+        private void BuildTestScene()
+        {
             Globals.Logger.Debug("Loading Resources");
             Mesh.Mesh airboat = ObjParser.ParseFile("Models/airboat");
             airboat.RecalculateNormals();
@@ -75,44 +97,23 @@ namespace BrokenEngine
             go = new GameObject("Model", new Vector3(15, 15, 10), SceneGraph);
             go.AddComponent(new MeshRenderer(airboat, new PhongMaterial(Color.SaddleBrown)), false);
             //go.AddComponent(MeshRenderer.CreateTestTriangle(), false);
-            
+
             go = new GameObject("Model 2", new Vector3(5, 0, 0), SceneGraph);
             go.AddComponent(new MeshRenderer(sphere, new PhongMaterial(Color.SaddleBrown)), false);
 
             go = new GameObject("AKM", new Vector3(0, -5, -10), SceneGraph);
             //go.AddComponent(new MeshRenderer(airboat), false);
             go.AddComponent(new MeshRenderer(akm, new PhongMaterial(Color.SaddleBrown)), false);
-            go.AddComponent(new CircularMovement(radius:2f), false);
+            go.AddComponent(new CircularMovement(radius: 2f), false);
 
             var cameraObj = new GameObject("Camera", new Vector3(0, 0, 0), SceneGraph);
-            
+
             var camera = new Camera(ClientSize.Width, ClientSize.Height, 60f);
-            
+
             cameraObj.AddComponent(camera, false);
             cameraObj.AddComponent(new CameraMovement(CameraMovement.Type.FirstPerson), false);
 
-
-            // init logic
-            Globals.Logger.Debug("Starting Game Logic");
             CurrentCamera = camera;
-
-            SceneGraph.Start();
-
-
-            // GL settings
-            Globals.Logger.Debug("Apply Settings");
-            // turn vsync of to measure performance by counting frames
-            //this.VSync = VSyncMode.Adaptive;
-
-            GL.Enable(EnableCap.DepthTest);
-            GL.Enable(EnableCap.CullFace);    // backface culling
-            GL.Enable(EnableCap.FramebufferSrgb);   // textures are not in linear space
-            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
-            //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);    // wire frame
-            GL.ClearColor(Color4.AliceBlue);
-            GL.FrontFace(FrontFaceDirection.Ccw);  // Ccw = Counter-clockwise = default = right hand rule
-            //GL.ShadeModel(ShadingModel.Flat);     // Flat = flat shading; not suppoted in GL4
-            Globals.Logger.Info("Broken Engine Successfully Initialized!");
         }
 
         protected override void OnResize(EventArgs e)
@@ -124,7 +125,7 @@ namespace BrokenEngine
         }
 
         // called every frame, game logic
-        [Bullshit]
+        [Bullshit(Reason = "make a global manager gameobject, which handles the PolygonMode stuff")]
         protected void OnUpdate(object sender, FrameEventArgs e)
         {
             if (Keyboard[Key.Q]) 
@@ -158,18 +159,11 @@ namespace BrokenEngine
         {
             if (e.Key == Key.Escape)
                 Exit();
-            else if (e.Key == Key.AltLeft)
-                altDown = true;
-            else if (altDown && e.Key == Key.Enter)
+            else if (Keyboard[Key.AltLeft] && e.Key == Key.Enter)
                 if (WindowState == WindowState.Fullscreen)
                     WindowState = WindowState.Normal;
                 else
                     WindowState = WindowState.Fullscreen;
-        }
-
-        private void OnKeyUp(object sender, KeyboardKeyEventArgs e)
-        {
-            altDown = false;
         }
 
         public override void Dispose()

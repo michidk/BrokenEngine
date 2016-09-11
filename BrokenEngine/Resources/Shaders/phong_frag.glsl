@@ -10,11 +10,13 @@ uniform vec3 u_lightDirection;
 uniform vec4 u_lightColor = vec4(1, 1, 1, 1);
 uniform float u_lightIntensity = 1.0;
 
-uniform float u_specularIntensity = 0.25;
-uniform float u_specularShininess = 6.0;
+uniform float u_specularIntensity = 1.0;
+uniform float u_specularShininess = 4.0;	// specular exponent: how 'large' the highlight should be
 
 uniform vec4 u_ambientColor = vec4(0, 0, 0, 1);
 uniform float u_ambientIntensity = 1.0;
+
+uniform bool blinn = true;					// use blinn hightlighting?
 
 // vertex shader output
 in vec3 f_position;	// interpolated world position
@@ -36,9 +38,23 @@ void main()
 	
 	// specular component
 	vec3 viewDir = normalize(u_cameraPosition - f_position);
-	vec3 reflectDir = reflect(-u_lightDirection, normal);
-	float specularAmount = dot(viewDir, reflectDir);
-	float highlight = pow(max(specularAmount, 0.0), u_specularShininess);
+	
+	// fork for blinn highlights
+	float specularAmount;
+	// fixes phong cutoff issue with point lightning and is cheaper to calculate because no reflection is needed
+	if (blinn)
+	{
+		vec3 halfwayDir = normalize(u_lightDirection + viewDir);
+		specularAmount = dot(normal, halfwayDir);
+	}
+	else
+	{
+		vec3 reflectDir = reflect(-u_lightDirection, normal);
+		specularAmount = dot(viewDir, reflectDir);
+	}
+
+	float shininessFactor = blinn ? 3.0 : 1.0;	// shininess should be 2 to 4 times larger when using blinn highlights
+	float highlight = pow(max(specularAmount, 0.0), u_specularShininess * shininessFactor);
 	vec4 specular = highlight * u_specularIntensity * u_lightColor;
 	
 	// ambient component
