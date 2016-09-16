@@ -1,21 +1,33 @@
-﻿using OpenTK.Graphics.OpenGL;
+﻿using System;
+using OpenTK.Graphics.OpenGL;
 
 namespace BrokenEngine.Open_GL
 {
     public class Shader
     {
+
         private readonly int handle;
 
-        public Shader(ShaderType type, string code)
-        {
-            this.handle = GL.CreateShader(type);
+        public ShaderType Type;
+        public string Source;
 
-            GL.ShaderSource(this.handle, code);
+        public Shader(ShaderType type, string source)
+        {
+            this.Type = type;
+            this.Source = source;
+
+            this.handle = GL.CreateShader(type);
+        }
+
+        /// <exception cref="ShaderCompileException"></exception>
+        public void CompileShader()
+        {
+            GL.ShaderSource(this.handle, Source);
             GL.CompileShader(this.handle);
 
             string log = GL.GetShaderInfoLog(this.handle);
             if (!string.IsNullOrWhiteSpace(log))
-                Globals.Logger.Error($"Shader Error ({type}): {log}");
+                throw new ShaderCompileException(this, log);
         }
 
         #region Operators

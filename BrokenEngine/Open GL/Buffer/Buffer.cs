@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using BrokenEngine.Utils;
+using BrokenEngine.Utils.Attributes;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
-namespace BrokenEngine.Open_GL
+namespace BrokenEngine.Open_GL.Buffer
 {
     public abstract class Buffer<T> : IDisposable where T : struct
     {

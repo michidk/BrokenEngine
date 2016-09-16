@@ -52,7 +52,7 @@ namespace BrokenEngine.Scene_Graph.Components
         {
             var viewMatrix = GameObject.GetView();
             var viewProjectionMatrix = viewMatrix * projectionMatrix;
-            sceneGraph.Render(viewMatrix, projectionMatrix, viewProjectionMatrix);
+            sceneGraph.Render(viewMatrix, viewProjectionMatrix);
         }
 
     }

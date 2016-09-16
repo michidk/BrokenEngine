@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Security.Policy;
 using System.Text;
-using NLog.Internal;
 using OpenTK;
 using OpenTK.Graphics;
 
-namespace BrokenEngine.Mesh.OBJ_Parser
+namespace BrokenEngine.Mesh.Mesh_Parser
 {
     public class ObjParser : IMeshParser<Mesh>
     {
@@ -167,7 +165,7 @@ namespace BrokenEngine.Mesh.OBJ_Parser
                     method = ParseHeader;
                     break;
                 case "mtllib":
-                    Globals.Logger.Warn($"Model { FileName } uses mtl material which are not supported.");
+                    Globals.Logger.Warn($"Model { FileName } uses .mtl materials which are not supported.");
                     break;
                 case "o":
                     method = ParseName;

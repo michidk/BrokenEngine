@@ -1,4 +1,5 @@
-﻿using BrokenEngine.Open_GL;
+﻿using System;
+using BrokenEngine.Open_GL;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -7,11 +8,20 @@ namespace BrokenEngine.Materials
     public class Material
     {
 
+        private const string SHADER_DIRECTORY = "Shaders/";
+        private const string VERTEX_SHADER_URI = SHADER_DIRECTORY + "{0}_vert.glsl";
+        private const string FRAGMENT_SHADER_URI = SHADER_DIRECTORY + "{0}_frag.glsl";
+
         public readonly string Name;
 
         public ShaderProgram ShaderProgram { get { return shaderProgram; } }
 
-        public dynamic Parameters = new System.Dynamic.ExpandoObject();
+        // Material properties
+        public Matrix4 ModelViewProjMatrix { get; set; }
+        public Matrix4 ModelWorldMatrix { get; set; }
+        public Matrix4 WorldViewMatrix { get; set; }
+        public Matrix4 NormalMatrix { get; set; }
+        public Vector3 CameraPosition { get; set; }
 
         protected ShaderProgram shaderProgram;
         private bool loaded = false;
@@ -32,12 +42,24 @@ namespace BrokenEngine.Materials
 
         protected void LoadShaders()
         {
-            // TODO: use consts
-            var vertTxt = ResourceManager.GetString($"Shaders/{Name}_vert.glsl");
-            var fragTxt = ResourceManager.GetString($"Shaders/{Name}_frag.glsl");
+            var vertUri = String.Format(VERTEX_SHADER_URI, Name);
+            var fragUri = String.Format(FRAGMENT_SHADER_URI, Name);
+
+            var vertTxt = ResourceManager.GetString(vertUri);
+            var fragTxt = ResourceManager.GetString(fragUri);
 
             var vert = new Shader(ShaderType.VertexShader, vertTxt);
             var frag = new Shader(ShaderType.FragmentShader, fragTxt);
+
+            try
+            {
+                vert.CompileShader();
+                frag.CompileShader();
+            }
+            catch (ShaderCompileException e)
+            {
+                Globals.Logger.Error(e, $"Failed to compile shader {Name}");
+            }
 
             shaderProgram = new ShaderProgram(vert, frag);
         }
@@ -46,11 +68,11 @@ namespace BrokenEngine.Materials
         {
             shaderProgram.Use();
 
-            SetMatrixUniform("u_modelViewProjMatrix", (Matrix4) Parameters.ModelViewProjMatrix, GL.UniformMatrix4);
-            SetMatrixUniform("u_modelWorldMatrix", (Matrix4) Parameters.ModelWorldMatrix, GL.UniformMatrix4);
-            SetMatrixUniform("u_worldViewMatrix", (Matrix4) Parameters.WorldViewMatrix, GL.UniformMatrix4);
-            SetMatrixUniform("u_normalMatrix", (Matrix4) Parameters.NormalMatrix, GL.UniformMatrix4);
-            SetValueUniform("u_cameraPosition", (Vector3) Parameters.CameraPosition, GL.Uniform3);
+            SetMatrixUniform("u_modelViewProjMatrix", ModelViewProjMatrix, GL.UniformMatrix4);
+            SetMatrixUniform("u_modelWorldMatrix", ModelWorldMatrix, GL.UniformMatrix4);
+            SetMatrixUniform("u_worldViewMatrix", WorldViewMatrix, GL.UniformMatrix4);
+            SetMatrixUniform("u_normalMatrix", NormalMatrix, GL.UniformMatrix4);
+            SetValueUniform("u_cameraPosition", CameraPosition, GL.Uniform3);
         }
 
         public void CleanUp()

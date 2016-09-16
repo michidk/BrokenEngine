@@ -350,20 +350,20 @@ namespace BrokenEngine.Scene_Graph
                 comp.OnDestroy();
         }
 
-        public void Render(Matrix4 viewMatrix, Matrix4 projMatrix, Matrix4 vpMatrix)
+        public void Render(Matrix4 viewMatrix, Matrix4 vpMatrix)
         {
             // render current object first
             for (int i = 0; i < Components.Count; i++)
             {
                 var comp = Components[i];
                 if (comp is MeshRenderer)
-                    ((MeshRenderer) comp).Render(viewMatrix, projMatrix, vpMatrix);
+                    ((MeshRenderer) comp).Render(viewMatrix, vpMatrix);
             }
 
             // render children
             for (int i = 0; i < Children.Count; i++)
             {
-                Children[i].Render(viewMatrix, projMatrix, vpMatrix);
+                Children[i].Render(viewMatrix, vpMatrix);
             }
         }
         #endregion

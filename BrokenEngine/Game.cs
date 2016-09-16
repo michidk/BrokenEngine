@@ -3,10 +3,11 @@ using System.Drawing;
 using System.IO;
 using BrokenEngine.Materials;
 using BrokenEngine.Mesh;
-using BrokenEngine.Mesh.OBJ_Parser;
+using BrokenEngine.Mesh.Mesh_Parser;
 using BrokenEngine.Scene_Graph;
 using BrokenEngine.Scene_Graph.Components;
 using BrokenEngine.Utils;
+using BrokenEngine.Utils.Attributes;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
@@ -81,6 +82,11 @@ namespace BrokenEngine
             sphere.RecalculateNormals();
             Mesh.Mesh cube = ObjParser.ParseFile("Models/cube");
             Mesh.Mesh polygon = ObjParser.ParseFile("Models/polygon");
+            Mesh.Mesh suzanne = ObjParser.ParseFile("Models/suzanne");
+
+            Material phong = new PhongMaterial(Color.SaddleBrown, Vector3.One, Color4.AliceBlue);
+            Material toon = new ToonMaterial(Color.SaddleBrown, Vector3.One, Color4.AliceBlue, 4f);
+            //phong = toon;   // quick hack to replace all phong materials by the toon material
 
             // create scene graph
             Globals.Logger.Debug("Loading Scene");
@@ -91,20 +97,20 @@ namespace BrokenEngine
             new GameObject("Coordinate Origin", new Vector3(-15, -15, -15), go).AddComponent(new MeshRenderer(MeshUtils.CreateCoordinateOrigin()), false).AddComponent(new DirectionalMovement(Vector3.One, radius: 1f));
 
             go = new GameObject("Test 4", new Vector3(12, 0, 0), go);
-            go.AddComponent(new MeshRenderer(cube, new PhongMaterial(Color.SaddleBrown)), false);
+            go.AddComponent(new MeshRenderer(cube, phong), false);
             new GameObject("Test 5", new Vector3(-5, 0, 0), go).AddComponent(new MeshRenderer(MeshUtils.CreateCube()), false);
 
             go = new GameObject("Model", new Vector3(15, 15, 10), SceneGraph);
-            go.AddComponent(new MeshRenderer(airboat, new PhongMaterial(Color.SaddleBrown)), false);
+            go.AddComponent(new MeshRenderer(airboat, phong), false);
             //go.AddComponent(MeshRenderer.CreateTestTriangle(), false);
 
             go = new GameObject("Model 2", new Vector3(5, 0, 0), SceneGraph);
-            go.AddComponent(new MeshRenderer(sphere, new PhongMaterial(Color.SaddleBrown)), false);
+            go.AddComponent(new MeshRenderer(sphere, phong), false);
 
             go = new GameObject("AKM", new Vector3(0, -5, -10), SceneGraph);
             //go.AddComponent(new MeshRenderer(airboat), false);
-            go.AddComponent(new MeshRenderer(akm, new PhongMaterial(Color.SaddleBrown)), false);
-            go.AddComponent(new CircularMovement(radius: 2f), false);
+            go.AddComponent(new MeshRenderer(suzanne, phong), false);
+            go.AddComponent(new CircularMovement(speed: 0.05f, radius: 2f), false);
 
             var cameraObj = new GameObject("Camera", new Vector3(0, 0, 0), SceneGraph);
 

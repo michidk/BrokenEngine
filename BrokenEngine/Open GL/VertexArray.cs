@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL;
+﻿using BrokenEngine.Open_GL.Buffer;
+using OpenTK.Graphics.OpenGL;
 
 namespace BrokenEngine.Open_GL
 {
