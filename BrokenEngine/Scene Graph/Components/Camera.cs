@@ -25,15 +25,11 @@ namespace BrokenEngine.Scene_Graph.Components
         public override void OnStart()
         {
             base.OnStart();
-
-            GameObject.BehaveAsCamera = true;
         }
 
         public override void OnDestroy()
         {
             base.OnDestroy();
-
-            GameObject.BehaveAsCamera = false;
         }
 
         private void Calculate()

@@ -12,7 +12,6 @@ namespace BrokenEngine.Scene_Graph
     {
 
         public string Name { get; set; }
-        public bool BehaveAsCamera { get; set; }
 
         #region Local Space Properties
         public Vector3 LocalPosition
@@ -174,7 +173,7 @@ namespace BrokenEngine.Scene_Graph
                 Position += vector;
             else
                 // add local translation (transformed on the GameObject) to our local position
-                LocalPosition += InverseTransformDirection(vector);
+                LocalPosition += TransformDirection(vector);
         }
 
         #region World Space Helpers
@@ -208,14 +207,12 @@ namespace BrokenEngine.Scene_Graph
         // calculates the local matrix (aka LocalToParent)
         private Matrix4 CalculateLocal()
         {
-            if (BehaveAsCamera)
-                return MatrixUtils.CreateTRS(-LocalPosition, LocalRotation, LocalScale);
             return MatrixUtils.CreateTRS(LocalPosition, LocalRotation, LocalScale);
         }
 
         public Matrix4 GetView()
         {
-                return MatrixUtils.CreateTRS(-Position, Rotation, Scale);
+            return WorldToLocalMatrix;
         }
         #endregion
 

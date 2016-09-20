@@ -83,7 +83,7 @@ namespace BrokenEngine.Scene_Graph.Components
             var mouseDelta = mousePos - oldMousePos;
 
             // unity screen coordinate system
-            mouseDelta = new Vector2(mouseDelta.Y, mouseDelta.X) * sensitivity * smoothing;
+            mouseDelta = new Vector2(-mouseDelta.Y, -mouseDelta.X) * sensitivity * smoothing;
 
             _smoothMouse.X = MathUtils.Lerp(_smoothMouse.X, mouseDelta.X, 1f / smoothing);
             _smoothMouse.Y = MathUtils.Lerp(_smoothMouse.Y, mouseDelta.Y, 1f / smoothing);
@@ -100,7 +100,7 @@ namespace BrokenEngine.Scene_Graph.Components
             var xRotation = Quaternion.FromAxisAngle(Vector3.UnitX, _mouseAbsolute.X);
             var yRotation = Quaternion.FromAxisAngle(Vector3.UnitY, _mouseAbsolute.Y);
 
-            GameObject.LocalRotation = xRotation * yRotation;
+            GameObject.LocalRotation = yRotation * xRotation;
             GameObject.Translate(vel * speed, false);
         }
 
