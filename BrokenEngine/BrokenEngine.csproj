@@ -177,11 +177,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Open GL\Shader.cs" />
+    <Compile Include="Open GL\CompiledShader.cs" />
     <Compile Include="Open GL\ShaderProgram.cs" />
     <Compile Include="Scene Graph\IRenderable.cs" />
     <Compile Include="Open GL\VertexArray.cs" />
     <Compile Include="Open GL\VertexAttribute.cs" />
+    <Compile Include="Shader.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\MatrixUtils.cs" />
     <Compile Include="Utils\QuaternionExtensions.cs" />
@@ -213,13 +214,10 @@
     <Content Include="Resources\Models\polygon.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Shaders\phong_frag.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Shaders\phong_vert.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\Models\sphere.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\phong.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -230,12 +228,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Shaders\vertex_color_frag.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\Shaders\vertex_color_vert.glsl">
+    <Content Include="Resources\Shaders\vertex_color.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

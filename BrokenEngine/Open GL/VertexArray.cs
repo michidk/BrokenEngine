@@ -14,7 +14,7 @@ namespace BrokenEngine.Open_GL
 
             vertexBuffer.Bind();
 
-            program.SetAttributes(attributes);
+            program.SetVertexAttributes(attributes);
 
             GL.BindVertexArray(0);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);

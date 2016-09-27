@@ -10,7 +10,7 @@ namespace BrokenEngine.Open_GL
         private readonly Dictionary<string, int> attributeLocations = new Dictionary<string, int>();
         private readonly Dictionary<string, int> uniformLocations = new Dictionary<string, int>();
 
-        public ShaderProgram(params Shader[] shaders)
+        public ShaderProgram(params CompiledShader[] shaders)
         {
             this.handle = GL.CreateProgram();
 
@@ -50,7 +50,7 @@ namespace BrokenEngine.Open_GL
             return i;
         }
 
-        public void SetAttribute(VertexAttribute attribute)
+        public void SetVertexAttribute(VertexAttribute attribute)
         {
             int index = GetAttributeLocation(attribute.Name);
 
@@ -59,11 +59,32 @@ namespace BrokenEngine.Open_GL
             GL.VertexAttribPointer(index, attribute.Size, attribute.Type, attribute.Normalize, attribute.Stride, attribute.Offset);
         }
 
-        public void SetAttributes(VertexAttribute[] attributes)
+        public void SetVertexAttributes(VertexAttribute[] attributes)
         {
             foreach (var attribute in attributes)
-                SetAttribute(attribute);
+                SetVertexAttribute(attribute);
         }
+        
+        public void CleanUp()
+        {
+            GL.UseProgram(0);
+        }
+
+        #region Helpers
+        public delegate void GLValue<T>(int location, T value);
+        public void SetValueUniform<T>(string name, T value, GLValue<T> glMethod)
+        {
+            var i = GetUniformLocation(name);
+            glMethod(i, value);
+        }
+
+        public delegate void GLMatrix<T>(int location, bool transpose, ref T matrix);
+        public void SetMatrixUniform<T>(string name, T matrix, GLMatrix<T> glMethod)
+        {
+            var i = GetUniformLocation(name);
+            glMethod(i, false, ref matrix);
+        }
+        #endregion
 
         #region Operators
         public static implicit operator int(ShaderProgram program)

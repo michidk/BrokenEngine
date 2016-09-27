@@ -53,7 +53,7 @@ namespace BrokenEngine.Scene_Graph.Components
             unsafe
             {
                 vertexArray = new VertexArray<Vertex>(
-                   vertexBuffer, Material.ShaderProgram,
+                   vertexBuffer, Material.Shader.Program,
                    new VertexAttribute("v_position", 3, VertexAttribPointerType.Float, Vertex.Size, 0),
                    new VertexAttribute("v_color", 4, VertexAttribPointerType.Float, Vertex.Size, sizeof(Vector3)),  // TODO: make builder, which calc size automaticly
                    new VertexAttribute("v_normal", 3, VertexAttribPointerType.Float, Vertex.Size, sizeof(Vector3) + sizeof(Color4)),
@@ -110,7 +110,7 @@ namespace BrokenEngine.Scene_Graph.Components
             indexBuffer.Reset();
             Material.CleanUp();
         }
-
+        
         public static void SetDefaultMaterialParameter(ref Material material, Matrix4 modelMatrix, Matrix4 viewMatrix, Matrix4 projMatrix, Matrix4 viewProjectionMatrix, Matrix4 normalMatrix)
         {
             // global variables
