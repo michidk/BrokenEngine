@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace BrokenEngine.Scene_Graph
+namespace BrokenEngine.Components
 {
     public interface IRenderable
     {

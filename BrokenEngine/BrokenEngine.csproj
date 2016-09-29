@@ -160,15 +160,15 @@
     <Compile Include="Open GL\Shader\Shader.cs" />
     <Compile Include="Open GL\Shader\ShaderCompileException.cs" />
     <Compile Include="ResourceManager.cs" />
-    <Compile Include="Scene Graph\Components\Camera.cs" />
-    <Compile Include="Scene Graph\Components\DirectionalMovement.cs" />
-    <Compile Include="Scene Graph\Components\CircularMovement.cs" />
-    <Compile Include="Scene Graph\Components\Component.cs" />
-    <Compile Include="Scene Graph\Components\CameraMovement.cs" />
-    <Compile Include="Scene Graph\Components\SubmeshRenderer.cs" />
-    <Compile Include="Scene Graph\GameObject.cs" />
+    <Compile Include="Components\Camera.cs" />
+    <Compile Include="Components\DirectionalMovement.cs" />
+    <Compile Include="Components\CircularMovement.cs" />
+    <Compile Include="Components\Component.cs" />
+    <Compile Include="Components\CameraMovement.cs" />
+    <Compile Include="Components\SubmeshRenderer.cs" />
+    <Compile Include="GameObject.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Scene Graph\Components\MeshRenderer.cs" />
+    <Compile Include="Components\MeshRenderer.cs" />
     <Compile Include="Materials\Material.cs" />
     <Compile Include="Materials\VertexColorMaterial.cs" />
     <Compile Include="Mesh\FaceGroup.cs" />
@@ -183,9 +183,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Open GL\Shader\ShaderProgram.cs" />
-    <Compile Include="Scene Graph\IRenderable.cs" />
+    <Compile Include="Components\IRenderable.cs" />
     <Compile Include="Open GL\VertexArray.cs" />
     <Compile Include="Open GL\VertexAttribute.cs" />
+    <Compile Include="Scene.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\MatrixUtils.cs" />
     <Compile Include="Utils\QuaternionExtensions.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Utils\VectorUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Scenes\TestScene.xml" />
     <Content Include="Resources\Shaders\toon.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

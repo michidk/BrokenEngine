@@ -1,10 +1,9 @@
 ﻿using System;
 using BrokenEngine.Utils;
 using OpenTK;
-using OpenTK.Compute.CL10;
 using OpenTK.Input;
 
-namespace BrokenEngine.Scene_Graph.Components
+namespace BrokenEngine.Components
 {
     public class CameraMovement : Component
     {

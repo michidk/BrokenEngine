@@ -1,4 +1,4 @@
-﻿using BrokenEngine.Scene_Graph.Components;
+﻿using BrokenEngine.Components;
 using NLog;
 
 namespace BrokenEngine

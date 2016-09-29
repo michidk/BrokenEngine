@@ -13,6 +13,8 @@ namespace BrokenEngine
     // TODO: create timemanager, which keeps track of time since startup etc
     // TODO: gpu instancing
     // TODO: shader hotreloading
+    // TODO: xml scene loading
+    // TODO: prefab system
 
     // BUGS:
     // none :o

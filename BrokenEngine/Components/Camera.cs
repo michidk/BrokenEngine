@@ -1,8 +1,7 @@
-﻿using System;
-using BrokenEngine.Utils;
+﻿using BrokenEngine.Utils;
 using OpenTK;
 
-namespace BrokenEngine.Scene_Graph.Components
+namespace BrokenEngine.Components
 {
     public class Camera : Component
     {

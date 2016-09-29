@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using BrokenEngine.Materials;
 using BrokenEngine.Mesh;
-using BrokenEngine.Open_GL;
 using BrokenEngine.Open_GL.Buffer;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace BrokenEngine.Scene_Graph.Components
+namespace BrokenEngine.Components
 {
     public class SubmeshRenderer : Component, IRenderable
     {

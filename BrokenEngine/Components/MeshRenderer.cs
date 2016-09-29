@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Cryptography;
 using BrokenEngine.Materials;
 using BrokenEngine.Mesh;
 using BrokenEngine.Open_GL;
@@ -9,7 +8,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
-namespace BrokenEngine.Scene_Graph.Components
+namespace BrokenEngine.Components
 {
     public class MeshRenderer : Component, IRenderable
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using BrokenEngine.Open_GL;
+using BrokenEngine.Open_GL.Shader;
 using OpenTK.Graphics.OpenGL4;
 
 namespace BrokenEngine
@@ -22,11 +22,11 @@ namespace BrokenEngine
         public ShaderProgram Program;
 
         private string code;
-        
+
         public Shader(string code, bool compile = true)
         {
             this.code = code;
-            
+
             if (compile)
                 Compile();
         }
@@ -38,7 +38,7 @@ namespace BrokenEngine
                 Globals.Logger.Error("Shader compilation failed: code empty.");
                 return false;
             }
-            
+
             List<CompiledShader> shaders = new List<CompiledShader>();
             using (var reader = new StringReader(code))
             {
@@ -54,7 +54,7 @@ namespace BrokenEngine
                         var splitted = line.Split(' ');
                         if (splitted.Length < 2)
                             continue;
-                        
+
                         var compiledShader = CompileShader(currentlyParsedType, currentCode);
                         if (compiledShader != null)
                             shaders.Add(compiledShader);
@@ -104,7 +104,7 @@ namespace BrokenEngine
         private static MetaData ParseMetaData(StringReader reader)
         {
             MetaData data = new MetaData();
-            
+
             string line;
             while ((line = reader.ReadLine()) != null && line.StartsWith("//#"))
             {
@@ -128,7 +128,7 @@ namespace BrokenEngine
                         break;
                 }
             }
-            
+
             return data;
         }
 
@@ -172,6 +172,6 @@ namespace BrokenEngine
         {
             return LoadShaderFromPath(string.Format(DEFAULT_PATH, name));
         }
-       
+
     }
 }

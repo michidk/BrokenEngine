@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using BrokenEngine.Scene_Graph.Components;
+using BrokenEngine.Components;
 using BrokenEngine.Utils;
 using OpenTK;
 
-namespace BrokenEngine.Scene_Graph
+namespace BrokenEngine
 {
     public sealed class GameObject : IEnumerable<GameObject>
     {

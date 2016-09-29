@@ -1,4 +1,4 @@
-﻿namespace BrokenEngine.Scene_Graph.Components
+﻿namespace BrokenEngine.Components
 {
     public abstract class Component
     {

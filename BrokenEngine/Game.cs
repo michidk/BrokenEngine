@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using BrokenEngine.Components;
 using BrokenEngine.Materials;
 using BrokenEngine.Mesh;
 using BrokenEngine.Mesh.Mesh_Parser;
-using BrokenEngine.Scene_Graph;
-using BrokenEngine.Scene_Graph.Components;
 using BrokenEngine.Utils;
 using BrokenEngine.Utils.Attributes;
 using OpenTK;
