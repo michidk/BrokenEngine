@@ -84,7 +84,7 @@ namespace BrokenEngine
             Mesh.Mesh polygon = ObjParser.ParseFile("Models/polygon");
             Mesh.Mesh suzanne = ObjParser.ParseFile("Models/suzanne");
 
-            Material phong = new PhongMaterial(Color.SaddleBrown, Vector3.One, Color4.AliceBlue);
+            Material phong = new BlinnPhongMaterial(Color.SaddleBrown, Vector3.One, Color4.AliceBlue);
             Material toon = new ToonMaterial(Color.SaddleBrown, Vector3.One, Color4.AliceBlue, 4f);
             //phong = toon;   // quick hack to replace all phong materials by the toon material
 

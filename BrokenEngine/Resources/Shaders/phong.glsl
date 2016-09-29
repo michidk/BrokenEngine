@@ -57,7 +57,7 @@ uniform float u_specularShininess = 4.0;	// specular exponent: how big the highl
 uniform vec4 u_ambientColor = vec4(0, 0, 0, 1);
 uniform float u_ambientIntensity = 1.0;
 
-uniform bool blinn = true;					// use blinn highlights?
+uniform bool u_blinn = true;					// use blinn highlights?
 
 // shader input
 in vec3 f_position;	// interpolated world position
@@ -79,7 +79,7 @@ vec4 specular(vec3 normal) {
 	// fork for blinn highlights
 	float specularAmount;
 	// fixes phong cutoff issue with point lightning and is cheaper to calculate because no reflection is needed
-	if (blinn)
+	if (u_blinn)
 	{
 		vec3 halfwayDir = normalize(u_lightDirection + viewDir);
 		specularAmount = dot(normal, halfwayDir);

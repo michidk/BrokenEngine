@@ -10,6 +10,7 @@ namespace BrokenEngine.Open_GL.Shader
         private readonly Dictionary<string, int> attributeLocations = new Dictionary<string, int>();
         private readonly Dictionary<string, int> uniformLocations = new Dictionary<string, int>();
 
+
         public ShaderProgram(params CompiledShader[] shaders)
         {
             this.handle = GL.CreateProgram();
@@ -69,22 +70,6 @@ namespace BrokenEngine.Open_GL.Shader
         {
             GL.UseProgram(0);
         }
-
-        #region Helpers
-        public delegate void GLValue<T>(int location, T value);
-        public void SetValueUniform<T>(string name, T value, GLValue<T> glMethod)
-        {
-            var i = GetUniformLocation(name);
-            glMethod(i, value);
-        }
-
-        public delegate void GLMatrix<T>(int location, bool transpose, ref T matrix);
-        public void SetMatrixUniform<T>(string name, T matrix, GLMatrix<T> glMethod)
-        {
-            var i = GetUniformLocation(name);
-            glMethod(i, false, ref matrix);
-        }
-        #endregion
 
         #region Operators
         public static implicit operator int(ShaderProgram program)

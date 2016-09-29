@@ -147,8 +147,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Globals.cs" />
+    <Compile Include="Materials\BlinnPhongMaterial.cs" />
     <Compile Include="Materials\ToonMaterial.cs" />
-    <Compile Include="Materials\PhongMaterial.cs" />
+    <Compile Include="Materials\GenericPhongMaterial.cs" />
     <Compile Include="Mesh\Face.cs" />
     <Compile Include="Mesh\Mesh Parser\IMeshParser.cs" />
     <Compile Include="Mesh\MeshUtils.cs" />

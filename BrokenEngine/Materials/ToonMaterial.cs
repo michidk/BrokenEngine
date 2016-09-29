@@ -4,31 +4,25 @@ using OpenTK.Graphics.OpenGL;
 
 namespace BrokenEngine.Materials
 {
-    public class ToonMaterial : Material
+    public class ToonMaterial : GenericPhongMaterial
     {
 
-        public Color4 AlbedoColor { get; set; }
-        public Vector3 LightDirection { get; set; }
-        public Color4 AmbientColor { get; set; }
         public float Shades { get; set; }
+        public float OutlineThickness { get; set; }
 
 
-        public ToonMaterial(Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor, float shades = 5) : base("toon")
+        public ToonMaterial(Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor, float shades = 5.0f, float outlineThickness = 0.25f) : base(albedoColor, lightDirection, ambientColor, "toon")
         {
-            AlbedoColor = albedoColor;
-            LightDirection = lightDirection;
-            AmbientColor = ambientColor;
-            Shades = shades;
+            this.Shades = shades;
+            this.OutlineThickness = outlineThickness;
         }
 
         public override void Apply()
         {
             base.Apply();
 
-            shader.Program.SetValueUniform("u_albedoColor", AlbedoColor, GL.Uniform4);
-            shader.Program.SetValueUniform("u_lightDirection", LightDirection, GL.Uniform3);
-            shader.Program.SetValueUniform("u_ambientColor", AmbientColor, GL.Uniform4);
-            shader.Program.SetValueUniform("u_shades", Shades, GL.Uniform1);
+            SetValueUniform("u_shades", Shades, GL.Uniform1);
+            SetValueUniform("u_outlineThickness", Shades, GL.Uniform1);
         }
 
     }
