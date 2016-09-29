@@ -12,7 +12,6 @@ namespace BrokenEngine.Scene_Graph
     {
 
         public string Name { get; set; }
-        public bool BehaveAsCamera { get; set; }
 
         #region Local Space Properties
         public Vector3 LocalPosition
@@ -174,7 +173,7 @@ namespace BrokenEngine.Scene_Graph
                 Position += vector;
             else
                 // add local translation (transformed on the GameObject) to our local position
-                LocalPosition += InverseTransformDirection(vector);
+                LocalPosition += TransformDirection(vector);
         }
 
         #region World Space Helpers
@@ -208,14 +207,12 @@ namespace BrokenEngine.Scene_Graph
         // calculates the local matrix (aka LocalToParent)
         private Matrix4 CalculateLocal()
         {
-            if (BehaveAsCamera)
-                return MatrixUtils.CreateTRS(-LocalPosition, LocalRotation, LocalScale);
             return MatrixUtils.CreateTRS(LocalPosition, LocalRotation, LocalScale);
         }
 
         public Matrix4 GetView()
         {
-                return MatrixUtils.CreateTRS(-Position, Rotation, Scale);
+            return WorldToLocalMatrix;
         }
         #endregion
 
@@ -350,20 +347,20 @@ namespace BrokenEngine.Scene_Graph
                 comp.OnDestroy();
         }
 
-        public void Render(Matrix4 viewMatrix, Matrix4 projMatrix, Matrix4 vpMatrix)
+        public void Render(Matrix4 viewMatrix, Matrix4 vpMatrix)
         {
             // render current object first
             for (int i = 0; i < Components.Count; i++)
             {
                 var comp = Components[i];
                 if (comp is MeshRenderer)
-                    ((MeshRenderer) comp).Render(viewMatrix, projMatrix, vpMatrix);
+                    ((MeshRenderer) comp).Render(viewMatrix, vpMatrix);
             }
 
             // render children
             for (int i = 0; i < Children.Count; i++)
             {
-                Children[i].Render(viewMatrix, projMatrix, vpMatrix);
+                Children[i].Render(viewMatrix, vpMatrix);
             }
         }
         #endregion

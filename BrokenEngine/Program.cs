@@ -12,6 +12,7 @@ namespace BrokenEngine
     // TODO: Shade using Normal map
     // TODO: create timemanager, which keeps track of time since startup etc
     // TODO: gpu instancing
+    // TODO: shader hotreloading
 
     // BUGS:
     // none :o

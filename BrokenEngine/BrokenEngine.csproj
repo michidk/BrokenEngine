@@ -147,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Globals.cs" />
+    <Compile Include="Materials\ToonMaterial.cs" />
     <Compile Include="Materials\PhongMaterial.cs" />
     <Compile Include="Mesh\Face.cs" />
     <Compile Include="Mesh\Mesh Parser\IMeshParser.cs" />
@@ -154,6 +155,9 @@
     <Compile Include="Open GL\Buffer\Buffer.cs" />
     <Compile Include="Open GL\Buffer\DynamicBuffer.cs" />
     <Compile Include="Open GL\Buffer\StaticBuffer.cs" />
+    <Compile Include="Open GL\Shader\CompiledShader.cs" />
+    <Compile Include="Open GL\Shader\Shader.cs" />
+    <Compile Include="Open GL\Shader\ShaderCompileException.cs" />
     <Compile Include="ResourceManager.cs" />
     <Compile Include="Scene Graph\Components\Camera.cs" />
     <Compile Include="Scene Graph\Components\DirectionalMovement.cs" />
@@ -177,12 +181,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Open GL\CompiledShader.cs" />
-    <Compile Include="Open GL\ShaderProgram.cs" />
+    <Compile Include="Open GL\Shader\ShaderProgram.cs" />
     <Compile Include="Scene Graph\IRenderable.cs" />
     <Compile Include="Open GL\VertexArray.cs" />
     <Compile Include="Open GL\VertexAttribute.cs" />
-    <Compile Include="Shader.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\MatrixUtils.cs" />
     <Compile Include="Utils\QuaternionExtensions.cs" />
@@ -193,6 +195,9 @@
     <Compile Include="Utils\VectorUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Shaders\toon.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="App.config" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -217,8 +222,14 @@
     <Content Include="Resources\Models\sphere.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Shaders\phong.glsl">
+    <Content Include="Resources\Models\suzanne.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\phong.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Shaders\vertex_color.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -226,11 +237,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\Shaders\vertex_color.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

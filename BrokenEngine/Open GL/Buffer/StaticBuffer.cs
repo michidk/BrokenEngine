@@ -1,6 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
 
-namespace BrokenEngine.Open_GL
+namespace BrokenEngine.Open_GL.Buffer
 {
     public class StaticBuffer<T> : Buffer<T> where T : struct
     {

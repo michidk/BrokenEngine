@@ -1,4 +1,6 @@
-﻿using BrokenEngine.Open_GL;
+﻿using System;
+using BrokenEngine.Open_GL;
+using BrokenEngine.Open_GL.Shader;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -7,11 +9,20 @@ namespace BrokenEngine.Materials
     public class Material
     {
 
+        private const string SHADER_DIRECTORY = "Shaders/";
+        private const string VERTEX_SHADER_URI = SHADER_DIRECTORY + "{0}_vert.glsl";
+        private const string FRAGMENT_SHADER_URI = SHADER_DIRECTORY + "{0}_frag.glsl";
+
         public readonly string Name;
 
         public Shader Shader => shader;
 
-        public dynamic Parameters = new System.Dynamic.ExpandoObject();
+        // Material properties
+        public Matrix4 ModelViewProjMatrix { get; set; }
+        public Matrix4 ModelWorldMatrix { get; set; }
+        public Matrix4 WorldViewMatrix { get; set; }
+        public Matrix4 NormalMatrix { get; set; }
+        public Vector3 CameraPosition { get; set; }
 
         protected Shader shader;
         private bool loaded = false;
@@ -34,11 +45,11 @@ namespace BrokenEngine.Materials
         {
             shader.Program.Use();
 
-            shader.Program.SetMatrixUniform("u_modelViewProjMatrix", (Matrix4) Parameters.ModelViewProjMatrix, GL.UniformMatrix4);
-            shader.Program.SetMatrixUniform("u_modelWorldMatrix", (Matrix4) Parameters.ModelWorldMatrix, GL.UniformMatrix4);
-            shader.Program.SetMatrixUniform("u_worldViewMatrix", (Matrix4) Parameters.WorldViewMatrix, GL.UniformMatrix4);
-            shader.Program.SetMatrixUniform("u_normalMatrix", (Matrix4) Parameters.NormalMatrix, GL.UniformMatrix4);
-            shader.Program.SetValueUniform("u_cameraPosition", (Vector3) Parameters.CameraPosition, GL.Uniform3);
+            shader.Program.SetMatrixUniform("u_modelViewProjMatrix", ModelViewProjMatrix, GL.UniformMatrix4);
+            shader.Program.SetMatrixUniform("u_modelWorldMatrix", ModelWorldMatrix, GL.UniformMatrix4);
+            shader.Program.SetMatrixUniform("u_worldViewMatrix", WorldViewMatrix, GL.UniformMatrix4);
+            shader.Program.SetMatrixUniform("u_normalMatrix", NormalMatrix, GL.UniformMatrix4);
+            shader.Program.SetValueUniform("u_cameraPosition", CameraPosition, GL.Uniform3);
         }
 
         public void CleanUp()

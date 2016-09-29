@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 
-namespace BrokenEngine.Open_GL
+namespace BrokenEngine.Open_GL.Shader
 {
     public class ShaderProgram
     {

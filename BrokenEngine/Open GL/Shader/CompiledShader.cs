@@ -1,17 +1,18 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 
-namespace BrokenEngine.Open_GL
+namespace BrokenEngine.Open_GL.Shader
 {
     public class CompiledShader
     {
 
-        private readonly ShaderType type;
+        public readonly ShaderType Type;
+
         private readonly string code;
         private readonly int handle;
         
         public CompiledShader(ShaderType type, string code, bool compile = true)
         {
-            this.type = type;
+            this.Type = type;
             this.code = code;
             this.handle = GL.CreateShader(type);
 
@@ -28,7 +29,7 @@ namespace BrokenEngine.Open_GL
             string log = GL.GetShaderInfoLog(this.handle);
             if (!string.IsNullOrEmpty(log))
             {
-                Globals.Logger.Error($"Shader Error ({type}): {log}");
+                Globals.Logger.Error($"Shader Error ({Type}): {log}");
                 return false;
             }
 

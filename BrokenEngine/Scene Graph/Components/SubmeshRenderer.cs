@@ -3,6 +3,7 @@ using System.Linq;
 using BrokenEngine.Materials;
 using BrokenEngine.Mesh;
 using BrokenEngine.Open_GL;
+using BrokenEngine.Open_GL.Buffer;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -25,9 +26,9 @@ namespace BrokenEngine.Scene_Graph.Components
             indexBuffer = new StaticBuffer<ushort>(sizeof(ushort), indices.ToArray(), BufferTarget.ElementArrayBuffer);
         }
 
-        public void Render(Matrix4 viewMatrix, Matrix4 projMatrix, Matrix4 viewProjectionMatrix)
+        public void Render(Matrix4 viewMatrix, Matrix4 viewProjectionMatrix)
         {
-            MeshRenderer.SetDefaultMaterialParameter(ref Material, this.GameObject.LocalToWorldMatrix, viewMatrix, projMatrix, viewProjectionMatrix, GameObject.NormalMatrix);
+            MeshRenderer.SetDefaultMaterialParameter(ref Material, this.GameObject.LocalToWorldMatrix, viewMatrix, viewProjectionMatrix, GameObject.NormalMatrix);
 
             indexBuffer.Bind();
             indexBuffer.BufferData();

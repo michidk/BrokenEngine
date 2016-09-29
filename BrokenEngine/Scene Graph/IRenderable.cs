@@ -5,7 +5,7 @@ namespace BrokenEngine.Scene_Graph
     public interface IRenderable
     {
 
-        void Render(Matrix4 viewMatrix, Matrix4 projMatrix, Matrix4 viewProjectionMatrix);
+        void Render(Matrix4 viewMatrix, Matrix4 viewProjectionMatrix);
 
     }
 }

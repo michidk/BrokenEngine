@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BrokenEngine.Utils
+namespace BrokenEngine.Utils.Attributes
 {
     /// <summary>
     /// Marks a method as untested

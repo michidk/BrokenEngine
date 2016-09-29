@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using BrokenEngine.Materials;
 using BrokenEngine.Mesh;
 using BrokenEngine.Open_GL;
+using BrokenEngine.Open_GL.Buffer;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -87,9 +88,9 @@ namespace BrokenEngine.Scene_Graph.Components
             }
         }
 
-        public void Render(Matrix4 viewMatrix, Matrix4 projMatrix, Matrix4 viewProjectionMatrix)
+        public void Render(Matrix4 viewMatrix, Matrix4 viewProjectionMatrix)
         {
-            SetDefaultMaterialParameter(ref Material, this.GameObject.LocalToWorldMatrix, viewMatrix, projMatrix, viewProjectionMatrix, GameObject.NormalMatrix);
+            SetDefaultMaterialParameter(ref Material, this.GameObject.LocalToWorldMatrix, viewMatrix, viewProjectionMatrix, GameObject.NormalMatrix);
 
             vertexBuffer.Bind();
             vertexBuffer.BufferData();
@@ -102,7 +103,7 @@ namespace BrokenEngine.Scene_Graph.Components
             GL.DrawElements(BeginMode.Triangles, indexBuffer.Count, DrawElementsType.UnsignedShort, 0);
 
             foreach (var renderer in subMeshRenderers)
-                renderer.Render(viewMatrix, projMatrix, viewProjectionMatrix);
+                renderer.Render(viewMatrix, viewProjectionMatrix);
 
             // reset state for potential further draw calls (optional, but good practice)
             vertexArray.Reset();
@@ -110,17 +111,17 @@ namespace BrokenEngine.Scene_Graph.Components
             indexBuffer.Reset();
             Material.CleanUp();
         }
-        
-        public static void SetDefaultMaterialParameter(ref Material material, Matrix4 modelMatrix, Matrix4 viewMatrix, Matrix4 projMatrix, Matrix4 viewProjectionMatrix, Matrix4 normalMatrix)
+
+        public static void SetDefaultMaterialParameter(ref Material material, Matrix4 modelMatrix, Matrix4 viewMatrix, Matrix4 viewProjectionMatrix, Matrix4 normalMatrix)
         {
             // global variables
-            material.Parameters.CameraPosition = Globals.CurrentCamera.GameObject.Position;
+            material.CameraPosition = Globals.CurrentCamera.GameObject.Position;
 
             // instance variables
-            material.Parameters.ModelWorldMatrix = modelMatrix;
-            material.Parameters.NormalMatrix = normalMatrix;
-            material.Parameters.WorldViewMatrix = viewMatrix;
-            material.Parameters.ModelViewProjMatrix = modelMatrix * viewProjectionMatrix;   // OpenTK matrices are transposed by default
+            material.ModelWorldMatrix = modelMatrix;
+            material.NormalMatrix = normalMatrix;
+            material.WorldViewMatrix = viewMatrix;
+            material.ModelViewProjMatrix = modelMatrix * viewProjectionMatrix;   // OpenTK matrices are transposed by default
 
             material.Apply();
         }

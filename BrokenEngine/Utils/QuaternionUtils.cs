@@ -46,7 +46,6 @@ namespace BrokenEngine.Utils
                 heading = -2 * (float) Math.Atan2(quaternion.X, quaternion.W);
                 attitude = -MathUtils.PI / 2;
                 bank = 0;
-
             }
             else
             {
