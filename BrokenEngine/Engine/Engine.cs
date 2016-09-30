@@ -14,26 +14,29 @@ using OpenTK.Input;
 
 namespace BrokenEngine
 {
-    public class Game : GameWindow
+    public class Engine : GameWindow
     {
 
         public Camera CurrentCamera { get; set; }
         public GameObject SceneGraph { get; private set; }
-        
 
-        public Game(int resX, int resY, bool fullscreen, string title) : base(
-            resX, resY, GraphicsMode.Default, title,        // Game settings
+
+        public Engine(EngineWrapper.WindowSettings settings, bool fullscreen) : this(settings.PosX, settings.PosY, settings.Width, settings.Height, fullscreen, settings.Title)
+        {
+            
+        }
+
+        public Engine(int posX, int posY, int width, int height, bool fullscreen, string title) : base(
+            width, height, GraphicsMode.Default, title,         // Engine settings
             fullscreen ? GameWindowFlags.Fullscreen : GameWindowFlags.Default, 
-            DisplayDevice.Default,                          // unimportant stuff
-            4, 3, GraphicsContextFlags.ForwardCompatible    // opengl version
+            DisplayDevice.Default,                              // unimportant stuff
+            4, 3, GraphicsContextFlags.ForwardCompatible        // opengl version
             )
         {
-            Globals.Game = this;
-            Globals.GameName = title;
-
-            // TODO: move to constructor and make it a programm parameter
-            this.X = 200;
-            this.Y = 150;
+            if (posX > 0)
+                this.X = posX;
+            if (posY > 0)
+                this.Y = posY;
 
             // register events
             Keyboard.KeyDown += OnKeyDown;
@@ -52,7 +55,7 @@ namespace BrokenEngine
             BuildTestScene();
 
             // init logic
-            Globals.Logger.Debug("Starting Game Logic");
+            Globals.Logger.Debug("Starting Engine Logic");
             SceneGraph.Start();
             
             // GL settings
@@ -73,6 +76,7 @@ namespace BrokenEngine
         // this scene might look a little bit odd, because there is only testing stuff in it
         private void BuildTestScene()
         {
+            /*
             Globals.Logger.Debug("Loading Resources");
             Mesh.Mesh airboat = ObjParser.ParseFile("Models/airboat");
             airboat.RecalculateNormals();
@@ -119,6 +123,10 @@ namespace BrokenEngine
             cameraObj.AddComponent(new CameraMovement(CameraMovement.Type.FirstPerson), false);
 
             CurrentCamera = camera;
+            */
+            var scene = Scene.LoadSceneFromName("TestScene");
+            Globals.Logger.Info(scene.Materials);
+            Console.ReadKey();
         }
 
         protected override void OnResize(EventArgs e)
@@ -129,7 +137,7 @@ namespace BrokenEngine
             base.OnResize(e);
         }
 
-        // called every frame, game logic
+        // called every frame, Engine logic
         [Bullshit(Reason = "make a global manager gameobject, which handles the PolygonMode stuff")]
         protected void OnUpdate(object sender, FrameEventArgs e)
         {
@@ -173,7 +181,7 @@ namespace BrokenEngine
 
         public override void Dispose()
         {
-            Globals.Game = null;
+            Globals.Engine = null;
 
             base.Dispose();
         }

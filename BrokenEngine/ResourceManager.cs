@@ -38,5 +38,10 @@ namespace BrokenEngine
             return text;
         }
 
+        public static StreamReader GetStream(string file)
+        {
+            return new StreamReader(RESOURCE_FOLDER + file);
+        }
+
     }
 }

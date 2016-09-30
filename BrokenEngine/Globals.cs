@@ -9,8 +9,9 @@ namespace BrokenEngine
         public static string GameName = "Broken Engine";
         public static Logger Logger = LogManager.GetLogger(GameName);
 
-        public static Game Game;
-        public static Camera CurrentCamera => Game.CurrentCamera;
+        public static Config Config;
+        public static Engine Engine;
+        public static Camera CurrentCamera => Engine.CurrentCamera;
 
     }
 }

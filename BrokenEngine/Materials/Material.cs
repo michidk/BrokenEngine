@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Serialization;
 using BrokenEngine.Open_GL;
 using BrokenEngine.Open_GL.Shader;
 using OpenTK;
@@ -16,10 +17,15 @@ namespace BrokenEngine.Materials
         public Shader Shader => shader;
 
         // Material properties
+        [XmlIgnore]
         public Matrix4 ModelViewProjMatrix { get; set; }
+        [XmlIgnore]
         public Matrix4 ModelWorldMatrix { get; set; }
+        [XmlIgnore]
         public Matrix4 WorldViewMatrix { get; set; }
+        [XmlIgnore]
         public Matrix4 NormalMatrix { get; set; }
+        [XmlIgnore]
         public Vector3 CameraPosition { get; set; }
 
         protected string shaderFileName;

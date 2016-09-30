@@ -1,0 +1,15 @@
+﻿<Scene>
+  <MetaData>
+    <Name>Test</Name>
+    <Author>Michael Lohr</Author>
+    <Description>A simple test scene just to test stuff...</Description>
+  </MetaData>
+  <Materials>
+    <Material>
+      <Name>Phong</Name>
+      <Properties i:type="BlinnPhongMaterial">
+        <Blinn>True</Blinn>
+      </Properties>
+    </Material>
+  </Materials>
+</Scene>

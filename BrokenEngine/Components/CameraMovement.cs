@@ -58,25 +58,25 @@ namespace BrokenEngine.Components
         private void DoFirstPerson(Vector2 mousePos)
         {
             Vector3 vel = Vector3.Zero;
-            if (Globals.Game.Keyboard[Key.W])
+            if (Globals.Engine.Keyboard[Key.W])
             {
                 vel += new Vector3(0, 0, -1);   // camera looks backwards
             }
-            if (Globals.Game.Keyboard[Key.S])
+            if (Globals.Engine.Keyboard[Key.S])
             {
                 vel += new Vector3(0, 0, 1);
             }
-            if (Globals.Game.Keyboard[Key.A])
+            if (Globals.Engine.Keyboard[Key.A])
             {
                 vel += new Vector3(-1, 0, 0);
             }
-            if (Globals.Game.Keyboard[Key.D])
+            if (Globals.Engine.Keyboard[Key.D])
             {
                 vel += new Vector3(1, 0, 0);
             }
             vel.NormalizeFast();
 
-            if (Globals.Game.Keyboard[Key.ShiftLeft])
+            if (Globals.Engine.Keyboard[Key.ShiftLeft])
                 vel *= 4;
             
             var mouseDelta = mousePos - oldMousePos;
@@ -106,19 +106,19 @@ namespace BrokenEngine.Components
         private void DoDebugMovement(Vector2 mousePos)
         {
             Vector3 vel = Vector3.Zero;
-            if (Globals.Game.Keyboard[Key.W])
+            if (Globals.Engine.Keyboard[Key.W])
             {
                 vel += new Vector3(0, 0, 1);
             }
-            if (Globals.Game.Keyboard[Key.S])
+            if (Globals.Engine.Keyboard[Key.S])
             {
                 vel += new Vector3(0, 0, -1);
             }
-            if (Globals.Game.Keyboard[Key.A])
+            if (Globals.Engine.Keyboard[Key.A])
             {
                 vel += new Vector3(-1, 0, 0);
             }
-            if (Globals.Game.Keyboard[Key.D])
+            if (Globals.Engine.Keyboard[Key.D])
             {
                 vel += new Vector3(1, 0, 0);
             }

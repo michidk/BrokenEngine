@@ -146,6 +146,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.cs" />
+    <Compile Include="Engine\EngineWrapper.cs" />
+    <Compile Include="Engine\WindowsEngineWrapper.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Materials\BlinnPhongMaterial.cs" />
     <Compile Include="Materials\ToonMaterial.cs" />
@@ -157,7 +160,7 @@
     <Compile Include="Open GL\Buffer\DynamicBuffer.cs" />
     <Compile Include="Open GL\Buffer\StaticBuffer.cs" />
     <Compile Include="Open GL\Shader\CompiledShader.cs" />
-    <Compile Include="Open GL\Shader\Shader.cs" />
+    <Compile Include="Shader.cs" />
     <Compile Include="Open GL\Shader\ShaderCompileException.cs" />
     <Compile Include="ResourceManager.cs" />
     <Compile Include="Components\Camera.cs" />
@@ -167,7 +170,7 @@
     <Compile Include="Components\CameraMovement.cs" />
     <Compile Include="Components\SubmeshRenderer.cs" />
     <Compile Include="GameObject.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="Engine\Engine.cs" />
     <Compile Include="Components\MeshRenderer.cs" />
     <Compile Include="Materials\Material.cs" />
     <Compile Include="Materials\VertexColorMaterial.cs" />
@@ -193,11 +196,17 @@
     <Compile Include="Utils\QuaternionUtils.cs" />
     <Compile Include="Utils\Attributes\Bullshit.cs" />
     <Compile Include="Utils\Attributes\Untested.cs" />
+    <Compile Include="Utils\ReflectionUtils.cs" />
     <Compile Include="Utils\Vector3Extensions.cs" />
     <Compile Include="Utils\VectorUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Scenes\TestScene.xml" />
+    <Content Include="Resources\Config\Config.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scenes\TestScene.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Shaders\toon.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

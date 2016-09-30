@@ -1,7 +1,7 @@
 # Broken-Engine
 A game engine written in C# using OpenGL.
 
-## This game engine is NOT actually broken! :)
+## This game engine is NOT broken! :)
 But it has a very creative name.
 Please note that this is only a test / side project, which is still in development.
 The purpose of this project is, to learn how to write a game engine.
