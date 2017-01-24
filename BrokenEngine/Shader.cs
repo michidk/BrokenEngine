@@ -16,7 +16,7 @@ namespace BrokenEngine
             public string Description;
         }
 
-        private const string DEFAULT_PATH = "Shaders/{0}.glsl";
+        private const string DEFAULT_PATH = "Shaders/";
 
         public MetaData Meta;
         public ShaderProgram Program;
@@ -170,7 +170,7 @@ namespace BrokenEngine
 
         public static Shader LoadShaderFromName(string name)
         {
-            return LoadShaderFromPath(string.Format(DEFAULT_PATH, name));
+            return LoadShaderFromPath(DEFAULT_PATH + name);
         }
 
     }

@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
 using BrokenEngine.Components;
 using BrokenEngine.Utils;
 using OpenTK;
 
 namespace BrokenEngine
 {
+    [XmlRoot]
     public sealed class GameObject : IEnumerable<GameObject>
     {
 
@@ -74,6 +76,7 @@ namespace BrokenEngine
         #endregion
 
         #region Matrice Properties
+        [XmlIgnore]
         public Matrix4 LocalToWorldMatrix
         {
             get
@@ -92,6 +95,7 @@ namespace BrokenEngine
             }
         }
 
+        [XmlIgnore]
         public Matrix4 WorldToLocalMatrix
         {
             get
@@ -107,6 +111,7 @@ namespace BrokenEngine
             }
         }
 
+        [XmlIgnore]
         public Matrix4 NormalMatrix
         {
             get
@@ -123,7 +128,9 @@ namespace BrokenEngine
         }
         #endregion
 
+        [XmlIgnore]
         public ReadOnlyCollection<GameObject> Children => children.AsReadOnly();
+        [XmlIgnore]
         public ReadOnlyCollection<Component> Components => components.AsReadOnly();
 
         private Vector3 localPosition;
@@ -146,6 +153,12 @@ namespace BrokenEngine
         private Quaternion? cachedWorldRotation = null;
         private Vector3? cachedWorldScale = null;
         #endregion
+
+
+        // empty ctor for xml
+        public GameObject()
+        {
+        }
 
         public GameObject(string name, Vector3 position = default(Vector3), GameObject parent = null)
         {

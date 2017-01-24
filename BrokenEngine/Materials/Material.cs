@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using BrokenEngine.Open_GL;
 using BrokenEngine.Open_GL.Shader;
@@ -14,26 +15,32 @@ namespace BrokenEngine.Materials
         private const string VERTEX_SHADER_URI = SHADER_DIRECTORY + "{0}_vert.glsl";
         private const string FRAGMENT_SHADER_URI = SHADER_DIRECTORY + "{0}_frag.glsl";
 
-        public Shader Shader => shader;
-
         // Material properties
+        [XmlIgnore] public Matrix4 ModelViewProjMatrix { get; set; }
+        [XmlIgnore] public Matrix4 ModelWorldMatrix { get; set; }
+        [XmlIgnore] public Matrix4 WorldViewMatrix { get; set; }
+        [XmlIgnore] public Matrix4 NormalMatrix { get; set; }
+        [XmlIgnore] public Vector3 CameraPosition { get; set; }
+
         [XmlIgnore]
-        public Matrix4 ModelViewProjMatrix { get; set; }
-        [XmlIgnore]
-        public Matrix4 ModelWorldMatrix { get; set; }
-        [XmlIgnore]
-        public Matrix4 WorldViewMatrix { get; set; }
-        [XmlIgnore]
-        public Matrix4 NormalMatrix { get; set; }
-        [XmlIgnore]
-        public Vector3 CameraPosition { get; set; }
+        public Shader Shader => shader;
 
         protected string shaderFileName;
         protected Shader shader;
         private bool loaded = false;
 
 
+        // parameterless ctor for xml serilization
+        protected Material()
+        {
+        }
+
         public Material(string shaderFileName)
+        {
+            Initialize(shaderFileName);
+        }
+
+        internal void Initialize(string shaderFileName)
         {
             this.shaderFileName = shaderFileName;
 

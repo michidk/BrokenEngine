@@ -8,13 +8,14 @@ The purpose of this project is, to learn how to write a game engine.
 This game engine is written in C# using the OpenGL bindings and math classes from OpenTK.
 
 ## Building
-Just clone the repo and hit "run" in Visual Studio.
+Just clone the repository and hit "run" in Visual Studio.
 
 ## Dependencies
 - OpenTK (OpenGL)
 - ImGui (UI)
 - NLog (Logging)
+- ExtendedXmlSerializer
 
-This project uses Nuget, which means that all dependencies should be automaticlly downloaded by Visual Studio.
+This project uses NuGet, which means that all dependencies should be automatically downloaded by Visual Studio.
 
 Requires OpenGL > 4.2

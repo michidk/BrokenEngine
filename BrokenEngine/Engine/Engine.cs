@@ -125,8 +125,6 @@ namespace BrokenEngine
             CurrentCamera = camera;
             */
             var scene = Scene.LoadSceneFromName("TestScene");
-            Globals.Logger.Info(scene.Materials);
-            Console.ReadKey();
         }
 
         protected override void OnResize(EventArgs e)

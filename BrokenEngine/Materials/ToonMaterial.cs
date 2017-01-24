@@ -11,6 +11,11 @@ namespace BrokenEngine.Materials
         public float OutlineThickness { get; set; }
 
 
+        public ToonMaterial()
+        {
+            
+        }
+
         public ToonMaterial(Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor, float shades = 5.0f, float outlineThickness = 0.25f) : base(albedoColor, lightDirection, ambientColor, "toon")
         {
             this.Shades = shades;
