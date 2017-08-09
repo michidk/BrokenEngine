@@ -8,7 +8,6 @@ using OpenTK;
 
 namespace BrokenEngine
 {
-    [XmlRoot]
     public sealed class GameObject : IEnumerable<GameObject>
     {
 
@@ -143,6 +142,7 @@ namespace BrokenEngine
 
         private GameObject parent;
 
+        //[XmlElementAttribute]
         private readonly List<GameObject> children = new List<GameObject>();
         private readonly List<Component> components = new List<Component>();
 
@@ -156,9 +156,9 @@ namespace BrokenEngine
 
 
         // empty ctor for xml
-        public GameObject()
-        {
-        }
+        //public GameObject()
+        //{
+        //}
 
         public GameObject(string name, Vector3 position = default(Vector3), GameObject parent = null)
         {

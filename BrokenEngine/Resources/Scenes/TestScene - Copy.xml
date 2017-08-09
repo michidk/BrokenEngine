@@ -1,0 +1,52 @@
+﻿<?xml version="1.0"?>
+<Scene xmlns="BrokenEngine.Scene">
+  <MetaData>
+    <Name>Test</Name>
+    <Author>Michael Lohr</Author>
+    <Description>A simple test scene just to test stuff...</Description>
+  </MetaData>
+  <Materials>
+    <Material>
+      <Name>MyFirstMaterial</Name>
+      <Shader>phong.glsl</Shader>
+      <Properties type="BrokenEngine.Materials.BlinnPhongMaterial">
+        <AlbedoColor type="OpenTK.Graphics.Color4">
+          <R>156</R>
+          <G>208</G>
+          <B>84</B>
+          <A>255</A>
+        </AlbedoColor>
+        <LightDirection type="OpenTK.Vector3">
+          <X>1</X>
+          <Y>1</Y>
+          <Z>1</Z>
+        </LightDirection>
+        <AmbientColor type="OpenTK.Graphics.Color4">
+          <R>156</R>
+          <G>208</G>
+          <B>84</B>
+          <A>255</A>
+        </AmbientColor>
+        <Blinn>True</Blinn>
+      </Properties>
+    </Material>
+  </Materials>
+  <SceneGraph>
+    <GameObject type="BrokenEngine.GameObject">
+      <Name>Super Cool GameObject</Name>
+      <Position type="OpenTK.Vector3">
+        <X>1</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </Position>
+    </GameObject>
+    <!--<GameObject type="BrokenEngine.GameObject">
+      <Name>Test 123</Name>
+      <Position type="OpenTK.Vector3">
+        <X>23</X>
+        <Y>3</Y>
+        <Z>11</Z>
+      </Position>
+    </GameObject>-->
+  </SceneGraph>
+</Scene>

@@ -124,7 +124,8 @@ namespace BrokenEngine
 
             CurrentCamera = camera;
             */
-            var scene = Scene.LoadSceneFromName("TestScene");
+            XMLTest.Test();
+            //var scene = Scene.LoadSceneFromName("TestScene");
         }
 
         protected override void OnResize(EventArgs e)
