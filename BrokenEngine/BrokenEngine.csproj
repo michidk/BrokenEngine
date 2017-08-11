@@ -117,7 +117,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ExtendedXmlSerializer, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExtendedXmlSerializer.2.0.0-alpha4\lib\net46\ExtendedXmlSerializer.dll</HintPath>
+      <HintPath>..\packages\ExtendedXmlSerializer.2.0.0-alpha5\lib\net45\ExtendedXmlSerializer.dll</HintPath>
     </Reference>
     <Reference Include="ImGui.NET, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ImGui.NET.0.2.1\lib\netstandard1.1\ImGui.NET.dll</HintPath>

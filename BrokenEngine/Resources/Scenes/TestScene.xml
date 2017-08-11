@@ -5,4 +5,22 @@
     <Author>Author</Author>
     <Description>Description</Description>
   </MetaData>
+  <SceneGraph>
+    <GameObject xmlns="clr-namespace:BrokenEngine;assembly=BrokenEngine">
+      <Name>Super Cool GameObject</Name>
+      <Position type="clr-namespace:OpenTK;assembly=OpenTK">
+        <X>1</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </Position>
+    </GameObject>
+    <!--<GameObject type="BrokenEngine.GameObject">
+      <Name>Test 123</Name>
+      <Position type="OpenTK.Vector3">
+        <X>23</X>
+        <Y>3</Y>
+        <Z>11</Z>
+      </Position>
+    </GameObject>-->
+  </SceneGraph>
 </Scene>

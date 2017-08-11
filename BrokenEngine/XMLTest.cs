@@ -24,8 +24,7 @@ namespace BrokenEngine
             Console.WriteLine(xml);
 
             var obj = serializer.Deserialize<Scene>(ResourceManager.GetString($"Scenes/TestScene.xml"));
-
-
+            
         }
 
     }

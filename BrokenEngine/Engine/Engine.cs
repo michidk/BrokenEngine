@@ -23,7 +23,7 @@ namespace BrokenEngine
 
         public Engine(EngineWrapper.WindowSettings settings, bool fullscreen) : this(settings.PosX, settings.PosY, settings.Width, settings.Height, fullscreen, settings.Title)
         {
-            
+            Globals.Engine = this;
         }
 
         public Engine(int posX, int posY, int width, int height, bool fullscreen, string title) : base(
@@ -76,7 +76,6 @@ namespace BrokenEngine
         // this scene might look a little bit odd, because there is only testing stuff in it
         private void BuildTestScene()
         {
-            /*
             Globals.Logger.Debug("Loading Resources");
             Mesh.Mesh airboat = ObjParser.ParseFile("Models/airboat");
             airboat.RecalculateNormals();
@@ -92,6 +91,8 @@ namespace BrokenEngine
             //phong = toon;   // quick hack to replace all phong materials by the toon material
 
             // create scene graph
+
+            /*
             Globals.Logger.Debug("Loading Scene");
             var go = new GameObject("test object", Vector3.One, SceneGraph);
             go.AddComponent(new MeshRenderer(MeshUtils.CreateQuad()), false);
@@ -115,6 +116,7 @@ namespace BrokenEngine
             go.AddComponent(new MeshRenderer(suzanne, phong), false);
             go.AddComponent(new CircularMovement(speed: 0.05f, radius: 2f), false);
 
+            */
             var cameraObj = new GameObject("Camera", new Vector3(0, 0, 0), SceneGraph);
 
             var camera = new Camera(ClientSize.Width, ClientSize.Height, 60f);
@@ -123,9 +125,9 @@ namespace BrokenEngine
             cameraObj.AddComponent(new CameraMovement(CameraMovement.Type.FirstPerson), false);
 
             CurrentCamera = camera;
-            */
-            XMLTest.Test();
-            //var scene = Scene.LoadSceneFromName("TestScene");
+
+            //XMLTest.Test();
+            var scene = Scene.LoadSceneFromName("TestScene");
         }
 
         protected override void OnResize(EventArgs e)

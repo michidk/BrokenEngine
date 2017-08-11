@@ -19,7 +19,7 @@ namespace BrokenEngine
             }
             catch (IOException e)
             {
-                throw new IOException("Can't read file: {file}", e);
+                throw new IOException($"Can't read file: {file}", e);
             }
             return bytes;
         }
@@ -33,7 +33,7 @@ namespace BrokenEngine
             }
             catch (IOException e)
             {
-                throw new IOException("Can't read file: {file}", e);
+                throw new IOException($"Can't read file: {file}", e);
             }
             return text;
         }

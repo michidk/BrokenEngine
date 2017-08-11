@@ -90,7 +90,7 @@ vec4 specular(vec3 normal) {
 		specularAmount = dot(viewDir, reflectDir);
 	}
 
-	float shininessFactor = blinn ? 3.0 : 1.0;	// shininess should be 2 to 4 times larger when using blinn highlights
+	float shininessFactor = u_blinn ? 3.0 : 1.0;	// shininess should be 2 to 4 times larger when using blinn highlights
 	float highlight = pow(max(specularAmount, 0.0), u_specularShininess * shininessFactor);
 
 	return highlight * u_specularIntensity * u_lightColor;

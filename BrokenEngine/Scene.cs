@@ -36,8 +36,7 @@ namespace BrokenEngine
         public Scene()
         {
         }
-
-        /*
+        
         public static Scene LoadSceneFromName(string name)
         {
             
@@ -58,6 +57,6 @@ namespace BrokenEngine
 
             return scene;
         }
-        */
+        
     }
 }

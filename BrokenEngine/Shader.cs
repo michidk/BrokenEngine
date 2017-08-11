@@ -17,6 +17,7 @@ namespace BrokenEngine
         }
 
         private const string DEFAULT_PATH = "Shaders/";
+        private const string DEFAULT_SUFFIX = ".glsl";
 
         public MetaData Meta;
         public ShaderProgram Program;
@@ -162,7 +163,7 @@ namespace BrokenEngine
 
         public static Shader LoadShaderFromPath(string path)
         {
-            string code = ResourceManager.GetString(path);
+            string code = ResourceManager.GetString(path + DEFAULT_SUFFIX);
             if (code == null)
                 return null;
             return new Shader(code);

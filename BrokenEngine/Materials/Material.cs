@@ -12,8 +12,6 @@ namespace BrokenEngine.Materials
     {
 
         private const string SHADER_DIRECTORY = "Shaders/";
-        private const string VERTEX_SHADER_URI = SHADER_DIRECTORY + "{0}_vert.glsl";
-        private const string FRAGMENT_SHADER_URI = SHADER_DIRECTORY + "{0}_frag.glsl";
 
         // Material properties
         [XmlIgnore] public Matrix4 ModelViewProjMatrix { get; set; }

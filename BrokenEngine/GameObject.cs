@@ -8,6 +8,7 @@ using OpenTK;
 
 namespace BrokenEngine
 {
+    [XmlRoot("SceneGraph")]
     public sealed class GameObject : IEnumerable<GameObject>
     {
 
