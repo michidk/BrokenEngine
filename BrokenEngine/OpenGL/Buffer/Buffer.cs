@@ -3,7 +3,7 @@ using BrokenEngine.Utils.Attributes;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
-namespace BrokenEngine.Open_GL.Buffer
+namespace BrokenEngine.OpenGL.Buffer
 {
     public abstract class Buffer<T> : IDisposable where T : struct
     {

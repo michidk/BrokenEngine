@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Drawing;
-using System.IO;
+using BrokenEngine.Scene;
 using BrokenEngine.Components;
 using BrokenEngine.Materials;
-using BrokenEngine.Mesh;
-using BrokenEngine.Mesh.Mesh_Parser;
-using BrokenEngine.Utils;
+using BrokenEngine.Mesh.MeshParser;
 using BrokenEngine.Utils.Attributes;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 
-namespace BrokenEngine
+namespace BrokenEngine.Engine
 {
     public class Engine : GameWindow
     {
@@ -127,7 +125,7 @@ namespace BrokenEngine
             CurrentCamera = camera;
 
             //XMLTest.Test();
-            var scene = Scene.LoadSceneFromName("TestScene");
+            var scene = Scene.Scene.LoadScene("TestScene");
         }
 
         protected override void OnResize(EventArgs e)

@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace BrokenEngine
+namespace BrokenEngine.Engine
 {
     public abstract class EngineWrapper
     {

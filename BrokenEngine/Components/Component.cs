@@ -1,4 +1,6 @@
-﻿namespace BrokenEngine.Components
+﻿using BrokenEngine.Scene;
+
+namespace BrokenEngine.Components
 {
     public abstract class Component
     {

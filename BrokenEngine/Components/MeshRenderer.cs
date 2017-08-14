@@ -2,8 +2,9 @@
 using System.Linq;
 using BrokenEngine.Materials;
 using BrokenEngine.Mesh;
-using BrokenEngine.Open_GL;
-using BrokenEngine.Open_GL.Buffer;
+using BrokenEngine.OpenGL;
+using BrokenEngine.OpenGL.Buffer;
+using BrokenEngine.Scene;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;

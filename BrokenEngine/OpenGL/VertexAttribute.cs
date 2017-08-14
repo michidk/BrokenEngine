@@ -1,6 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
 
-namespace BrokenEngine.Open_GL
+namespace BrokenEngine.OpenGL
 {
     public struct VertexAttribute
     {

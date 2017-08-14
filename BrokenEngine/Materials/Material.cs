@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using BrokenEngine.Open_GL;
-using BrokenEngine.Open_GL.Shader;
+using BrokenEngine.OpenGL.Shader;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 

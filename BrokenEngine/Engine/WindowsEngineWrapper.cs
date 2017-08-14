@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Globalization;
 using System.Runtime.InteropServices;
 
-namespace BrokenEngine
+namespace BrokenEngine.Engine
 {
     public class WindowsEngineWrapper : EngineWrapper
     {

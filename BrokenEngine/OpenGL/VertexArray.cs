@@ -1,8 +1,8 @@
-﻿using BrokenEngine.Open_GL.Buffer;
-using BrokenEngine.Open_GL.Shader;
+﻿using BrokenEngine.OpenGL.Buffer;
+using BrokenEngine.OpenGL.Shader;
 using OpenTK.Graphics.OpenGL;
 
-namespace BrokenEngine.Open_GL
+namespace BrokenEngine.OpenGL
 {
     public class VertexArray<TVertex> where TVertex : struct
     {

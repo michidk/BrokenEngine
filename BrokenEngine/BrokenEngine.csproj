@@ -195,14 +195,16 @@
     <Compile Include="Materials\ToonMaterial.cs" />
     <Compile Include="Materials\GenericPhongMaterial.cs" />
     <Compile Include="Mesh\Face.cs" />
-    <Compile Include="Mesh\Mesh Parser\IMeshParser.cs" />
+    <Compile Include="Scene\GameObject.cs" />
+    <Compile Include="Mesh\MeshParser\IMeshParser.cs" />
+    <Compile Include="Scene\Scene.cs" />
     <Compile Include="Mesh\MeshUtils.cs" />
-    <Compile Include="Open GL\Buffer\Buffer.cs" />
-    <Compile Include="Open GL\Buffer\DynamicBuffer.cs" />
-    <Compile Include="Open GL\Buffer\StaticBuffer.cs" />
-    <Compile Include="Open GL\Shader\CompiledShader.cs" />
-    <Compile Include="Shader.cs" />
-    <Compile Include="Open GL\Shader\ShaderCompileException.cs" />
+    <Compile Include="OpenGL\Buffer\Buffer.cs" />
+    <Compile Include="OpenGL\Buffer\DynamicBuffer.cs" />
+    <Compile Include="OpenGL\Buffer\StaticBuffer.cs" />
+    <Compile Include="OpenGL\Shader\CompiledShader.cs" />
+    <Compile Include="OpenGL\Shader\Shader.cs" />
+    <Compile Include="OpenGL\Shader\ShaderCompileException.cs" />
     <Compile Include="ResourceManager.cs" />
     <Compile Include="Components\Camera.cs" />
     <Compile Include="Components\DirectionalMovement.cs" />
@@ -210,14 +212,13 @@
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\CameraMovement.cs" />
     <Compile Include="Components\SubmeshRenderer.cs" />
-    <Compile Include="GameObject.cs" />
     <Compile Include="Engine\Engine.cs" />
     <Compile Include="Components\MeshRenderer.cs" />
     <Compile Include="Materials\Material.cs" />
     <Compile Include="Materials\VertexColorMaterial.cs" />
     <Compile Include="Mesh\FaceGroup.cs" />
     <Compile Include="Mesh\Mesh.cs" />
-    <Compile Include="Mesh\Mesh Parser\ObjParser.cs" />
+    <Compile Include="Mesh\MeshParser\ObjParser.cs" />
     <Compile Include="Mesh\Vertex.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -226,11 +227,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Open GL\Shader\ShaderProgram.cs" />
+    <Compile Include="OpenGL\Shader\ShaderProgram.cs" />
     <Compile Include="Components\IRenderable.cs" />
-    <Compile Include="Open GL\VertexArray.cs" />
-    <Compile Include="Open GL\VertexAttribute.cs" />
-    <Compile Include="Scene.cs" />
+    <Compile Include="OpenGL\VertexArray.cs" />
+    <Compile Include="OpenGL\VertexAttribute.cs" />
+    <Compile Include="Scene\SceneXMLConfigurator.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\MatrixUtils.cs" />
     <Compile Include="Utils\QuaternionExtensions.cs" />
@@ -240,7 +241,6 @@
     <Compile Include="Utils\ReflectionUtils.cs" />
     <Compile Include="Utils\Vector3Extensions.cs" />
     <Compile Include="Utils\VectorUtils.cs" />
-    <Compile Include="XMLTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Config\Config.xml">

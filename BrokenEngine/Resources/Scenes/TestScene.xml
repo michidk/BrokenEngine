@@ -1,26 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Scene xmlns="clr-namespace:BrokenEngine;assembly=BrokenEngine">
+<Scene>
   <MetaData>
     <Name>Name</Name>
     <Author>Author</Author>
     <Description>Description</Description>
   </MetaData>
   <SceneGraph>
-    <GameObject xmlns="clr-namespace:BrokenEngine;assembly=BrokenEngine">
+    <GameObject>
       <Name>Super Cool GameObject</Name>
-      <Position type="clr-namespace:OpenTK;assembly=OpenTK">
+      <Position>
         <X>1</X>
-        <Y>1</Y>
-        <Z>1</Z>
+        <Y>2</Y>
+        <Z>3</Z>
       </Position>
     </GameObject>
-    <!--<GameObject type="BrokenEngine.GameObject">
-      <Name>Test 123</Name>
-      <Position type="OpenTK.Vector3">
-        <X>23</X>
-        <Y>3</Y>
-        <Z>11</Z>
-      </Position>
-    </GameObject>-->
   </SceneGraph>
 </Scene>

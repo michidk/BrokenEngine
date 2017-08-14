@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using BrokenEngine.Engine;
 
 namespace BrokenEngine
 {
@@ -22,7 +23,7 @@ namespace BrokenEngine
     class Program
     {
 
-        private static Engine engine;
+        private static Engine.Engine engine;
         
         static void Main(string[] args)
         {

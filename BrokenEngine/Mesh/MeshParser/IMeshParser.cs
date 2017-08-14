@@ -1,4 +1,4 @@
-﻿namespace BrokenEngine.Mesh.Mesh_Parser
+﻿namespace BrokenEngine.Mesh.MeshParser
 {
     public interface IMeshParser<T> where T : Mesh
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BrokenEngine.Open_GL.Shader
+namespace BrokenEngine.OpenGL.Shader
 {
     [Serializable]
     public class ShaderCompileException : Exception

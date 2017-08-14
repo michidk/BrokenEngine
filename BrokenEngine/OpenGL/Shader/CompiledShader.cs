@@ -1,6 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 
-namespace BrokenEngine.Open_GL.Shader
+namespace BrokenEngine.OpenGL.Shader
 {
     public class CompiledShader
     {

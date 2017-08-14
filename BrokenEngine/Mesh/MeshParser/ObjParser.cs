@@ -5,7 +5,7 @@ using System.Text;
 using OpenTK;
 using OpenTK.Graphics;
 
-namespace BrokenEngine.Mesh.Mesh_Parser
+namespace BrokenEngine.Mesh.MeshParser
 {
     public class ObjParser : IMeshParser<Mesh>
     {

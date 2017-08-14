@@ -6,7 +6,7 @@ using BrokenEngine.Components;
 using BrokenEngine.Utils;
 using OpenTK;
 
-namespace BrokenEngine
+namespace BrokenEngine.Scene
 {
     [XmlRoot("SceneGraph")]
     public sealed class GameObject : IEnumerable<GameObject>
@@ -157,9 +157,9 @@ namespace BrokenEngine
 
 
         // empty ctor for xml
-        //public GameObject()
-        //{
-        //}
+        public GameObject()
+        {
+        }
 
         public GameObject(string name, Vector3 position = default(Vector3), GameObject parent = null)
         {

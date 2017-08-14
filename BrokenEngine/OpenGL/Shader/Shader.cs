@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using BrokenEngine.Open_GL.Shader;
 using OpenTK.Graphics.OpenGL4;
 
-namespace BrokenEngine
+namespace BrokenEngine.OpenGL.Shader
 {
     public class Shader
     {
