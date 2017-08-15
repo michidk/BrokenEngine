@@ -23,10 +23,6 @@ namespace BrokenEngine.Scene
 
             var container = new ConfigurationContainer();
 
-            // define common types, so we don't have to use xml namespaces; exmls will add functionality to add whole namespaces as default at once.
-            container.ConfigureType<Scene>().Name("Scene");
-            container.ConfigureType<GameObject>().Name("GameObject");
-
             // define custom names
             container.ConfigureType<Color4>().Name("Color");
             container.ConfigureType<Vector3>().Name("Position");

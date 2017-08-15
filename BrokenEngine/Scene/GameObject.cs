@@ -143,8 +143,9 @@ namespace BrokenEngine.Scene
 
         private GameObject parent;
 
-        //[XmlElementAttribute]
+        [XmlElementAttribute]
         private readonly List<GameObject> children = new List<GameObject>();
+        [XmlElementAttribute]
         private readonly List<Component> components = new List<Component>();
 
         #region Cache

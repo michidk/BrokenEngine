@@ -12,6 +12,8 @@ namespace BrokenEngine.Materials
 
         private const string SHADER_DIRECTORY = "Shaders/";
 
+        public String Name { get; set; }
+
         // Material properties
         [XmlIgnore] public Matrix4 ModelViewProjMatrix { get; set; }
         [XmlIgnore] public Matrix4 ModelWorldMatrix { get; set; }
@@ -22,6 +24,7 @@ namespace BrokenEngine.Materials
         [XmlIgnore]
         public Shader Shader => shader;
 
+        [XmlElement("Shader")]
         protected string shaderFileName;
         protected Shader shader;
         private bool loaded = false;
@@ -34,14 +37,7 @@ namespace BrokenEngine.Materials
 
         public Material(string shaderFileName)
         {
-            Initialize(shaderFileName);
-        }
-
-        internal void Initialize(string shaderFileName)
-        {
             this.shaderFileName = shaderFileName;
-
-            LoadResources();
         }
 
         public void LoadResources()

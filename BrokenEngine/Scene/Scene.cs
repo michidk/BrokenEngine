@@ -20,23 +20,20 @@ namespace BrokenEngine.Scene
             public string Description;
         }
 
-        [XmlRoot("Material")]
-        public class MaterialInstance
-        {
-            public string Name;
-            public string Shader;
-            [XmlElement("Properties")]
-            public Material Material;
-        }
 
         [XmlElement("MetaData")]
         public MetaData Meta { get; set; }
-        public List<MaterialInstance> Materials { get; set; }
+        public List<Material> Materials { get; set; }
         public List<GameObject> SceneGraph { get; set; }
         
 
         public Scene()
         {
+            if (Materials == null) 
+                Materials = new List<Material>();
+
+            if (SceneGraph == null)
+                SceneGraph = new List<GameObject>();
         }
         
         public static Scene LoadScene(string name)
@@ -54,7 +51,7 @@ namespace BrokenEngine.Scene
             // load referenced resources
             foreach (var instance in scene.Materials)
             {
-               instance.Material.Initialize(instance.Shader);
+                instance.LoadResources();
             }
 
             // init stuff
