@@ -1,4 +1,4 @@
-﻿using BrokenEngine.Scene;
+﻿using BrokenEngine.SceneGraph;
 using BrokenEngine.Utils;
 using OpenTK;
 

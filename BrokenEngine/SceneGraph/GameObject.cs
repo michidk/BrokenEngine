@@ -6,7 +6,7 @@ using BrokenEngine.Components;
 using BrokenEngine.Utils;
 using OpenTK;
 
-namespace BrokenEngine.Scene
+namespace BrokenEngine.SceneGraph
 {
     [XmlRoot("SceneGraph")]
     public sealed class GameObject : IEnumerable<GameObject>
@@ -143,9 +143,9 @@ namespace BrokenEngine.Scene
 
         private GameObject parent;
 
-        [XmlElementAttribute]
+        [XmlElement]
         private readonly List<GameObject> children = new List<GameObject>();
-        [XmlElementAttribute]
+        [XmlElement]
         private readonly List<Component> components = new List<Component>();
 
         #region Cache

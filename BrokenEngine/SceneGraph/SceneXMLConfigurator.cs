@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ExtendedXmlSerializer.Configuration;
+﻿using ExtendedXmlSerializer.Configuration;
 using ExtendedXmlSerializer.ExtensionModel.Types;
 using ExtendedXmlSerializer.ExtensionModel.Xml;
 using OpenTK;
 using OpenTK.Graphics;
 
-namespace BrokenEngine.Scene
+namespace BrokenEngine.SceneGraph
 {
     public static class SceneXMLConfigurator
     {

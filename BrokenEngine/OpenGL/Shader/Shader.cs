@@ -162,7 +162,7 @@ namespace BrokenEngine.OpenGL.Shader
 
         public static Shader LoadShaderFromPath(string path)
         {
-            string code = ResourceManager.GetString(path + DEFAULT_SUFFIX);
+            string code = ResourceManager.GetString(path);
             if (code == null)
                 return null;
             return new Shader(code);
@@ -170,6 +170,9 @@ namespace BrokenEngine.OpenGL.Shader
 
         public static Shader LoadShaderFromName(string name)
         {
+            if (!name.EndsWith(DEFAULT_SUFFIX, StringComparison.CurrentCultureIgnoreCase))
+                name += DEFAULT_SUFFIX;
+
             return LoadShaderFromPath(DEFAULT_PATH + name);
         }
 

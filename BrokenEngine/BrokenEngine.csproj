@@ -11,7 +11,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BrokenEngine</RootNamespace>
     <AssemblyName>BrokenEngine</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -195,9 +195,9 @@
     <Compile Include="Materials\ToonMaterial.cs" />
     <Compile Include="Materials\GenericPhongMaterial.cs" />
     <Compile Include="Mesh\Face.cs" />
-    <Compile Include="Scene\GameObject.cs" />
+    <Compile Include="SceneGraph\GameObject.cs" />
     <Compile Include="Mesh\MeshParser\IMeshParser.cs" />
-    <Compile Include="Scene\Scene.cs" />
+    <Compile Include="SceneGraph\Scene.cs" />
     <Compile Include="Mesh\MeshUtils.cs" />
     <Compile Include="OpenGL\Buffer\Buffer.cs" />
     <Compile Include="OpenGL\Buffer\DynamicBuffer.cs" />
@@ -231,7 +231,7 @@
     <Compile Include="Components\IRenderable.cs" />
     <Compile Include="OpenGL\VertexArray.cs" />
     <Compile Include="OpenGL\VertexAttribute.cs" />
-    <Compile Include="Scene\SceneXMLConfigurator.cs" />
+    <Compile Include="SceneGraph\SceneXMLConfigurator.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\MatrixUtils.cs" />
     <Compile Include="Utils\QuaternionExtensions.cs" />
@@ -252,6 +252,7 @@
     </Content>
     <Content Include="Resources\Scenes\TestScene.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Resources\Shaders\toon.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

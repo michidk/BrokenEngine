@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
-using BrokenEngine.Scene;
 using BrokenEngine.Components;
 using BrokenEngine.Materials;
 using BrokenEngine.Mesh.MeshParser;
+using BrokenEngine.SceneGraph;
 using BrokenEngine.Utils.Attributes;
 using OpenTK;
 using OpenTK.Graphics;
@@ -124,8 +124,8 @@ namespace BrokenEngine.Engine
 
             CurrentCamera = camera;
 
-            //XMLTest.Test();
-            var scene = Scene.Scene.LoadScene("TestScene");
+            Scene.GenerateTestSceneFile();
+            //var scene = Scene.LoadScene("TestScene");
         }
 
         protected override void OnResize(EventArgs e)

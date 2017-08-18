@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Xml.Serialization;
+using BrokenEngine.Components;
 using BrokenEngine.Materials;
-using ExtendedXmlSerializer.Configuration;
-using ExtendedXmlSerializer.ExtensionModel.Types;
 using ExtendedXmlSerializer.ExtensionModel.Xml;
-using OpenTK.Graphics;
+using OpenTK;
 
-namespace BrokenEngine.Scene
+namespace BrokenEngine.SceneGraph
 {
     [XmlRoot("Scene")]
     public class Scene
@@ -29,13 +30,39 @@ namespace BrokenEngine.Scene
 
         public Scene()
         {
+            
             if (Materials == null) 
                 Materials = new List<Material>();
 
             if (SceneGraph == null)
                 SceneGraph = new List<GameObject>();
+            
         }
-        
+
+        public static void GenerateTestSceneFile()
+        {
+
+            Globals.Logger.Debug("test");
+            Scene scene = new Scene();
+            var meta = new MetaData();
+            meta.Name = "Test";
+            meta.Description = "This is a test";
+            meta.Author = "Me";
+            scene.Meta = meta;
+
+            var go = new GameObject("test", Vector3.One, null);
+            //go.AddComponent(new MeshRenderer());
+            scene.SceneGraph.Add(go);
+
+            Globals.Logger.Debug("t2est");
+
+            var serializer = SceneXMLConfigurator.GetSerializer();
+
+            var writer = new StringWriter();
+            serializer.Serialize(writer, scene);
+            Globals.Logger.Debug(writer.GetStringBuilder().ToString());
+        }
+
         public static Scene LoadScene(string name)
         {
             
@@ -53,7 +80,7 @@ namespace BrokenEngine.Scene
             {
                 instance.LoadResources();
             }
-
+            
             // init stuff
             
 

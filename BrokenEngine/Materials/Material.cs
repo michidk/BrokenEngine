@@ -14,6 +14,17 @@ namespace BrokenEngine.Materials
 
         public String Name { get; set; }
 
+        [XmlElement("Shader")]
+        public String ShaderFileName
+        {
+            get { return shaderFileName; }
+            set
+            {
+                this.shaderFileName = value;
+                LoadResources();
+            }
+        }
+
         // Material properties
         [XmlIgnore] public Matrix4 ModelViewProjMatrix { get; set; }
         [XmlIgnore] public Matrix4 ModelWorldMatrix { get; set; }
@@ -24,15 +35,16 @@ namespace BrokenEngine.Materials
         [XmlIgnore]
         public Shader Shader => shader;
 
-        [XmlElement("Shader")]
+        
         protected string shaderFileName;
         protected Shader shader;
         private bool loaded = false;
 
 
         // parameterless ctor for xml serilization
-        protected Material()
+        public Material()
         {
+            
         }
 
         public Material(string shaderFileName)
@@ -42,6 +54,9 @@ namespace BrokenEngine.Materials
 
         public void LoadResources()
         {
+            if (loaded)
+                return;
+
             loaded = true;
 
             shader = Shader.LoadShaderFromName(shaderFileName);

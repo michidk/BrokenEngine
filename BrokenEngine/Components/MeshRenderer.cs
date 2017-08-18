@@ -4,7 +4,7 @@ using BrokenEngine.Materials;
 using BrokenEngine.Mesh;
 using BrokenEngine.OpenGL;
 using BrokenEngine.OpenGL.Buffer;
-using BrokenEngine.Scene;
+using BrokenEngine.SceneGraph;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -22,6 +22,11 @@ namespace BrokenEngine.Components
         private VertexArray<Vertex> vertexArray;
 
         private SubmeshRenderer[] subMeshRenderers;
+
+        public MeshRenderer()
+        {
+            
+        }
 
         public MeshRenderer(Mesh.Mesh mesh) : this (mesh, new VertexColorMaterial())
         {
