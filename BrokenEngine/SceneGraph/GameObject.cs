@@ -15,6 +15,7 @@ namespace BrokenEngine.SceneGraph
         public string Name { get; set; }
 
         #region Local Space Properties
+        [XmlElement("Position")]
         public Vector3 LocalPosition
         {
             get { return localPosition; }
@@ -25,6 +26,7 @@ namespace BrokenEngine.SceneGraph
             }
         }
 
+        [XmlIgnore]
         public Quaternion LocalRotation
         {
             get { return localRotation; }
@@ -36,6 +38,7 @@ namespace BrokenEngine.SceneGraph
             }
         }
 
+        [XmlElement("Scale")]
         public Vector3 LocalScale
         {
             get { return localScale; }
@@ -48,6 +51,7 @@ namespace BrokenEngine.SceneGraph
         }
 
         // angles are in degrees
+        [XmlElement("Rotation")]
         public Vector3 LocalEulerRotation
         {
             get { return QuaternionUtils.ToEuler(LocalRotation); }
@@ -56,18 +60,21 @@ namespace BrokenEngine.SceneGraph
         #endregion
 
         #region World Space Properties
+        [XmlIgnore]
         public Vector3 Position
         {
             get { return (Vector3) (cachedWorldPosition ?? CalculateWorldPosition()); }
             set { LocalPosition = parent?.InverseTransformPoint(value) ?? value; }
         }
 
+        [XmlIgnore]
         public Quaternion Rotation
         {
             get { return (Quaternion) (cachedWorldRotation ?? CalculateWorldRotation()); }
             set { LocalRotation = parent?.InverseTransformRotation(value) ?? value; }
         }
 
+        [XmlIgnore]
         public Vector3 Scale
         {
             get { return (Vector3) (cachedWorldScale ?? CalculateWorldScale()); }
@@ -143,9 +150,9 @@ namespace BrokenEngine.SceneGraph
 
         private GameObject parent;
 
-        [XmlElement]
+        //[XmlElement]
         private readonly List<GameObject> children = new List<GameObject>();
-        [XmlElement]
+       // [XmlElement]
         private readonly List<Component> components = new List<Component>();
 
         #region Cache

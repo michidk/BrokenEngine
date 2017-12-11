@@ -1,12 +1,14 @@
-﻿using ExtendedXmlSerializer.Configuration;
+﻿using BrokenEngine.Models;
+using BrokenEngine.SceneGraph;
+using ExtendedXmlSerializer.Configuration;
 using ExtendedXmlSerializer.ExtensionModel.Types;
 using ExtendedXmlSerializer.ExtensionModel.Xml;
 using OpenTK;
 using OpenTK.Graphics;
 
-namespace BrokenEngine.SceneGraph
+namespace BrokenEngine.Serialization
 {
-    public static class SceneXMLConfigurator
+    public static class SceneConfigurator
     {
 
         private static IExtendedXmlSerializer serializer = null;
@@ -17,6 +19,10 @@ namespace BrokenEngine.SceneGraph
                 return serializer;
 
             var container = new ConfigurationContainer();
+
+            // define custom serializer
+            //container.Type<Scene>().CustomSerializer(new SceneSerializer());
+            container.Type<Mesh>().CustomSerializer(new MeshSerializer());
 
             // define custom names
             container.ConfigureType<Color4>().Name("Color");

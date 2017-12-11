@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using BrokenEngine.Materials;
-using BrokenEngine.Mesh;
+using BrokenEngine.Models;
 using BrokenEngine.OpenGL;
 using BrokenEngine.OpenGL.Buffer;
 using BrokenEngine.SceneGraph;
@@ -14,7 +14,7 @@ namespace BrokenEngine.Components
     public class MeshRenderer : Component, IRenderable
     {
 
-        public Mesh.Mesh Mesh;
+        public Models.Mesh Mesh;
         public Material Material;
 
         private Buffer<Vertex> vertexBuffer;
@@ -28,17 +28,17 @@ namespace BrokenEngine.Components
             
         }
 
-        public MeshRenderer(Mesh.Mesh mesh) : this (mesh, new VertexColorMaterial())
+        public MeshRenderer(Models.Mesh mesh) : this (mesh, new VertexColorMaterial())
         {
         }
 
-        public MeshRenderer(Mesh.Mesh mesh, Material material)
+        public MeshRenderer(Models.Mesh mesh, Material material)
         {
             Mesh = mesh;
             Material = material;
 
             if (Mesh == null)
-                throw new ArgumentNullException("Mesh can't be null!");
+                throw new ArgumentNullException(nameof(mesh), "Mesh can't be null!");
         }
 
         public override void OnStart()

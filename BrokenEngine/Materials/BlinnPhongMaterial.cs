@@ -14,7 +14,7 @@ namespace BrokenEngine.Materials
         {
         }
 
-        public BlinnPhongMaterial(Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor, bool blinn = true) : base(albedoColor, lightDirection, ambientColor, "phong")
+        public BlinnPhongMaterial(Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor, bool blinn = true) : base(albedoColor, lightDirection, ambientColor, "phong.glsl")
         {
             this.Blinn = blinn;
         }

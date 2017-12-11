@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace BrokenEngine.Mesh
+﻿namespace BrokenEngine.Models
 {
     public class FaceGroup
     {

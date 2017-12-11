@@ -1,14 +1,14 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
 
-namespace BrokenEngine.Mesh
+namespace BrokenEngine.Models
 {
     public static class MeshUtils
     {
         
-        public static Mesh CreateTriangle()
+        public static Models.Mesh CreateTriangle()
         {
-            var mesh = new Mesh("Triangle", 3, 1);
+            var mesh = new Models.Mesh("Triangle", 3, 1);
 
             mesh.Vertices[0] = new Vertex(new Vector3(-1, 1, 0), Color4.Lime);
             mesh.Vertices[1] = new Vertex(new Vector3(-1, -1, 0), Color4.Red);
@@ -19,9 +19,9 @@ namespace BrokenEngine.Mesh
             return mesh;
         }
 
-        public static Mesh CreateQuad()
+        public static Models.Mesh CreateQuad()
         {
-            var mesh = new Mesh("Quad", 4, 2);
+            var mesh = new Models.Mesh("Quad", 4, 2);
 
             mesh.Vertices[0] = new Vertex(new Vector3(-1, 1, 0));
             mesh.Vertices[1] = new Vertex(new Vector3(-1, -1, 0));
@@ -34,9 +34,9 @@ namespace BrokenEngine.Mesh
             return mesh;
         }
 
-        public static Mesh CreateCoordinateOrigin()
+        public static Models.Mesh CreateCoordinateOrigin()
         {
-            var mesh = new Mesh("Coordinate Origin", 4, 3);
+            var mesh = new Models.Mesh("Coordinate Origin", 4, 3);
 
             mesh.Vertices[0] = new Vertex(new Vector3(-1, -1, -1), Color4.White);
             mesh.Vertices[1] = new Vertex(new Vector3(1, -1, -1), Color4.Red);
@@ -50,9 +50,9 @@ namespace BrokenEngine.Mesh
             return mesh;
         }
 
-        public static Mesh CreateCube()
+        public static Models.Mesh CreateCube()
         {
-            var mesh = new Mesh("Cube", 8, 12);
+            var mesh = new Models.Mesh("Cube", 8, 12);
 
             mesh.Vertices[0] = new Vertex(new Vector3(-1, -1, 1));
             mesh.Vertices[1] = new Vertex(new Vector3(1, -1, 1));

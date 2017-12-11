@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Scene xmlns="clr-namespace:BrokenEngine.Scene;assembly=BrokenEngine">
+<Scene xmlns="clr-namespace:BrokenEngine.SceneGraph;assembly=BrokenEngine">
   <MetaData>
     <Name>Name</Name>
     <Author>Author</Author>
     <Description>Description</Description>
   </MetaData>
   <Materials>
-    <Material xmlns="clr-namespace:BrokenEngine.Materials.BlinnPhongMaterial;assembly=BrokenEngine" type="BrokenEngine.Materials.BlinnPhongMaterial">
-      <Name>MyFirstMaterial</Name>
+    <BlinnPhongMaterial xmlns="clr-namespace:BrokenEngine.Materials;assembly=BrokenEngine">
+      <!--<Name>MyFirstMaterial</Name>-->
       <Shader>phong.glsl</Shader>
-      <AlbedoColor>
+      <!--<AlbedoColor>
         <R>156</R>
         <G>208</G>
         <B>84</B>
@@ -26,9 +26,15 @@
         <B>84</B>
         <A>255</A>
       </AmbientColor>
-      <Blinn>True</Blinn>
-    </Material>
+      <Blinn>True</Blinn>-->
+    </BlinnPhongMaterial>
   </Materials>
+  <Models>
+    <Model xmlns="clr-namespace:BrokenEngine.Models;assembly=BrokenEngine">
+      <Name>test</Name>
+      <Comments>Test123213123123</Comments>
+    </Model>
+  </Models>
   <SceneGraph>
     <GameObject>
       <Name>Super Cool GameObject</Name>

@@ -1,19 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using OpenTK;
 
-namespace BrokenEngine.Mesh
+namespace BrokenEngine.Models
 {
+    [XmlRoot("Model")]
     public class Mesh
     {
 
         public string Name;
         public string Comments;
 
+        [XmlIgnore]
         public Vertex[] Vertices;
+        [XmlIgnore]
         public Face[] Faces;
 
+        [XmlIgnore]
         public List<Submesh> Submeshes = new List<Submesh>();
 
         public Mesh(string name, int vertices, int faces) : this (new Vertex[vertices], new Face[faces])

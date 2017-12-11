@@ -1,4 +1,4 @@
-﻿namespace BrokenEngine.Mesh
+﻿namespace BrokenEngine.Models
 {
     public struct Face
     {

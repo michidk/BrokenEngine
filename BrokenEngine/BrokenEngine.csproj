@@ -116,9 +116,6 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ExtendedXmlSerializer, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExtendedXmlSerializer.2.0.0-alpha5\lib\net45\ExtendedXmlSerializer.dll</HintPath>
-    </Reference>
     <Reference Include="ImGui.NET, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ImGui.NET.0.2.1\lib\netstandard1.1\ImGui.NET.dll</HintPath>
     </Reference>
@@ -194,11 +191,11 @@
     <Compile Include="Materials\BlinnPhongMaterial.cs" />
     <Compile Include="Materials\ToonMaterial.cs" />
     <Compile Include="Materials\GenericPhongMaterial.cs" />
-    <Compile Include="Mesh\Face.cs" />
+    <Compile Include="Models\Face.cs" />
     <Compile Include="SceneGraph\GameObject.cs" />
-    <Compile Include="Mesh\MeshParser\IMeshParser.cs" />
+    <Compile Include="Models\MeshParser\IMeshParser.cs" />
     <Compile Include="SceneGraph\Scene.cs" />
-    <Compile Include="Mesh\MeshUtils.cs" />
+    <Compile Include="Models\MeshUtils.cs" />
     <Compile Include="OpenGL\Buffer\Buffer.cs" />
     <Compile Include="OpenGL\Buffer\DynamicBuffer.cs" />
     <Compile Include="OpenGL\Buffer\StaticBuffer.cs" />
@@ -216,10 +213,10 @@
     <Compile Include="Components\MeshRenderer.cs" />
     <Compile Include="Materials\Material.cs" />
     <Compile Include="Materials\VertexColorMaterial.cs" />
-    <Compile Include="Mesh\FaceGroup.cs" />
-    <Compile Include="Mesh\Mesh.cs" />
-    <Compile Include="Mesh\MeshParser\ObjParser.cs" />
-    <Compile Include="Mesh\Vertex.cs" />
+    <Compile Include="Models\FaceGroup.cs" />
+    <Compile Include="Models\Mesh.cs" />
+    <Compile Include="Models\MeshParser\ObjParser.cs" />
+    <Compile Include="Models\Vertex.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -231,7 +228,9 @@
     <Compile Include="Components\IRenderable.cs" />
     <Compile Include="OpenGL\VertexArray.cs" />
     <Compile Include="OpenGL\VertexAttribute.cs" />
-    <Compile Include="SceneGraph\SceneXMLConfigurator.cs" />
+    <Compile Include="Serialization\MeshSerializer.cs" />
+    <Compile Include="Serialization\SceneSerializer.cs" />
+    <Compile Include="Serialization\SceneConfigurator.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\MatrixUtils.cs" />
     <Compile Include="Utils\QuaternionExtensions.cs" />
@@ -310,7 +309,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\ExtendedXmlSerializer\src\ExtendedXmlSerializer\ExtendedXmlSerializer.csproj">
+      <Project>{3d2bc44b-99b0-4b83-9748-fc89f4be995e}</Project>
+      <Name>ExtendedXmlSerializer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

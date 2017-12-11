@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using BrokenEngine.Materials;
-using BrokenEngine.Mesh;
+using BrokenEngine.Models;
 using BrokenEngine.OpenGL.Buffer;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;

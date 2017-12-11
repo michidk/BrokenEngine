@@ -5,9 +5,9 @@ using System.Text;
 using OpenTK;
 using OpenTK.Graphics;
 
-namespace BrokenEngine.Mesh.MeshParser
+namespace BrokenEngine.Models.MeshParser
 {
-    public class ObjParser : IMeshParser<Mesh>
+    public class ObjParser : IMeshParser<Models.Mesh>
     {
 
         struct ObjVertex
@@ -43,7 +43,7 @@ namespace BrokenEngine.Mesh.MeshParser
         private const string FILE_EXTENSION = ".obj";
 
         public string FileName { private set; get; }
-        public Mesh Mesh { private set; get; }
+        public Models.Mesh Mesh { private set; get; }
 
         private string name;
         private string comments;
@@ -62,13 +62,13 @@ namespace BrokenEngine.Mesh.MeshParser
             FileName = name;
         }
 
-        public static Mesh ParseFile(string name)
+        public static Models.Mesh ParseFile(string name)
         {
             var parser = new ObjParser(name);
             return parser.GetMesh();
         }
 
-        public Mesh GetMesh()
+        public Models.Mesh GetMesh()
         {
             if (Mesh != null)
                 return Mesh;
@@ -107,9 +107,9 @@ namespace BrokenEngine.Mesh.MeshParser
                 name = FileName;
         }
 
-        private Mesh Construct()
+        private Models.Mesh Construct()
         {
-            Mesh mesh = new Mesh(new Vertex[vertices.Count], new Face[0]) { Name = name, Comments = comments };
+            Models.Mesh mesh = new Models.Mesh(new Vertex[vertices.Count], new Face[0]) { Name = name, Comments = comments };
 
             // add vertex position & color
             for (int i = 0; i < vertices.Count; i++)
