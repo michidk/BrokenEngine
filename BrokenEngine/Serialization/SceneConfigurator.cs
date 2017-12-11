@@ -22,7 +22,7 @@ namespace BrokenEngine.Serialization
 
             // define custom serializer
             //container.Type<Scene>().CustomSerializer(new SceneSerializer());
-            container.Type<Mesh>().CustomSerializer(new MeshSerializer());
+            container.Type<Model>().CustomSerializer(new ModelSerializer());
 
             // define custom names
             container.ConfigureType<Color4>().Name("Color");

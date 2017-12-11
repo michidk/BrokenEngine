@@ -8,7 +8,6 @@ using OpenTK;
 
 namespace BrokenEngine.SceneGraph
 {
-    [XmlRoot("SceneGraph")]
     public sealed class GameObject : IEnumerable<GameObject>
     {
 
@@ -150,7 +149,7 @@ namespace BrokenEngine.SceneGraph
 
         private GameObject parent;
 
-        //[XmlElement]
+        [XmlElement]
         private readonly List<GameObject> children = new List<GameObject>();
        // [XmlElement]
         private readonly List<Component> components = new List<Component>();

@@ -31,7 +31,7 @@ namespace BrokenEngine.SceneGraph
         [XmlElement("MetaData")]
         public MetaData Meta { get; set; }
         public List<Material> Materials { get; set; }
-        public List<Mesh> Models { get; set; }
+        public List<Model> Models { get; set; }
         //public List<GameObject> SceneGraph { get; set; }
         public GameObject SceneRoot { get; set; }
 
@@ -44,7 +44,7 @@ namespace BrokenEngine.SceneGraph
                 Materials = new List<Material>();
 
             if (Models == null)
-                Models = new List<Mesh>();
+                Models = new List<Model>();
 
             //if (SceneGraph == null)
             //    SceneGraph = new List<GameObject>();
@@ -69,7 +69,7 @@ namespace BrokenEngine.SceneGraph
             //scene.SceneGraph.Add(go);
             scene.SceneRoot.AddChild(go);
 
-            scene.Models.Add(new Mesh("test", 1, 2));
+            scene.Models.Add(new Model(new Mesh("test", 1, 2)) { meshFile = "Models/cube", Name = "Test"});
 
             scene.Materials.Add(new BlinnPhongMaterial(Color4.AliceBlue, Vector3.One, Color4.AliceBlue, true));
 
@@ -143,11 +143,11 @@ namespace BrokenEngine.SceneGraph
             //go.AddComponent(new MeshRenderer(airboat), false);
             go.AddComponent(new MeshRenderer(suzanne, phong), false);
             go.AddComponent(new CircularMovement(speed: 0.05f, radius: 2f), false);
-
             */
+
+
             Scene scene = new Scene();
             
-
             var cameraObj = new GameObject("Camera", new Vector3(0, 0, 0));
             scene.SceneRoot.AddChild(cameraObj);
 

@@ -5,7 +5,6 @@ using OpenTK;
 
 namespace BrokenEngine.Models
 {
-    [XmlRoot("Model")]
     public class Mesh
     {
 
@@ -40,7 +39,7 @@ namespace BrokenEngine.Models
             }
 
             // calculate face normals; add normals to vertices
-            var list = from submesh in Submeshes from face in (submesh.Faces.Union(Faces)) select face;
+            var list = from submesh in Submeshes from face in submesh.Faces.Union(Faces) select face;
             foreach (var face in list)
             {
                 var vertexA = Vertices[face.Indices[0]].Position;

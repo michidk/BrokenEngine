@@ -31,11 +31,22 @@
   </Materials>
   <Models>
     <Model xmlns="clr-namespace:BrokenEngine.Models;assembly=BrokenEngine">
-      <Name>test</Name>
-      <Comments>Test123213123123</Comments>
+      <Name>Cube</Name>
+      <Mesh>Models/cube</Mesh>
     </Model>
   </Models>
-  <SceneGraph>
+  <SceneRoot>
+    <Name>Super Cool Root</Name>
+    <Position>
+      <X>1</X>
+      <Y>2</Y>
+      <Z>3</Z>
+    </Position>
+<!--    <Children>
+      <GameObject>
+        
+      </GameObject>
+    </Children>-->
     <!--<GameObject>
       <Name>Super Cool GameObject</Name>
       <Position>
@@ -58,5 +69,5 @@
         </Component>
       </Components>
     </GameObject>-->
-  </SceneGraph>
+  </SceneRoot>
 </Scene>

@@ -190,6 +190,7 @@
     <Compile Include="Materials\ToonMaterial.cs" />
     <Compile Include="Materials\GenericPhongMaterial.cs" />
     <Compile Include="Models\Face.cs" />
+    <Compile Include="Models\Model.cs" />
     <Compile Include="SceneGraph\GameObject.cs" />
     <Compile Include="Models\MeshParser\IMeshParser.cs" />
     <Compile Include="SceneGraph\Scene.cs" />
@@ -226,7 +227,7 @@
     <Compile Include="Components\IRenderable.cs" />
     <Compile Include="OpenGL\VertexArray.cs" />
     <Compile Include="OpenGL\VertexAttribute.cs" />
-    <Compile Include="Serialization\MeshSerializer.cs" />
+    <Compile Include="Serialization\ModelSerializer.cs" />
     <Compile Include="Serialization\SceneSerializer.cs" />
     <Compile Include="Serialization\SceneConfigurator.cs" />
     <Compile Include="Utils\MathUtils.cs" />

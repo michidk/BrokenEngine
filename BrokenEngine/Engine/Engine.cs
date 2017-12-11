@@ -76,10 +76,10 @@ namespace BrokenEngine.Engine
         {
             //Scene.GenerateTestSceneFile();
 
-            //Scene.GenerateTestSceneFile();
+            Scene.GenerateTestSceneFile();
 
-            CurrentScene = Scene.CreateHardcodedScene();
-            //var scene = Scene.LoadScene("TestScene");
+            //CurrentScene = Scene.CreateHardcodedScene();
+            CurrentScene = Scene.LoadScene("TestScene");
         }
 
         protected override void OnResize(EventArgs e)
