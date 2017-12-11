@@ -32,8 +32,10 @@ namespace BrokenEngine.SceneGraph
         public MetaData Meta { get; set; }
         public List<Material> Materials { get; set; }
         public List<Mesh> Models { get; set; }
-        public List<GameObject> SceneGraph { get; set; }
-        
+        //public List<GameObject> SceneGraph { get; set; }
+        public GameObject SceneRoot { get; set; }
+
+        public Camera MainCamera { get; set; }
 
         public Scene()
         {
@@ -44,9 +46,10 @@ namespace BrokenEngine.SceneGraph
             if (Models == null)
                 Models = new List<Mesh>();
 
-            if (SceneGraph == null)
-                SceneGraph = new List<GameObject>();
-            
+            //if (SceneGraph == null)
+            //    SceneGraph = new List<GameObject>();
+            if (SceneRoot == null) 
+                SceneRoot = new GameObject("Scene Root");
         }
 
         public static void GenerateTestSceneFile()
@@ -63,7 +66,8 @@ namespace BrokenEngine.SceneGraph
 
             var go = new GameObject("test", Vector3.One, null);
             //go.AddComponent(new MeshRenderer());
-            scene.SceneGraph.Add(go);
+            //scene.SceneGraph.Add(go);
+            scene.SceneRoot.AddChild(go);
 
             scene.Models.Add(new Mesh("test", 1, 2));
 
@@ -98,7 +102,7 @@ namespace BrokenEngine.SceneGraph
             return scene;
         }
 
-        public static void CreateHardcodedScene()
+        public static Scene CreateHardcodedScene()
         {
             Globals.Logger.Debug("Loading Resources");
             Models.Mesh airboat = ObjParser.ParseFile("Models/airboat");
@@ -141,16 +145,21 @@ namespace BrokenEngine.SceneGraph
             go.AddComponent(new CircularMovement(speed: 0.05f, radius: 2f), false);
 
             */
-            var cameraObj = new GameObject("Camera", new Vector3(0, 0, 0), SceneGraph);
+            Scene scene = new Scene();
+            
 
-            var camera = new Camera(ClientSize.Width, ClientSize.Height, 60f);
+            var cameraObj = new GameObject("Camera", new Vector3(0, 0, 0));
+            scene.SceneRoot.AddChild(cameraObj);
+
+            var camera = new Camera(500, 500, 60f);
 
             cameraObj.AddComponent(camera, false);
             cameraObj.AddComponent(new CameraMovement(CameraMovement.Type.FirstPerson), false);
 
-            CurrentCamera = camera;
+            scene.MainCamera = camera;
+            //CurrentCamera = camera;
 
-            Scene.GenerateTestSceneFile();
+            return scene;
         }
         
     }

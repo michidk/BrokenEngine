@@ -116,6 +116,9 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExtendedXmlSerializer, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExtendedXmlSerializer.2.0.0\lib\net45\ExtendedXmlSerializer.dll</HintPath>
+    </Reference>
     <Reference Include="ImGui.NET, Version=0.3.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ImGui.NET.0.3.3\lib\netstandard1.1\ImGui.NET.dll</HintPath>
     </Reference>
@@ -183,7 +186,6 @@
     <Compile Include="Engine\EngineWrapper.cs" />
     <Compile Include="Engine\WindowsEngineWrapper.cs" />
     <Compile Include="Globals.cs" />
-    <Compile Include="LightInject\LightInject.cs" />
     <Compile Include="Materials\BlinnPhongMaterial.cs" />
     <Compile Include="Materials\ToonMaterial.cs" />
     <Compile Include="Materials\GenericPhongMaterial.cs" />
@@ -304,12 +306,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ExtendedXmlSerializer\src\ExtendedXmlSerializer\ExtendedXmlSerializer.csproj">
-      <Project>{3d2bc44b-99b0-4b83-9748-fc89f4be995e}</Project>
-      <Name>ExtendedXmlSerializer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

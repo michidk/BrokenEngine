@@ -1,10 +1,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrokenEngine", "BrokenEngine\BrokenEngine.csproj", "{77F5CF44-0496-4A99-B71F-98ED52BE877B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtendedXmlSerializer", "..\ExtendedXmlSerializer\src\ExtendedXmlSerializer\ExtendedXmlSerializer.csproj", "{3D2BC44B-99B0-4B83-9748-FC89F4BE995E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,18 +26,6 @@ Global
 		{77F5CF44-0496-4A99-B71F-98ED52BE877B}.Release|x64.Build.0 = Release|x64
 		{77F5CF44-0496-4A99-B71F-98ED52BE877B}.Release|x86.ActiveCfg = Release|x86
 		{77F5CF44-0496-4A99-B71F-98ED52BE877B}.Release|x86.Build.0 = Release|x86
-		{3D2BC44B-99B0-4B83-9748-FC89F4BE995E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D2BC44B-99B0-4B83-9748-FC89F4BE995E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D2BC44B-99B0-4B83-9748-FC89F4BE995E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{3D2BC44B-99B0-4B83-9748-FC89F4BE995E}.Debug|x64.Build.0 = Debug|Any CPU
-		{3D2BC44B-99B0-4B83-9748-FC89F4BE995E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3D2BC44B-99B0-4B83-9748-FC89F4BE995E}.Debug|x86.Build.0 = Debug|Any CPU
-		{3D2BC44B-99B0-4B83-9748-FC89F4BE995E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D2BC44B-99B0-4B83-9748-FC89F4BE995E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D2BC44B-99B0-4B83-9748-FC89F4BE995E}.Release|x64.ActiveCfg = Release|Any CPU
-		{3D2BC44B-99B0-4B83-9748-FC89F4BE995E}.Release|x64.Build.0 = Release|Any CPU
-		{3D2BC44B-99B0-4B83-9748-FC89F4BE995E}.Release|x86.ActiveCfg = Release|Any CPU
-		{3D2BC44B-99B0-4B83-9748-FC89F4BE995E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

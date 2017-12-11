@@ -15,8 +15,8 @@ namespace BrokenEngine.Engine
     public class Engine : GameWindow
     {
 
-        public Camera CurrentCamera { get; set; }
-        public GameObject SceneGraph { get; private set; }
+        public Camera CurrentCamera { get { return CurrentScene.MainCamera; }} //TODO: find a fix for that
+        public Scene CurrentScene { get; set; }
 
 
         public Engine(EngineWrapper.WindowSettings settings, bool fullscreen) : this(settings.PosX, settings.PosY, settings.Width, settings.Height, fullscreen, settings.Title)
@@ -49,12 +49,12 @@ namespace BrokenEngine.Engine
         // called when window starts running
         protected override void OnLoad(EventArgs e)
         {
-            SceneGraph = new GameObject("root", Vector3.Zero);
+            //SceneGraph = new GameObject("root", Vector3.Zero);
             BuildTestScene();
 
             // init logic
             Globals.Logger.Debug("Starting Engine Logic");
-            SceneGraph.Start();
+            //SceneGraph.Start();
             
             // GL settings
             Globals.Logger.Debug("Apply Settings");
@@ -75,7 +75,10 @@ namespace BrokenEngine.Engine
         private void BuildTestScene()
         {
             //Scene.GenerateTestSceneFile();
-            Scene.CreateHardcodedScene();
+
+            //Scene.GenerateTestSceneFile();
+
+            CurrentScene = Scene.CreateHardcodedScene();
             //var scene = Scene.LoadScene("TestScene");
         }
 
@@ -96,7 +99,7 @@ namespace BrokenEngine.Engine
             else
                 GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
 
-            SceneGraph.Update((float) e.Time);
+            CurrentScene.SceneRoot.Update((float) e.Time);
         }
 
         protected void OnRender(object sender, FrameEventArgs e)
@@ -104,7 +107,7 @@ namespace BrokenEngine.Engine
             // Clear the back buffer
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            CurrentCamera.Render(SceneGraph);
+            CurrentCamera.Render(CurrentScene.SceneRoot);
 
             // TODO: implement image effects: http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-14-render-to-texture/
 
@@ -115,7 +118,7 @@ namespace BrokenEngine.Engine
         protected override void OnUnload(EventArgs e)
         {
             // destroy whole scene graph
-            SceneGraph.Destroy();
+            CurrentScene.SceneRoot.Destroy();
         }
 
         private void OnKeyDown(object sender, KeyboardKeyEventArgs e)

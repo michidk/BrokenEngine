@@ -36,7 +36,7 @@
     </Model>
   </Models>
   <SceneGraph>
-    <GameObject>
+    <!--<GameObject>
       <Name>Super Cool GameObject</Name>
       <Position>
         <X>1</X>
@@ -57,6 +57,6 @@
           <Material>MyFirstMaterial</Material>
         </Component>
       </Components>
-    </GameObject>
+    </GameObject>-->
   </SceneGraph>
 </Scene>
