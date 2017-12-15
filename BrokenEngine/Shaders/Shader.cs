@@ -18,13 +18,12 @@ namespace BrokenEngine.Materials
 
 
         // ShaderCompiler properties
-        [XmlIgnore] public Matrix4 ModelViewProjMatrix { get; set; }
-        [XmlIgnore] public Matrix4 ModelWorldMatrix { get; set; }
-        [XmlIgnore] public Matrix4 WorldViewMatrix { get; set; }
-        [XmlIgnore] public Matrix4 NormalMatrix { get; set; }
-        [XmlIgnore] public Vector3 CameraPosition { get; set; }
+        public Matrix4 ModelViewProjMatrix { get; set; }
+        public Matrix4 ModelWorldMatrix { get; set; }
+        public Matrix4 WorldViewMatrix { get; set; }
+        public Matrix4 NormalMatrix { get; set; }
+        public Vector3 CameraPosition { get; set; }
 
-        [XmlIgnore]
         public OpenGL.Shader.ShaderCompiler ShaderCompiler => Compiler;
 
         
@@ -32,11 +31,6 @@ namespace BrokenEngine.Materials
         protected OpenGL.Shader.ShaderCompiler Compiler;
         private bool loaded = false;
 
-
-        [XmlConstructor]
-        private Shader()
-        {
-        }
 
         public Shader(string shaderFileName)
         {

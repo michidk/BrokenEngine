@@ -6,8 +6,7 @@ namespace BrokenEngine.Components
     public abstract class Component
     {
 
-        [XmlIgnore]
-        public GameObject GameObject => gameObject;
+ public GameObject GameObject => gameObject;
 
         private GameObject gameObject;
 
@@ -16,6 +15,7 @@ namespace BrokenEngine.Components
         {
             this.gameObject = gameObject;
         }
+
         public virtual void OnInitialize()
         {
 

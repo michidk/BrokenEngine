@@ -11,17 +11,14 @@ using BrokenEngine.Models;
 using BrokenEngine.Models.MeshParser;
 using BrokenEngine.Serialization;
 using BrokenEngine.Utils.Attributes;
-using ExtendedXmlSerializer.ExtensionModel.Xml;
 using OpenTK;
 using OpenTK.Graphics;
 
 namespace BrokenEngine.SceneGraph
 {
-    [XmlRoot]
     public class Scene
     {
         
-        [XmlRoot]
         public struct MetaData
         {
             public string Name;
@@ -30,22 +27,15 @@ namespace BrokenEngine.SceneGraph
         }
 
 
-        [XmlElement("MetaData")]
         public MetaData Meta { get; set; }
 
         public List<Asset> Assets { get; set; } = new List<Asset>();
 
         public GameObject SceneRoot { get; set; } = new GameObject("Scene Root");
 
-        [XmlIgnore]
         public Camera MainCamera { get; set; }
 
- 
-        //[XmlConstructor]
-        public Scene()
-        {
 
-        }
 
         public static void GenerateTestSceneFile()
         {
@@ -75,8 +65,6 @@ namespace BrokenEngine.SceneGraph
 
             //scene.Materials.Add(new BlinnPhongShader(Color4.AliceBlue, Vector3.One, Color4.AliceBlue, true));
 
-            var serializer = SceneConfigurator.GetSerializer();
-            var xml = serializer.Serialize(new XmlWriterSettings { Indent = true }, scene);
             File.WriteAllText("GeneratedScene.xml", xml);
             Globals.Logger.Debug("res: " + xml.ToString());
         }
@@ -87,11 +75,6 @@ namespace BrokenEngine.SceneGraph
             // load the scene file
             var file = ResourceManager.GetString($"Scenes/{ name }.xml");
 
-            // get the pre-configured serializer
-            var serializer = SceneConfigurator.GetSerializer();
-
-            // parse xml scene file
-            var scene = serializer.Deserialize<Scene>(file);
 
 
             

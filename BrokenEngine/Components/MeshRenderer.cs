@@ -17,9 +17,7 @@ namespace BrokenEngine.Components
     public class MeshRenderer : Component, IRenderable
     {
 
-        [XmlIgnore]
         public Model Model;
-        [XmlIgnore]
         public Material Material;
 
         private Buffer<Vertex> vertexBuffer;
@@ -28,11 +26,6 @@ namespace BrokenEngine.Components
 
         private SubmeshRenderer[] subMeshRenderers;
 
-
-        [XmlConstructor]
-        internal MeshRenderer()
-        {
-        }
 
         public MeshRenderer(Model model, Material material)
         {

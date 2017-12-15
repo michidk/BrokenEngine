@@ -8,22 +8,10 @@ namespace BrokenEngine.Models
     public class Model : Asset
     {
 
-        [XmlIgnore]
         public Mesh Mesh { get; set; }
 
         internal string meshFile;
 
-
-        [XmlConstructor]
-        private Model()
-        {
-            
-        }
-
-        public Model(Mesh mesh)
-        {
-            Mesh = mesh;
-        }
 
         public Model(string name, Mesh mesh) : base(name)
         {

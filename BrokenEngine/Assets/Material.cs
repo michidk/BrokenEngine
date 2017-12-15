@@ -16,11 +16,6 @@ namespace BrokenEngine.Assets
         public Shader Shader { get; set; }
 
 
-        [XmlConstructor]
-        private Material()
-        {
-        }
-
         public Material(string name, Shader shader) : base(name)
         {
             Shader = shader;

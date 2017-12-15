@@ -11,13 +11,6 @@ namespace BrokenEngine.Assets
     {
         public string Name { get; set; }
 
-
-        [XmlConstructor]
-        protected Asset()
-        {
-            //AssetRegistry.Instance.Register(this);
-        }
-
         protected Asset(string name) : base()
         {
             Name = name;
