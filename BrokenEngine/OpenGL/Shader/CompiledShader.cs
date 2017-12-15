@@ -29,7 +29,7 @@ namespace BrokenEngine.OpenGL.Shader
             string log = GL.GetShaderInfoLog(this.handle);
             if (!string.IsNullOrEmpty(log))
             {
-                Globals.Logger.Error($"Shader Error ({Type}): {log}");
+                Globals.Logger.Error($"ShaderCompiler Error ({Type}): {log}");
                 return false;
             }
 

@@ -1,21 +1,23 @@
 ﻿using System.Xml.Serialization;
+using BrokenEngine.Assets;
 using BrokenEngine.Models.MeshParser;
+using BrokenEngine.Utils.Attributes;
 
 namespace BrokenEngine.Models
 {
-    public class Model
+    public class Model : Asset
     {
-
-        public string Name { get; set; }
 
         [XmlIgnore]
         public Mesh Mesh { get; set; }
 
         internal string meshFile;
 
-        //XML
-        public Model()
+
+        [XmlConstructor]
+        private Model()
         {
+            
         }
 
         public Model(Mesh mesh)
@@ -23,16 +25,13 @@ namespace BrokenEngine.Models
             Mesh = mesh;
         }
 
-        public Model(string name, Mesh mesh)
+        public Model(string name, Mesh mesh) : base(name)
         {
-            Name = name;
             Mesh = mesh;
         }
 
-        public Model(string name, string meshFile)
+        public Model(string name, string meshFile) : base(name)
         {
-            Name = name;
-
             Mesh = ObjParser.ParseFile(meshFile);
         }
 

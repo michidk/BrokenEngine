@@ -157,9 +157,6 @@
     <Reference Include="System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Collections.Immutable.1.4.0\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
     </Reference>
-    <Reference Include="System.Collections.NonGeneric, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.NonGeneric.4.3.0\lib\net46\System.Collections.NonGeneric.dll</HintPath>
-    </Reference>
     <Reference Include="System.ComponentModel" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -182,24 +179,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Asset.cs" />
+    <Compile Include="Assets\Material.cs" />
+    <Compile Include="Components\TestComponent.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Engine\EngineWrapper.cs" />
     <Compile Include="Engine\WindowsEngineWrapper.cs" />
     <Compile Include="Globals.cs" />
-    <Compile Include="Materials\BlinnPhongMaterial.cs" />
-    <Compile Include="Materials\ToonMaterial.cs" />
-    <Compile Include="Materials\GenericPhongMaterial.cs" />
-    <Compile Include="Models\Face.cs" />
-    <Compile Include="Models\Model.cs" />
+    <Compile Include="Serialization\SerialiableMeshRenderer.cs" />
+    <Compile Include="Shaders\BlinnPhongShader.cs" />
+    <Compile Include="Shaders\ToonShader.cs" />
+    <Compile Include="Shaders\GenericPhongShader.cs" />
+    <Compile Include="Meshes\Face.cs" />
+    <Compile Include="Assets\Model.cs" />
     <Compile Include="SceneGraph\GameObject.cs" />
-    <Compile Include="Models\MeshParser\IMeshParser.cs" />
+    <Compile Include="Meshes\MeshParser\IMeshParser.cs" />
     <Compile Include="SceneGraph\Scene.cs" />
-    <Compile Include="Models\MeshUtils.cs" />
+    <Compile Include="Meshes\MeshUtils.cs" />
     <Compile Include="OpenGL\Buffer\Buffer.cs" />
     <Compile Include="OpenGL\Buffer\DynamicBuffer.cs" />
     <Compile Include="OpenGL\Buffer\StaticBuffer.cs" />
     <Compile Include="OpenGL\Shader\CompiledShader.cs" />
-    <Compile Include="OpenGL\Shader\Shader.cs" />
+    <Compile Include="OpenGL\Shader\ShaderCompiler.cs" />
     <Compile Include="OpenGL\Shader\ShaderCompileException.cs" />
     <Compile Include="ResourceManager.cs" />
     <Compile Include="Components\Camera.cs" />
@@ -210,12 +211,12 @@
     <Compile Include="Components\SubmeshRenderer.cs" />
     <Compile Include="Engine\Engine.cs" />
     <Compile Include="Components\MeshRenderer.cs" />
-    <Compile Include="Materials\Material.cs" />
-    <Compile Include="Materials\VertexColorMaterial.cs" />
-    <Compile Include="Models\FaceGroup.cs" />
-    <Compile Include="Models\Mesh.cs" />
-    <Compile Include="Models\MeshParser\ObjParser.cs" />
-    <Compile Include="Models\Vertex.cs" />
+    <Compile Include="Shaders\Shader.cs" />
+    <Compile Include="Shaders\VertexColorShader.cs" />
+    <Compile Include="Meshes\FaceGroup.cs" />
+    <Compile Include="Meshes\Mesh.cs" />
+    <Compile Include="Meshes\MeshParser\ObjParser.cs" />
+    <Compile Include="Meshes\Vertex.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -228,8 +229,8 @@
     <Compile Include="OpenGL\VertexArray.cs" />
     <Compile Include="OpenGL\VertexAttribute.cs" />
     <Compile Include="Serialization\ModelSerializer.cs" />
-    <Compile Include="Serialization\SceneSerializer.cs" />
     <Compile Include="Serialization\SceneConfigurator.cs" />
+    <Compile Include="Utils\Attributes\XMLConstructor.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\MatrixUtils.cs" />
     <Compile Include="Utils\QuaternionExtensions.cs" />

@@ -11,14 +11,14 @@ namespace BrokenEngine.Components
     {
 
         public Submesh Submesh;
-        public Material Material;
+        public Shader Shader;
 
         private Buffer<ushort> indexBuffer;
 
-        public SubmeshRenderer(Submesh submesh, Material material)
+        public SubmeshRenderer(Submesh submesh, Shader shader)
         {
             this.Submesh = submesh;
-            this.Material = material;
+            this.Shader = shader;
 
             var indices = from face in Submesh.Faces from index in face.Indices select index;
             indexBuffer = new StaticBuffer<ushort>(sizeof(ushort), indices.ToArray(), BufferTarget.ElementArrayBuffer);
@@ -26,7 +26,7 @@ namespace BrokenEngine.Components
 
         public void Render(Matrix4 viewMatrix, Matrix4 viewProjectionMatrix)
         {
-            MeshRenderer.SetDefaultMaterialParameter(ref Material, this.GameObject.LocalToWorldMatrix, viewMatrix, viewProjectionMatrix, GameObject.NormalMatrix);
+            MeshRenderer.SetDefaultMaterialParameter(Shader, this.GameObject.LocalToWorldMatrix, viewMatrix, viewProjectionMatrix, GameObject.NormalMatrix);
 
             indexBuffer.Bind();
             indexBuffer.BufferData();

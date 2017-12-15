@@ -4,11 +4,13 @@ using System.Drawing;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using BrokenEngine.Assets;
 using BrokenEngine.Components;
 using BrokenEngine.Materials;
 using BrokenEngine.Models;
 using BrokenEngine.Models.MeshParser;
 using BrokenEngine.Serialization;
+using BrokenEngine.Utils.Attributes;
 using ExtendedXmlSerializer.ExtensionModel.Xml;
 using OpenTK;
 using OpenTK.Graphics;
@@ -30,31 +32,24 @@ namespace BrokenEngine.SceneGraph
 
         [XmlElement("MetaData")]
         public MetaData Meta { get; set; }
-        public List<Material> Materials { get; set; }
-        public List<Model> Models { get; set; }
-        //public List<GameObject> SceneGraph { get; set; }
-        public GameObject SceneRoot { get; set; }
 
+        public List<Asset> Assets { get; set; } = new List<Asset>();
+
+        public GameObject SceneRoot { get; set; } = new GameObject("Scene Root");
+
+        [XmlIgnore]
         public Camera MainCamera { get; set; }
 
+ 
+        //[XmlConstructor]
         public Scene()
         {
-            
-            if (Materials == null) 
-                Materials = new List<Material>();
 
-            if (Models == null)
-                Models = new List<Model>();
-
-            //if (SceneGraph == null)
-            //    SceneGraph = new List<GameObject>();
-            if (SceneRoot == null) 
-                SceneRoot = new GameObject("Scene Root");
         }
 
         public static void GenerateTestSceneFile()
         {
-            LoadScene("TestScene");
+            //LoadScene("TestScene");
             //return;
             Globals.Logger.Debug("test");
             Scene scene = new Scene();
@@ -64,17 +59,25 @@ namespace BrokenEngine.SceneGraph
             meta.Author = "Me";
             scene.Meta = meta;
 
-            var go = new GameObject("test", Vector3.One, null);
-            //go.AddComponent(new MeshRenderer());
-            //scene.SceneGraph.Add(go);
+            var go = new GameObject("test", Vector3.One);
+            //var cam = new Camera(100, 100);
+            //go.AddComponent(cam, false);
+
+            var model = new Model(new Mesh("test", 1, 2)) {meshFile = "Models/cube", Name = "Test"};
+            scene.Assets.Add(model);
+
+            var mat = new Material("mat", new VertexColorShader());
+            scene.Assets.Add(mat);
+
+            go.AddComponent(new MeshRenderer(model, mat), false);
             scene.SceneRoot.AddChild(go);
 
-            scene.Models.Add(new Model(new Mesh("test", 1, 2)) { meshFile = "Models/cube", Name = "Test"});
 
-            scene.Materials.Add(new BlinnPhongMaterial(Color4.AliceBlue, Vector3.One, Color4.AliceBlue, true));
+            //scene.Materials.Add(new BlinnPhongShader(Color4.AliceBlue, Vector3.One, Color4.AliceBlue, true));
 
             var serializer = SceneConfigurator.GetSerializer();
-            var xml = serializer.Serialize(scene);
+            var xml = serializer.Serialize(new XmlWriterSettings { Indent = true }, scene);
+            File.WriteAllText("GeneratedScene.xml", xml);
             Globals.Logger.Debug("res: " + xml.ToString());
         }
 
@@ -90,15 +93,37 @@ namespace BrokenEngine.SceneGraph
             // parse xml scene file
             var scene = serializer.Deserialize<Scene>(file);
 
-            // load referenced resources
-            foreach (var instance in scene.Materials)
-            {
-                //instance.LoadResources();
-            }
+
             
             // init stuff
-            
 
+            // search naivly for a camera TODO: find better way of defining the main camera; maybe tags? or a MainCamera field.
+            foreach (var child in scene.SceneRoot.Children)
+            {
+                if (child.Name == "Camera")
+                {
+                    foreach (var comp in child.Components)
+                    {
+                        if (comp is Camera)
+                        {
+                            scene.MainCamera = comp as Camera;
+                            continue;
+                        }
+                    }
+                    continue;
+                }
+            }
+
+            // register all assetrs
+            foreach (var asset in scene.Assets)
+            {
+              //  scene.AssetRegistry.Register(asset);
+            }
+            //TODO: go through all assets and assign dependencies in etc meshrenderer
+
+            // init all GameObjects
+            scene.SceneRoot.Initialize();
+            
             return scene;
         }
 
@@ -114,9 +139,9 @@ namespace BrokenEngine.SceneGraph
             Models.Mesh polygon = ObjParser.ParseFile("Models/polygon");
             Models.Mesh suzanne = ObjParser.ParseFile("Models/suzanne");
 
-            Material phong = new BlinnPhongMaterial(Color.SaddleBrown, Vector3.One, Color4.AliceBlue);
-            Material toon = new ToonMaterial(Color.SaddleBrown, Vector3.One, Color4.AliceBlue, 4f);
-            //phong = toon;   // quick hack to replace all phong materials by the toon material
+            Shader phong = new BlinnPhongShader(Color.SaddleBrown, Vector3.One, Color4.AliceBlue);
+            Shader toon = new ToonShader(Color.SaddleBrown, Vector3.One, Color4.AliceBlue, 4f);
+            //phong = toon;   // quick hack to replace all phong materials by the toon shader
 
             // create scene graph
 

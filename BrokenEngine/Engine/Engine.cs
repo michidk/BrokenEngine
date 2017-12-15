@@ -52,10 +52,6 @@ namespace BrokenEngine.Engine
             //SceneGraph = new GameObject("root", Vector3.Zero);
             BuildTestScene();
 
-            // init logic
-            Globals.Logger.Debug("Starting Engine Logic");
-            //SceneGraph.Start();
-            
             // GL settings
             Globals.Logger.Debug("Apply Settings");
             // turn vsync off to measure performance by counting frames
@@ -69,14 +65,17 @@ namespace BrokenEngine.Engine
             GL.ClearColor(Color4.AliceBlue);
 
             Globals.Logger.Info("Broken Engine Successfully Initialized!");
+
+            // init logic
+            Globals.Logger.Debug("Starting Engine Logic");
+            CurrentScene.SceneRoot.Start();
         }
 
-        // this scene might look a little bit odd, because there is only testing stuff in it
         private void BuildTestScene()
         {
-            //Scene.GenerateTestSceneFile();
-
             Scene.GenerateTestSceneFile();
+
+            //Scene.GenerateTestSceneFile();
 
             //CurrentScene = Scene.CreateHardcodedScene();
             CurrentScene = Scene.LoadScene("TestScene");

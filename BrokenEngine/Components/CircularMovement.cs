@@ -27,7 +27,7 @@ namespace BrokenEngine.Components
         private float time = 0;
         public override void OnUpdate(float deltaTime)
         {
-            var val = (time*Speed*2*Math.PI)%(2*Math.PI);
+            var val = (time * Speed * 2 * Math.PI) % (2 * Math.PI); // TODO: remove Math.PI*2
             this.GameObject.LocalPosition = initialPosition + new Vector3((float)Math.Cos(val), 0, (float)Math.Sin(val)) * Radius;
             time += deltaTime;
         }

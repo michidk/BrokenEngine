@@ -1,31 +1,23 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using BrokenEngine.Assets;
 using BrokenEngine.OpenGL.Shader;
+using BrokenEngine.Utils.Attributes;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace BrokenEngine.Materials
 {
-    public class Material
+    public class Shader
     {
 
         private const string SHADER_DIRECTORY = "Shaders/";
 
         public String Name { get; set; }
 
-        [XmlElement("Shader")]
-        public String ShaderFileName
-        {
-            get { return shaderFileName; }
-            set
-            {
-                this.shaderFileName = value;
-                LoadResources();
-            }
-        }
 
-        // Material properties
+        // ShaderCompiler properties
         [XmlIgnore] public Matrix4 ModelViewProjMatrix { get; set; }
         [XmlIgnore] public Matrix4 ModelWorldMatrix { get; set; }
         [XmlIgnore] public Matrix4 WorldViewMatrix { get; set; }
@@ -33,21 +25,20 @@ namespace BrokenEngine.Materials
         [XmlIgnore] public Vector3 CameraPosition { get; set; }
 
         [XmlIgnore]
-        public Shader Shader => shader;
+        public OpenGL.Shader.ShaderCompiler ShaderCompiler => Compiler;
 
         
         protected string shaderFileName;
-        protected Shader shader;
+        protected OpenGL.Shader.ShaderCompiler Compiler;
         private bool loaded = false;
 
 
-        // parameterless ctor for xml serilization
-        public Material()
+        [XmlConstructor]
+        private Shader()
         {
-            
         }
 
-        public Material(string shaderFileName)
+        public Shader(string shaderFileName)
         {
             this.shaderFileName = shaderFileName;
         }
@@ -59,12 +50,12 @@ namespace BrokenEngine.Materials
 
             loaded = true;
 
-            shader = Shader.LoadShaderFromName(shaderFileName);
+            Compiler = ShaderCompiler.LoadShaderFromName(shaderFileName);
         }
 
         public virtual void Apply()
         {
-            shader.Program.Use();
+            Compiler.Program.Use();
 
             SetMatrixUniform("u_modelViewProjMatrix", ModelViewProjMatrix, GL.UniformMatrix4);
             SetMatrixUniform("u_modelWorldMatrix", ModelWorldMatrix, GL.UniformMatrix4);
@@ -75,7 +66,7 @@ namespace BrokenEngine.Materials
 
         public void CleanUp()
         {
-            shader.Program.CleanUp();
+            Compiler.Program.CleanUp();
         }
 
         #region Helpers
@@ -98,7 +89,7 @@ namespace BrokenEngine.Materials
 
         public int GetLocation(string name)
         {
-            return shader.Program.GetUniformLocation(name);
+            return Compiler.Program.GetUniformLocation(name);
         }
         #endregion
 

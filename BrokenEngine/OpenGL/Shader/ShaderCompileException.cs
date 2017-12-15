@@ -6,7 +6,7 @@ namespace BrokenEngine.OpenGL.Shader
     public class ShaderCompileException : Exception
     {
 
-        public ShaderCompileException(CompiledShader shader, string log) : base($"Shader Error ({shader.Type}):{Environment.NewLine}{log}")
+        public ShaderCompileException(CompiledShader shader, string log) : base($"ShaderCompiler Error ({shader.Type}):{Environment.NewLine}{log}")
         {
 
         }

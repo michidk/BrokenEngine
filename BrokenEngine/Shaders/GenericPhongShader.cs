@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace BrokenEngine.Materials
 {
-    public class GenericPhongMaterial : Material
+    public class GenericPhongShader : Shader
     {
 
         public Color4 AlbedoColor { get; set; }
@@ -20,12 +20,7 @@ namespace BrokenEngine.Materials
         public float AmbientIntensity { get; set; }
 
 
-        // has to be public because of https://github.com/wojtpl2/ExtendedXmlSerializer/issues/8
-        public GenericPhongMaterial()
-        {    
-        }
-
-        public GenericPhongMaterial(Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor, string shaderFileName) : base(shaderFileName)
+        public GenericPhongShader(Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor, string shaderFileName) : base(shaderFileName)
         {
             AlbedoColor = albedoColor;
             LightDirection = lightDirection;

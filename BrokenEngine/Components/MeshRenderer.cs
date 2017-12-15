@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.Xml.Serialization;
+using BrokenEngine.Assets;
 using BrokenEngine.Materials;
 using BrokenEngine.Models;
 using BrokenEngine.OpenGL;
 using BrokenEngine.OpenGL.Buffer;
 using BrokenEngine.SceneGraph;
+using BrokenEngine.Utils.Attributes;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -14,7 +17,9 @@ namespace BrokenEngine.Components
     public class MeshRenderer : Component, IRenderable
     {
 
-        public Models.Mesh Mesh;
+        [XmlIgnore]
+        public Model Model;
+        [XmlIgnore]
         public Material Material;
 
         private Buffer<Vertex> vertexBuffer;
@@ -23,22 +28,19 @@ namespace BrokenEngine.Components
 
         private SubmeshRenderer[] subMeshRenderers;
 
-        public MeshRenderer()
-        {
-            
-        }
 
-        public MeshRenderer(Models.Mesh mesh) : this (mesh, new VertexColorMaterial())
+        [XmlConstructor]
+        internal MeshRenderer()
         {
         }
 
-        public MeshRenderer(Models.Mesh mesh, Material material)
+        public MeshRenderer(Model model, Material material)
         {
-            Mesh = mesh;
+            Model = model;
             Material = material;
 
-            if (Mesh == null)
-                throw new ArgumentNullException(nameof(mesh), "Mesh can't be null!");
+            if (model == null)
+                throw new ArgumentNullException(nameof(model), "Model can't be null!");
         }
 
         public override void OnStart()
@@ -50,16 +52,16 @@ namespace BrokenEngine.Components
 
         public void Reload()
         {
-            vertexBuffer = new StaticBuffer<Vertex>(Vertex.Size, Mesh.Vertices, BufferTarget.ArrayBuffer);
+            vertexBuffer = new StaticBuffer<Vertex>(Vertex.Size, Model.Mesh.Vertices, BufferTarget.ArrayBuffer);
 
-            var indices = from face in Mesh.Faces from index in face.Indices select index;
+            var indices = from face in Model.Mesh.Faces from index in face.Indices select index;
             indexBuffer = new StaticBuffer<ushort>(sizeof(ushort), indices.ToArray(), BufferTarget.ElementArrayBuffer);
             
 
             unsafe
             {
                 vertexArray = new VertexArray<Vertex>(
-                   vertexBuffer, Material.Shader.Program,
+                   vertexBuffer, Material.Shader.ShaderCompiler.Program,
                    new VertexAttribute("v_position", 3, VertexAttribPointerType.Float, Vertex.Size, 0),
                    new VertexAttribute("v_color", 4, VertexAttribPointerType.Float, Vertex.Size, sizeof(Vector3)),  // TODO: make builder, which calc size automaticly
                    new VertexAttribute("v_normal", 3, VertexAttribPointerType.Float, Vertex.Size, sizeof(Vector3) + sizeof(Color4)),
@@ -69,18 +71,18 @@ namespace BrokenEngine.Components
 
 
             // create subs
-            int submeshCnt = Mesh.Submeshes.Count(e => e.Faces.Length != 0);
+            int submeshCnt = Model.Mesh.Submeshes.Count(e => e.Faces.Length != 0);
             if (subMeshRenderers == null)
                 subMeshRenderers = new SubmeshRenderer[submeshCnt];
 
             int c = 0;
-            foreach (var submesh in Mesh.Submeshes.Where(e => e.Faces.Length != 0))
+            foreach (var submesh in Model.Mesh.Submeshes.Where(e => e.Faces.Length != 0))
             {
                 // create / restore objects if lost
                 if (subMeshRenderers[c] == null)
                 {
                     var go = new GameObject(submesh.Name, parent: this.GameObject);
-                    var comp = new SubmeshRenderer(submesh, Material);
+                    var comp = new SubmeshRenderer(submesh, Material.Shader);
                     go.AddComponent(comp);
                     subMeshRenderers[c] = comp;
                 }
@@ -95,7 +97,7 @@ namespace BrokenEngine.Components
 
         public void Render(Matrix4 viewMatrix, Matrix4 viewProjectionMatrix)
         {
-            SetDefaultMaterialParameter(ref Material, this.GameObject.LocalToWorldMatrix, viewMatrix, viewProjectionMatrix, GameObject.NormalMatrix);
+            SetDefaultMaterialParameter(Material.Shader, this.GameObject.LocalToWorldMatrix, viewMatrix, viewProjectionMatrix, GameObject.NormalMatrix);
 
             vertexBuffer.Bind();
             vertexBuffer.BufferData();
@@ -114,21 +116,21 @@ namespace BrokenEngine.Components
             vertexArray.Reset();
             vertexBuffer.Reset();
             indexBuffer.Reset();
-            Material.CleanUp();
+            Material.Shader.CleanUp();
         }
 
-        public static void SetDefaultMaterialParameter(ref Material material, Matrix4 modelMatrix, Matrix4 viewMatrix, Matrix4 viewProjectionMatrix, Matrix4 normalMatrix)
+        public static void SetDefaultMaterialParameter(Shader shader, Matrix4 modelMatrix, Matrix4 viewMatrix, Matrix4 viewProjectionMatrix, Matrix4 normalMatrix)
         {
             // global variables
-            material.CameraPosition = Globals.CurrentCamera.GameObject.Position;
+            shader.CameraPosition = Globals.CurrentCamera.GameObject.Position;
 
             // instance variables
-            material.ModelWorldMatrix = modelMatrix;
-            material.NormalMatrix = normalMatrix;
-            material.WorldViewMatrix = viewMatrix;
-            material.ModelViewProjMatrix = modelMatrix * viewProjectionMatrix;   // OpenTK matrices are transposed by default
+            shader.ModelWorldMatrix = modelMatrix;
+            shader.NormalMatrix = normalMatrix;
+            shader.WorldViewMatrix = viewMatrix;
+            shader.ModelViewProjMatrix = modelMatrix * viewProjectionMatrix;   // OpenTK matrices are transposed by default
 
-            material.Apply();
+            shader.Apply();
         }
 
         public override void OnDestroy()

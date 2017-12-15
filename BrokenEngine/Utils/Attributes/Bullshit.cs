@@ -5,8 +5,8 @@ namespace BrokenEngine.Utils.Attributes
     /// <summary>
     /// Marks a method as bullshit
     /// </summary>
-    [System.AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited =  false)]
-    public class Bullshit : System.Attribute
+    [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited =  false)]
+    public class Bullshit : Attribute
     {
         public string Reason;
     }

@@ -135,9 +135,9 @@ namespace BrokenEngine.SceneGraph
         #endregion
 
         [XmlIgnore]
-        public ReadOnlyCollection<GameObject> Children => children.AsReadOnly();
+        public ReadOnlyCollection<GameObject> Children => childrenList.AsReadOnly();
         [XmlIgnore]
-        public ReadOnlyCollection<Component> Components => components.AsReadOnly();
+        public ReadOnlyCollection<Component> Components => componentsList.AsReadOnly();
 
         private Vector3 localPosition;
         private Quaternion localRotation = Quaternion.Identity;
@@ -149,10 +149,12 @@ namespace BrokenEngine.SceneGraph
 
         private GameObject parent;
 
-        [XmlElement]
-        private readonly List<GameObject> children = new List<GameObject>();
-       // [XmlElement]
-        private readonly List<Component> components = new List<Component>();
+        [XmlElement("Children")]
+        private readonly List<GameObject> childrenList = new List<GameObject>();
+
+        [XmlElement("Components")]
+        private readonly List<Component> componentsList = new List<Component>();
+
 
         #region Cache
         private bool localToWorldDirty = true, worldToLocalDirty = true, normalDirty = true;
@@ -164,11 +166,12 @@ namespace BrokenEngine.SceneGraph
 
 
         // empty ctor for xml
-        public GameObject()
+        private GameObject()
         {
+
         }
 
-        public GameObject(string name, Vector3 position = default(Vector3), GameObject parent = null)
+        public GameObject(string name, Vector3 position = default(Vector3), GameObject parent = null) : this()
         {
             Name = name;
             LocalPosition = position;
@@ -291,11 +294,11 @@ namespace BrokenEngine.SceneGraph
         {
             // remove old parent
             if (this.parent != null)
-                this.parent.children.Remove(this);
+                this.parent.childrenList.Remove(this);
 
             // set parent
             this.parent = go;
-            go.children.Add(this);
+            go.childrenList.Add(this);
 
             SetDirty();
         }
@@ -304,10 +307,10 @@ namespace BrokenEngine.SceneGraph
         {
             // remove old parent
             if (this.parent != null)
-                this.parent.children.Remove(go);
+                this.parent.childrenList.Remove(go);
 
             // set parent
-            this.children.Add(go);
+            this.childrenList.Add(go);
             go.parent = this;
 
             SetDirty();
@@ -318,8 +321,8 @@ namespace BrokenEngine.SceneGraph
         // set callStart to false if building a scene graph before initializing it
         public GameObject AddComponent(Component comp, bool callStart = true)
         {
-            components.Add(comp);
-            comp.GameObject = this;
+            componentsList.Add(comp);
+            comp.Assign(this);
 
             if (callStart)
                 comp.OnStart();
@@ -329,8 +332,8 @@ namespace BrokenEngine.SceneGraph
 
         public GameObject RemoveComponent(Component comp)
         {
-            components.Remove(comp);
-            comp.GameObject = null;
+            componentsList.Remove(comp);
+            comp.Assign(null);
             comp.OnDestroy();
 
             return this;
@@ -338,11 +341,22 @@ namespace BrokenEngine.SceneGraph
 
         public T FindComponentOfType<T>() where T : Component
         {
-            return (T) components.Find(e => e.GetType() == typeof (T));
+            return (T) componentsList.Find(e => e.GetType() == typeof (T));
         }
         #endregion
 
         #region Component Calls
+        public void Initialize()
+        {
+            foreach (var child in Children)
+                child.Initialize();
+            foreach (var comp in Components)
+            {
+                comp.Assign(this);
+                comp.OnInitialize();
+            }
+        }
+
         public void Start()
         {
             foreach (var child in Children)

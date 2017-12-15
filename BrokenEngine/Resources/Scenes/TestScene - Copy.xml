@@ -8,7 +8,7 @@
   <Materials>
     <Material>
       <Name>MyFirstMaterial</Name>
-      <Shader>phong.glsl</Shader>
+      <ShaderCompiler>phong.glsl</ShaderCompiler>
       <Properties type="BrokenEngine.Materials.BlinnPhongMaterial">
         <AlbedoColor type="OpenTK.Graphics.Color4">
           <R>156</R>

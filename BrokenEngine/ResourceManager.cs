@@ -10,6 +10,7 @@ namespace BrokenEngine
 
         private static readonly string assemblyLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
 
+
         public static byte[] GetBytes(string file)
         {
             byte[] bytes = null;

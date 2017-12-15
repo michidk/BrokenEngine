@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace BrokenEngine.OpenGL.Shader
 {
-    public class Shader
+    public class ShaderCompiler
     {
 
         public struct MetaData
@@ -22,7 +22,7 @@ namespace BrokenEngine.OpenGL.Shader
 
         private string code;
 
-        public Shader(string code, bool compile = true)
+        public ShaderCompiler(string code, bool compile = true)
         {
             this.code = code;
 
@@ -34,7 +34,7 @@ namespace BrokenEngine.OpenGL.Shader
         {
             if (string.IsNullOrEmpty(code))
             {
-                Globals.Logger.Error("Shader compilation failed: code empty.");
+                Globals.Logger.Error("ShaderCompiler compilation failed: code empty.");
                 return false;
             }
 
@@ -86,7 +86,7 @@ namespace BrokenEngine.OpenGL.Shader
             {
                 if (string.IsNullOrEmpty(code))
                 {
-                    Globals.Logger.Error($"Shader compilation warning: {type} shader empty");
+                    Globals.Logger.Error($"ShaderCompiler compilation warning: {type} shader empty");
                     return null;
                 }
                 else
@@ -159,15 +159,15 @@ namespace BrokenEngine.OpenGL.Shader
             }
         }
 
-        public static Shader LoadShaderFromPath(string path)
+        public static ShaderCompiler LoadShaderFromPath(string path)
         {
             string code = ResourceManager.GetString(path);
             if (code == null)
                 return null;
-            return new Shader(code);
+            return new ShaderCompiler(code);
         }
 
-        public static Shader LoadShaderFromName(string name)
+        public static ShaderCompiler LoadShaderFromName(string name)
         {
             return LoadShaderFromPath(DEFAULT_PATH + name);
         }
