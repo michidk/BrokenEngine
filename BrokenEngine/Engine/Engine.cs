@@ -4,6 +4,7 @@ using BrokenEngine.Components;
 using BrokenEngine.Materials;
 using BrokenEngine.Models.MeshParser;
 using BrokenEngine.SceneGraph;
+using BrokenEngine.Serilization;
 using BrokenEngine.Utils.Attributes;
 using OpenTK;
 using OpenTK.Graphics;
@@ -51,6 +52,8 @@ namespace BrokenEngine.Engine
         {
             //SceneGraph = new GameObject("root", Vector3.Zero);
             BuildTestScene();
+
+            CurrentScene.SceneRoot.Initialize();
 
             // GL settings
             Globals.Logger.Debug("Apply Settings");

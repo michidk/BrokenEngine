@@ -12,29 +12,35 @@ namespace BrokenEngine.Materials
     public class Shader
     {
 
-        private const string SHADER_DIRECTORY = "Shaders/";
-
-        public String Name { get; set; }
-
-
         // ShaderCompiler properties
+        [XmlIgnore]
         public Matrix4 ModelViewProjMatrix { get; set; }
+        [XmlIgnore]
         public Matrix4 ModelWorldMatrix { get; set; }
+        [XmlIgnore]
         public Matrix4 WorldViewMatrix { get; set; }
+        [XmlIgnore]
         public Matrix4 NormalMatrix { get; set; }
+        [XmlIgnore]
         public Vector3 CameraPosition { get; set; }
 
+        [XmlIgnore]
         public OpenGL.Shader.ShaderCompiler ShaderCompiler => Compiler;
 
         
-        protected string shaderFileName;
+        protected string shaderFilePath;
         protected OpenGL.Shader.ShaderCompiler Compiler;
         private bool loaded = false;
 
 
-        public Shader(string shaderFileName)
+        [XmlConstructor]
+        public Shader()
         {
-            this.shaderFileName = shaderFileName;
+        }
+
+        public Shader(string shaderFilePath)
+        {
+            this.shaderFilePath = shaderFilePath;
         }
 
         public void LoadResources()
@@ -44,7 +50,7 @@ namespace BrokenEngine.Materials
 
             loaded = true;
 
-            Compiler = ShaderCompiler.LoadShaderFromName(shaderFileName);
+            Compiler = ShaderCompiler.LoadShaderFromPath(shaderFilePath);
         }
 
         public virtual void Apply()

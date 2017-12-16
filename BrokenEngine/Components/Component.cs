@@ -1,19 +1,24 @@
 ﻿using System.Xml.Serialization;
 using BrokenEngine.SceneGraph;
+using BrokenEngine.Utils.Attributes;
 
 namespace BrokenEngine.Components
 {
     public abstract class Component
     {
+        [XmlIgnore]
+        public GameObject GameObject { get; private set; }
 
- public GameObject GameObject => gameObject;
+        
+        [XmlConstructor]
+        protected Component()
+        {
 
-        private GameObject gameObject;
-
+        }
 
         internal void Assign(GameObject gameObject)
         {
-            this.gameObject = gameObject;
+            this.GameObject = gameObject;
         }
 
         public virtual void OnInitialize()

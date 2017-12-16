@@ -10,7 +10,7 @@ namespace BrokenEngine.Materials
         public bool Blinn { get; set; }     // use blinn highlights?
 
 
-        public BlinnPhongShader(Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor, bool blinn = true) : base(albedoColor, lightDirection, ambientColor, "phong.glsl")
+        public BlinnPhongShader(string shaderFileName, Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor, bool blinn = true) : base(shaderFileName, albedoColor, lightDirection, ambientColor)
         {
             this.Blinn = blinn;
         }

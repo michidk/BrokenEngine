@@ -8,19 +8,23 @@ namespace BrokenEngine.Models
     public class Model : Asset
     {
 
+        [XmlIgnore]
         public Mesh Mesh { get; set; }
 
-        internal string meshFile;
 
 
-        public Model(string name, Mesh mesh) : base(name)
+        [XmlConstructor]
+        public Model()
         {
-            Mesh = mesh;
         }
 
-        public Model(string name, string meshFile) : base(name)
+        public Model(string name, string filePath) : base(name, filePath)
         {
-            Mesh = ObjParser.ParseFile(meshFile);
+        }
+
+        public override void Load()
+        {
+            Mesh = ObjParser.ParseFile(FilePath);
         }
 
     }

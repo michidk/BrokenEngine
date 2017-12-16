@@ -188,7 +188,7 @@ namespace BrokenEngine.Models.MeshParser
                     headerEnded = true;
                     break;
                 case "usemtl":
-                    // we dont support materials
+                    // we dont support materials (yet)
                     break;
                 case "s":
                     // we dont need smoothing groups, as this data is saved in the normals (its used to calculate them)

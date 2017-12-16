@@ -183,6 +183,7 @@
     <Compile Include="Engine\EngineWrapper.cs" />
     <Compile Include="Engine\WindowsEngineWrapper.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="Serialization\SceneParser.cs" />
     <Compile Include="Shaders\BlinnPhongShader.cs" />
     <Compile Include="Shaders\ToonShader.cs" />
     <Compile Include="Shaders\GenericPhongShader.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="Components\IRenderable.cs" />
     <Compile Include="OpenGL\VertexArray.cs" />
     <Compile Include="OpenGL\VertexAttribute.cs" />
+    <Compile Include="Utils\Attributes\XmlConstructor.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\MatrixUtils.cs" />
     <Compile Include="Utils\QuaternionExtensions.cs" />
@@ -302,9 +304,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Serialization\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

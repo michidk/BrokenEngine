@@ -1,78 +1,96 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Scene xmlns:sys="https://extendedxmlserializer.github.io/system" xmlns:ns1="clr-namespace:BrokenEngine.Assets;assembly=BrokenEngine" xmlns:exs="https://extendedxmlserializer.github.io/v2" xmlns:ns2="clr-namespace:BrokenEngine.Materials;assembly=BrokenEngine" xmlns:ns3="clr-namespace:BrokenEngine.Models;assembly=BrokenEngine">
+﻿<Scene>
   <MetaData>
-    <Name>Name</Name>
-    <Author>Author</Author>
-    <Description>Description</Description>
+    <Name>Test</Name>
+    <Author>Me</Author>
+    <Description>This is a test</Description>
   </MetaData>
   <Assets>
-    <ns1:Material>
-      <Name>MyMaterial2</Name>
-      <!--<Shader>Shader/phong.glsl</Shader>-->
-      <Shader xmlns="clr-namespace:BrokenEngine.Materials;assembly=BrokenEngine">
-        <BlinnPhongShader xmlns="clr-namespace:BrokenEngine.Materials;assembly=BrokenEngine">
-          <AlbedoColor>
-            <R>156</R>
-            <G>208</G>
-            <B>84</B>
-            <A>255</A>
-          </AlbedoColor>
-          <LightDirection>
+    <Model>
+      <Name>test</Name>
+      <FilePath>Models/cube</FilePath>
+    </Model>
+    <Material>
+      <Name>mat</Name>
+      <Type>VertexColorShader</Type>
+      <Shader />
+    </Material>
+  </Assets>
+  <SceneGraph>
+    <GameObject>
+      <Name>Camera</Name>
+      <Position>
+        <X>1</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </Position>
+      <Rotation>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </Rotation>
+      <Scale>
+        <X>1</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </Scale>
+      <Components>
+        <Camera>
+          <AspectRatio>1</AspectRatio>
+          <Fov>60</Fov>
+          <NearPlane>0.3</NearPlane>
+          <FarPlane>1000</FarPlane>
+        </Camera>
+        <CameraMovement>
+          <CurrentType>FirstPerson</CurrentType>
+        </CameraMovement>
+      </Components>
+      <Children />
+    </GameObject>
+    <GameObject>
+      <Name>test</Name>
+      <Position>
+        <X>1</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </Position>
+      <Rotation>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </Rotation>
+      <Scale>
+        <X>1</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </Scale>
+      <Components>
+        <MeshRenderer>
+          <Model>test</Model>
+          <Material>mat</Material>
+        </MeshRenderer>
+      </Components>
+      <Children>
+        <GameObject>
+          <Name>child</Name>
+          <Position>
+            <X>0</X>
+            <Y>0</Y>
+            <Z>0</Z>
+          </Position>
+          <Rotation>
+            <X>0</X>
+            <Y>0</Y>
+            <Z>0</Z>
+          </Rotation>
+          <Scale>
             <X>1</X>
             <Y>1</Y>
             <Z>1</Z>
-          </LightDirection>
-          <AmbientColor>
-            <R>156</R>
-            <G>208</G>
-            <B>84</B>
-            <A>255</A>
-          </AmbientColor>
-          <Blinn>True</Blinn>
-        </BlinnPhongShader>
-      </Shader>
-    </ns1:Material>
-    <ns3:Model>
-      <Name>Cube</Name>
-      <Mesh>Models/cube</Mesh>
-    </ns3:Model>
-    <ns1:Material>
-      <Name>MyMaterial</Name>
-      <Shader exs:type="ns2:VertexColorShader" />
-    </ns1:Material>
-  </Assets>
-  <SceneRoot>
-    <Children>
-      <GameObject>
-        <Name>Camera</Name>
-        <Position>
-          <X>1</X>
-          <Y>1</Y>
-          <Z>1</Z>
-        </Position>
-        <Components>
-          <Camera xmlns="clr-namespace:BrokenEngine.Components;assembly=BrokenEngine">
-            <aspectRatio>1</aspectRatio>
-            <fov>60</fov>
-            <nearPlane>0.3</nearPlane>
-            <farPlane>1000</farPlane>
-          </Camera>
-        </Components>
-      </GameObject>
-      <GameObject>
-        <Name>Model</Name>
-        <Position>
-          <X>10</X>
-          <Y>1</Y>
-          <Z>1</Z>
-        </Position>
-        <Components>
-          <MeshRenderer xmlns="clr-namespace:BrokenEngine.Serialization;assembly=BrokenEngine">
-            <Model>MyModel</Model>
-            <Material>MyMaterial</Material>
-          </MeshRenderer>
-        </Components>
-      </GameObject>
-    </Children>
-  </SceneRoot>
+          </Scale>
+          <Components />
+          <Children />
+        </GameObject>
+      </Children>
+    </GameObject>
+  </SceneGraph>
 </Scene>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -9,7 +10,7 @@ using BrokenEngine.Components;
 using BrokenEngine.Materials;
 using BrokenEngine.Models;
 using BrokenEngine.Models.MeshParser;
-using BrokenEngine.Serialization;
+using BrokenEngine.Serilization;
 using BrokenEngine.Utils.Attributes;
 using OpenTK;
 using OpenTK.Graphics;
@@ -29,7 +30,7 @@ namespace BrokenEngine.SceneGraph
 
         public MetaData Meta { get; set; }
 
-        public List<Asset> Assets { get; set; } = new List<Asset>();
+        //public List<Asset> Assets { get; set; } = new List<Asset>();
 
         public GameObject SceneRoot { get; set; } = new GameObject("Scene Root");
 
@@ -43,27 +44,26 @@ namespace BrokenEngine.SceneGraph
             //return;
             Globals.Logger.Debug("test");
             Scene scene = new Scene();
-            var meta = new MetaData();
-            meta.Name = "Test";
-            meta.Description = "This is a test";
-            meta.Author = "Me";
+            var meta = new MetaData
+            {
+                Name = "Test",
+                Description = "This is a test",
+                Author = "Me"
+            };
             scene.Meta = meta;
 
-            var go = new GameObject("test", Vector3.One);
-            //var cam = new Camera(100, 100);
-            //go.AddComponent(cam, false);
+            scene.SceneRoot.AddChild(new GameObject("Test 5", new Vector3(-5, 0, 0)).AddComponent(new MeshRenderer(new Model("a123", "Models/cube"), new Material("testssss", "Shaders/vertex_color.glsl", new VertexColorShader())), false));
 
-            var model = new Model(new Mesh("test", 1, 2)) {meshFile = "Models/cube", Name = "Test"};
-            scene.Assets.Add(model);
+            var cameraObj = new GameObject("Camera", new Vector3(0, 0, 0));
+            scene.SceneRoot.AddChild(cameraObj);
 
-            var mat = new Material("mat", new VertexColorShader());
-            scene.Assets.Add(mat);
+            var camera = new Camera(500, 500, 60f);
 
-            go.AddComponent(new MeshRenderer(model, mat), false);
-            scene.SceneRoot.AddChild(go);
-
-
+            cameraObj.AddComponent(camera, false);
+            cameraObj.AddComponent(new CameraMovement(CameraMovement.Type.FirstPerson), false);
             //scene.Materials.Add(new BlinnPhongShader(Color4.AliceBlue, Vector3.One, Color4.AliceBlue, true));
+
+            String xml = SceneParser.Write(scene);
 
             File.WriteAllText("GeneratedScene.xml", xml);
             Globals.Logger.Debug("res: " + xml.ToString());
@@ -74,13 +74,8 @@ namespace BrokenEngine.SceneGraph
             
             // load the scene file
             var file = ResourceManager.GetString($"Scenes/{ name }.xml");
+            var scene = SceneParser.Read(file);
 
-
-
-            
-            // init stuff
-
-            // search naivly for a camera TODO: find better way of defining the main camera; maybe tags? or a MainCamera field.
             foreach (var child in scene.SceneRoot.Children)
             {
                 if (child.Name == "Camera")
@@ -97,13 +92,6 @@ namespace BrokenEngine.SceneGraph
                 }
             }
 
-            // register all assetrs
-            foreach (var asset in scene.Assets)
-            {
-              //  scene.AssetRegistry.Register(asset);
-            }
-            //TODO: go through all assets and assign dependencies in etc meshrenderer
-
             // init all GameObjects
             scene.SceneRoot.Initialize();
             
@@ -112,6 +100,7 @@ namespace BrokenEngine.SceneGraph
 
         public static Scene CreateHardcodedScene()
         {
+            /*
             Globals.Logger.Debug("Loading Resources");
             Models.Mesh airboat = ObjParser.ParseFile("Models/airboat");
             airboat.RecalculateNormals();
@@ -128,7 +117,6 @@ namespace BrokenEngine.SceneGraph
 
             // create scene graph
 
-            /*
             Globals.Logger.Debug("Loading Scene");
             var go = new GameObject("test object", Vector3.One, SceneGraph);
             go.AddComponent(new MeshRenderer(MeshUtils.CreateQuad()), false);
@@ -151,10 +139,10 @@ namespace BrokenEngine.SceneGraph
             //go.AddComponent(new MeshRenderer(airboat), false);
             go.AddComponent(new MeshRenderer(suzanne, phong), false);
             go.AddComponent(new CircularMovement(speed: 0.05f, radius: 2f), false);
-            */
-
+    
 
             Scene scene = new Scene();
+            scene.SceneRoot.AddChild(new GameObject("Test 5", new Vector3(-5, 0, 0)).AddComponent(new MeshRenderer(new Model("a123", "Models/cube"), new Material("testssss", new VertexColorShader())), false));
             
             var cameraObj = new GameObject("Camera", new Vector3(0, 0, 0));
             scene.SceneRoot.AddChild(cameraObj);
@@ -166,8 +154,9 @@ namespace BrokenEngine.SceneGraph
 
             scene.MainCamera = camera;
             //CurrentCamera = camera;
+                    */
 
-            return scene;
+            return null;
         }
         
     }

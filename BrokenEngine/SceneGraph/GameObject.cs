@@ -318,14 +318,17 @@ namespace BrokenEngine.SceneGraph
         #endregion
 
         #region Component Helpers
-        // set callStart to false if building a scene graph before initializing it
-        public GameObject AddComponent(Component comp, bool callStart = true)
+        // set initialize to false if building a scene graph before initializing it
+        public GameObject AddComponent(Component comp, bool initialize = true)
         {
             componentsList.Add(comp);
             comp.Assign(this);
 
-            if (callStart)
+            if (initialize)
+            {
+                comp.OnInitialize();
                 comp.OnStart();
+            }
 
             return this;
         }
@@ -352,7 +355,7 @@ namespace BrokenEngine.SceneGraph
                 child.Initialize();
             foreach (var comp in Components)
             {
-                comp.Assign(this);
+                //comp.Assign(this); is now done in serilization step and when parenting a component
                 comp.OnInitialize();
             }
         }

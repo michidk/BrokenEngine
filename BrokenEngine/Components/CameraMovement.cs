@@ -17,6 +17,10 @@ namespace BrokenEngine.Components
         public Type CurrentType;
 
 
+        public CameraMovement()
+        {
+        }
+
         public CameraMovement(Type type = Type.FirstPerson)
         {
             CurrentType = type;

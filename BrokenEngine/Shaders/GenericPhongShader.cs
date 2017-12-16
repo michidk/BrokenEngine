@@ -20,7 +20,7 @@ namespace BrokenEngine.Materials
         public float AmbientIntensity { get; set; }
 
 
-        public GenericPhongShader(Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor, string shaderFileName) : base(shaderFileName)
+        public GenericPhongShader(string shaderFilePath, Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor) : base(shaderFilePath)
         {
             AlbedoColor = albedoColor;
             LightDirection = lightDirection;

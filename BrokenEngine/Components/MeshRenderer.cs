@@ -17,8 +17,10 @@ namespace BrokenEngine.Components
     public class MeshRenderer : Component, IRenderable
     {
 
-        public Model Model;
-        public Material Material;
+        [XmlIgnore]
+        public Model Model { get; protected set; }
+        [XmlIgnore]
+        public Material Material { get; protected set; }
 
         private Buffer<Vertex> vertexBuffer;
         private Buffer<ushort> indexBuffer;
@@ -27,6 +29,11 @@ namespace BrokenEngine.Components
         private SubmeshRenderer[] subMeshRenderers;
 
 
+        [XmlConstructor]
+        protected MeshRenderer()
+        {
+        }
+
         public MeshRenderer(Model model, Material material)
         {
             Model = model;
@@ -34,6 +41,13 @@ namespace BrokenEngine.Components
 
             if (model == null)
                 throw new ArgumentNullException(nameof(model), "Model can't be null!");
+        }
+
+        public override void OnInitialize()
+        {
+            base.OnInitialize();
+
+            Material.Shader.LoadResources();
         }
 
         public override void OnStart()

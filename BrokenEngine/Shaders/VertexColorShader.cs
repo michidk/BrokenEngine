@@ -1,10 +1,19 @@
-﻿namespace BrokenEngine.Materials
+﻿using OpenTK;
+
+namespace BrokenEngine.Materials
 {
 
     public class VertexColorShader : Shader
     {
 
-        public VertexColorShader() : base("vertex_color.glsl")
+        public Vector3 Test { get; set; }
+
+
+        public VertexColorShader()
+        {
+        }
+
+        public VertexColorShader(string shaderFilePath) : base(shaderFilePath)
         {
 
         }

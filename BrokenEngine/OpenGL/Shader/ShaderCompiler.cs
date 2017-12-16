@@ -15,7 +15,6 @@ namespace BrokenEngine.OpenGL.Shader
             public string Description;
         }
 
-        private const string DEFAULT_PATH = "Shaders/";
 
         public MetaData Meta;
         public ShaderProgram Program;
@@ -165,11 +164,6 @@ namespace BrokenEngine.OpenGL.Shader
             if (code == null)
                 return null;
             return new ShaderCompiler(code);
-        }
-
-        public static ShaderCompiler LoadShaderFromName(string name)
-        {
-            return LoadShaderFromPath(DEFAULT_PATH + name);
         }
 
     }
