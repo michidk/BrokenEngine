@@ -12,7 +12,7 @@ using BrokenEngine.Assets;
 using BrokenEngine.Components;
 using BrokenEngine.SceneGraph;
 using OpenTK;
-using SharpFont.Cache;
+using OpenTK.Mathematics;
 
 namespace BrokenEngine.Serilization
 {
@@ -22,7 +22,7 @@ namespace BrokenEngine.Serilization
         public static Scene Read(String input)
         {
             var scene = new Scene();
-            
+
             var xml = new XmlDocument();
             xml.LoadXml(input);
 
@@ -36,6 +36,7 @@ namespace BrokenEngine.Serilization
                 .SelectMany(s => s.GetTypes())
                 .Where(p => typeof(Asset).IsAssignableFrom(p));
 
+            // build assetdb
             foreach (XmlNode asset in assets)
             {
                 foreach (Type type in types)
@@ -74,10 +75,10 @@ namespace BrokenEngine.Serilization
 
             var root = xml.CreateElement("Scene");
             xml.AppendChild(root);
-           
+
             // meta
             root.AppendChild(xml.ImportNode(SerializeToXmlDocument(scene.Meta), true));
-            
+
             // assets
             var assets = xml.CreateElement("Assets");
             root.AppendChild(assets);
@@ -113,7 +114,7 @@ namespace BrokenEngine.Serilization
             elem.AppendChild(CreateObject(xml, "Position", go.LocalPosition));
             elem.AppendChild(CreateObject(xml, "Rotation", go.LocalEulerRotation));
             elem.AppendChild(CreateObject(xml, "Scale", go.LocalScale));
-  
+
             var components = xml.CreateElement("Components");
             foreach (var comp in go.Components)
             {
@@ -174,7 +175,7 @@ namespace BrokenEngine.Serilization
 
                             foreach (var prop in comp.GetType().GetProperties())
                             {
-                                
+
                                 if (prop.PropertyType.BaseType == (typeof(Asset)))
                                 {
                                     // get xml value, search in list for name; get reference & assign reference
@@ -254,7 +255,7 @@ namespace BrokenEngine.Serilization
 
             while (import.ChildNodes.Count > 0)
                 root.AppendChild(import.FirstChild);
-  
+
             return root;
         }
 

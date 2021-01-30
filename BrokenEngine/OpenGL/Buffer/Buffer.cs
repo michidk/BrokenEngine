@@ -76,8 +76,8 @@ namespace BrokenEngine.OpenGL.Buffer
             if (this.disposed)
                 return;
 
-            if (GraphicsContext.CurrentContext == null || GraphicsContext.CurrentContext.IsDisposed)
-                return;
+            // if (GraphicsContext.CurrentContext == null || GraphicsContext.CurrentContext.IsDisposed)
+            //     return;
 
             GL.DeleteBuffer(this);
 

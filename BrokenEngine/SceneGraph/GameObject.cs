@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using BrokenEngine.Components;
 using BrokenEngine.Utils;
-using OpenTK;
+using OpenTK.Mathematics;
 
 namespace BrokenEngine.SceneGraph
 {
@@ -191,7 +191,7 @@ namespace BrokenEngine.SceneGraph
 
         public void Translate(Vector3 vector, bool worldSpace = false)
         {
-            if (worldSpace) 
+            if (worldSpace)
                 // add world translation to the GameObject's world position
                 Position += vector;
             else

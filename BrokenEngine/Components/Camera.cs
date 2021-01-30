@@ -4,6 +4,7 @@ using BrokenEngine.SceneGraph;
 using BrokenEngine.Utils;
 using BrokenEngine.Utils.Attributes;
 using OpenTK;
+using OpenTK.Mathematics;
 
 namespace BrokenEngine.Components
 {

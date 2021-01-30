@@ -1,11 +1,12 @@
 ﻿using OpenTK;
+using OpenTK.Mathematics;
 using OpenTK.Graphics;
 
 namespace BrokenEngine.Models
 {
     public static class MeshUtils
     {
-        
+
         public static Models.Mesh CreateTriangle()
         {
             var mesh = new Models.Mesh("Triangle", 3, 1);
@@ -30,7 +31,7 @@ namespace BrokenEngine.Models
 
             mesh.Faces[0] = new Face(0, 1, 2);
             mesh.Faces[1] = new Face(2, 3, 0);
-            
+
             return mesh;
         }
 

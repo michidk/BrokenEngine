@@ -13,13 +13,14 @@ using BrokenEngine.Models.MeshParser;
 using BrokenEngine.Serilization;
 using BrokenEngine.Utils.Attributes;
 using OpenTK;
+using OpenTK.Mathematics;
 using OpenTK.Graphics;
 
 namespace BrokenEngine.SceneGraph
 {
     public class Scene
     {
-        
+
         public struct MetaData
         {
             public string Name;
@@ -52,7 +53,7 @@ namespace BrokenEngine.SceneGraph
             };
             scene.Meta = meta;
 
-            scene.SceneRoot.AddChild(new GameObject("Test 5", new Vector3(-5, 0, 0)).AddComponent(new MeshRenderer(new Model("a123", "Models/cube"), new Material("testssss", "Shaders/vertex_color.glsl", new VertexColorShader())), false));
+            scene.SceneRoot.AddChild(new GameObject("Test 5", new Vector3(-5, 0, 0)).AddComponent(new MeshRenderer(new Model("a123", "models/cube"), new Material("testssss", "shaders/vertex_color.glsl", new VertexColorShader())), false));
 
             var cameraObj = new GameObject("Camera", new Vector3(0, 0, 0));
             scene.SceneRoot.AddChild(cameraObj);
@@ -71,9 +72,9 @@ namespace BrokenEngine.SceneGraph
 
         public static Scene LoadScene(string name)
         {
-            
+
             // load the scene file
-            var file = ResourceManager.GetString($"Scenes/{ name }.xml");
+            var file = ResourceManager.GetString($"scenes/{ name }.xml");
             var scene = SceneParser.Read(file);
 
             foreach (var child in scene.SceneRoot.Children)
@@ -94,7 +95,7 @@ namespace BrokenEngine.SceneGraph
 
             // init all GameObjects
             scene.SceneRoot.Initialize();
-            
+
             return scene;
         }
 
@@ -139,11 +140,11 @@ namespace BrokenEngine.SceneGraph
             //go.AddComponent(new MeshRenderer(airboat), false);
             go.AddComponent(new MeshRenderer(suzanne, phong), false);
             go.AddComponent(new CircularMovement(speed: 0.05f, radius: 2f), false);
-    
+
 
             Scene scene = new Scene();
             scene.SceneRoot.AddChild(new GameObject("Test 5", new Vector3(-5, 0, 0)).AddComponent(new MeshRenderer(new Model("a123", "Models/cube"), new Material("testssss", new VertexColorShader())), false));
-            
+
             var cameraObj = new GameObject("Camera", new Vector3(0, 0, 0));
             scene.SceneRoot.AddChild(cameraObj);
 
@@ -158,6 +159,6 @@ namespace BrokenEngine.SceneGraph
 
             return null;
         }
-        
+
     }
 }

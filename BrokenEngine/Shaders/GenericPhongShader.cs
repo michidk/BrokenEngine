@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using OpenTK.Mathematics;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
@@ -15,7 +16,7 @@ namespace BrokenEngine.Materials
 
         public float SpecularIntensity { get; set; }
         public float SpecularShininess { get; set; }
-        
+
         public Color4 AmbientColor { get; set; }
         public float AmbientIntensity { get; set; }
 

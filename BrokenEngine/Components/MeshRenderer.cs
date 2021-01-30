@@ -9,6 +9,7 @@ using BrokenEngine.OpenGL.Buffer;
 using BrokenEngine.SceneGraph;
 using BrokenEngine.Utils.Attributes;
 using OpenTK;
+using OpenTK.Mathematics;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
@@ -46,15 +47,14 @@ namespace BrokenEngine.Components
         public override void OnInitialize()
         {
             base.OnInitialize();
-
-            Material.Shader.LoadResources();
         }
 
         public override void OnStart()
         {
             base.OnStart();
 
-            Reload();
+            // TODO: turn back on
+            // Reload();
         }
 
         public void Reload()
@@ -63,7 +63,7 @@ namespace BrokenEngine.Components
 
             var indices = from face in Model.Mesh.Faces from index in face.Indices select index;
             indexBuffer = new StaticBuffer<ushort>(sizeof(ushort), indices.ToArray(), BufferTarget.ElementArrayBuffer);
-            
+
 
             unsafe
             {
@@ -110,7 +110,7 @@ namespace BrokenEngine.Components
             vertexBuffer.BufferData();
 
             vertexArray.Bind();
-            
+
             indexBuffer.Bind();
             indexBuffer.BufferData();
 

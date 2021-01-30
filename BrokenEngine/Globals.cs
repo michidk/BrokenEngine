@@ -1,16 +1,17 @@
-﻿using BrokenEngine.Components;
-using NLog;
+﻿using NLog;
+
+using BrokenEngine.Engine;
+using BrokenEngine.Components;
 
 namespace BrokenEngine
 {
     public static class Globals
     {
 
-        public static string GameName = "Broken Engine";
-        public static Logger Logger = LogManager.GetLogger(GameName);
+        public static EngineConfiguration Config => GameEngine.Config;
+        public static Logger Logger => GameEngine.Logger;
 
-        public static Config Config;
-        public static Engine.Engine Engine;
+        public static GameEngine Engine => GameEngine.Instance;
         public static Camera CurrentCamera => Engine.CurrentCamera;
 
     }

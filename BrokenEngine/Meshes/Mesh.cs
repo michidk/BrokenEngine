@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Xml.Serialization;
 using OpenTK;
+using OpenTK.Mathematics;
 
 namespace BrokenEngine.Models
 {
@@ -44,7 +45,7 @@ namespace BrokenEngine.Models
                 var vertexC = Vertices[face.Indices[2]].Position;
 
                 var faceNormal = Vector3.Cross(vertexB - vertexA, vertexC - vertexA);
-                
+
                 for (int i = 0; i < 3; i++)
                 {
                     Vertices[face.Indices[i]].Normal += faceNormal;

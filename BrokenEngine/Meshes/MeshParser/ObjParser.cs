@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using OpenTK;
+using OpenTK.Mathematics;
 using OpenTK.Graphics;
 
 namespace BrokenEngine.Models.MeshParser
@@ -48,10 +49,10 @@ namespace BrokenEngine.Models.MeshParser
         private string name;
         private string comments;
         private string mtllib;
-        private List<ObjVertex> vertices = new List<ObjVertex>(); 
-        private List<Vector3> normals = new List<Vector3>(); 
-        private List<Vector2> uvs = new List<Vector2>(); 
-        private List<ObjFaceGroup> faceGroups = new List<ObjFaceGroup>(); 
+        private List<ObjVertex> vertices = new List<ObjVertex>();
+        private List<Vector3> normals = new List<Vector3>();
+        private List<Vector2> uvs = new List<Vector2>();
+        private List<ObjFaceGroup> faceGroups = new List<ObjFaceGroup>();
 
         private bool headerEnded = false;
         private int currentLine = 0;
@@ -267,7 +268,7 @@ namespace BrokenEngine.Models.MeshParser
                     face.Vertices[i] = vert;
                 }
                 else
-                {   
+                {
                     // polygon > 3 vertices -> triangulate: add new face for every additional polygon
                     var newFace = new ObjFace(3);
 
@@ -353,6 +354,6 @@ namespace BrokenEngine.Models.MeshParser
             }
             return result.ToString();
         }
-         
+
     }
 }

@@ -3,6 +3,7 @@ using BrokenEngine.Materials;
 using BrokenEngine.Models;
 using BrokenEngine.OpenGL.Buffer;
 using OpenTK;
+using OpenTK.Mathematics;
 using OpenTK.Graphics.OpenGL;
 
 namespace BrokenEngine.Components

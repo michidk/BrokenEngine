@@ -5,6 +5,7 @@ using BrokenEngine.Assets;
 using BrokenEngine.OpenGL.Shader;
 using BrokenEngine.Utils.Attributes;
 using OpenTK;
+using OpenTK.Mathematics;
 using OpenTK.Graphics.OpenGL;
 
 namespace BrokenEngine.Materials
@@ -27,7 +28,7 @@ namespace BrokenEngine.Materials
         [XmlIgnore]
         public OpenGL.Shader.ShaderCompiler ShaderCompiler => Compiler;
 
-        
+
         protected string shaderFilePath;
         protected OpenGL.Shader.ShaderCompiler Compiler;
         private bool loaded = false;

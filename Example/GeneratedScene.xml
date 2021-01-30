@@ -1,0 +1,82 @@
+<Scene>
+  <MetaData>
+    <Name>Test</Name>
+    <Author>Me</Author>
+    <Description>This is a test</Description>
+  </MetaData>
+  <Assets>
+    <Model>
+      <Name>a123</Name>
+      <FilePath>models/cube</FilePath>
+    </Model>
+    <Material>
+      <Name>testssss</Name>
+      <FilePath>shaders/vertex_color.glsl</FilePath>
+      <Shader
+        d2p1:type="VertexColorShader" xmlns:d2p1="http://www.w3.org/2001/XMLSchema-instance">
+        <Test>
+          <X>0</X>
+          <Y>0</Y>
+          <Z>0</Z>
+        </Test>
+      </Shader>
+    </Material>
+  </Assets>
+  <SceneGraph>
+    <GameObject>
+      <Name>Test 5</Name>
+      <Position>
+        <X>-5</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </Position>
+      <Rotation>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </Rotation>
+      <Scale>
+        <X>1</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </Scale>
+      <Components>
+        <MeshRenderer>
+          <Model>a123</Model>
+          <Material>testssss</Material>
+        </MeshRenderer>
+      </Components>
+      <Children />
+    </GameObject>
+    <GameObject>
+      <Name>Camera</Name>
+      <Position>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </Position>
+      <Rotation>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </Rotation>
+      <Scale>
+        <X>1</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </Scale>
+      <Components>
+        <Camera>
+          <AspectRatio>1</AspectRatio>
+          <Fov>60</Fov>
+          <NearPlane>0.3</NearPlane>
+          <FarPlane>1000</FarPlane>
+        </Camera>
+        <CameraMovement>
+          <CurrentType>FirstPerson</CurrentType>
+        </CameraMovement>
+      </Components>
+      <Children />
+    </GameObject>
+  </SceneGraph>
+</Scene>
