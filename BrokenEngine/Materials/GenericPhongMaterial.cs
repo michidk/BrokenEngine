@@ -2,10 +2,11 @@
 using OpenTK.Mathematics;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using BrokenEngine.Utils.Attributes;
 
 namespace BrokenEngine.Materials
 {
-    public class GenericPhongShader : Shader
+    public class GenericPhongMaterial : Material
     {
 
         public Color4 AlbedoColor { get; set; }
@@ -21,7 +22,13 @@ namespace BrokenEngine.Materials
         public float AmbientIntensity { get; set; }
 
 
-        public GenericPhongShader(string shaderFilePath, Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor) : base(shaderFilePath)
+        [XmlConstructor]
+        protected GenericPhongMaterial() {
+
+        }
+
+
+        public GenericPhongMaterial(string shaderFilePath, Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor) : base(shaderFilePath)
         {
             AlbedoColor = albedoColor;
             LightDirection = lightDirection;

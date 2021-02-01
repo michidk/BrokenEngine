@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using BrokenEngine.Assets;
 using BrokenEngine.OpenGL.Shader;
 using BrokenEngine.Utils.Attributes;
 using OpenTK;
@@ -10,7 +9,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace BrokenEngine.Materials
 {
-    public class Shader
+    public class Material
     {
 
         // ShaderCompiler properties
@@ -29,19 +28,19 @@ namespace BrokenEngine.Materials
         public OpenGL.Shader.ShaderCompiler ShaderCompiler => Compiler;
 
 
-        protected string shaderFilePath;
+        public string FilePath;
         protected OpenGL.Shader.ShaderCompiler Compiler;
         private bool loaded = false;
 
 
         [XmlConstructor]
-        public Shader()
+        public Material()
         {
         }
 
-        public Shader(string shaderFilePath)
+        public Material(string filePath)
         {
-            this.shaderFilePath = shaderFilePath;
+            this.FilePath = filePath;
         }
 
         public void LoadResources()
@@ -51,7 +50,7 @@ namespace BrokenEngine.Materials
 
             loaded = true;
 
-            Compiler = ShaderCompiler.LoadShaderFromPath(shaderFilePath);
+            Compiler = ShaderCompiler.LoadShaderFromPath(FilePath);
         }
 
         public virtual void Apply()

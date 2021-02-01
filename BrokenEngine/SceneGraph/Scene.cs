@@ -5,7 +5,6 @@ using System.Drawing;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using BrokenEngine.Assets;
 using BrokenEngine.Components;
 using BrokenEngine.Materials;
 using BrokenEngine.Models;
@@ -15,6 +14,7 @@ using BrokenEngine.Utils.Attributes;
 using OpenTK;
 using OpenTK.Mathematics;
 using OpenTK.Graphics;
+using BrokenEngine.OpenGL.Shader;
 
 namespace BrokenEngine.SceneGraph
 {
@@ -30,8 +30,6 @@ namespace BrokenEngine.SceneGraph
 
 
         public MetaData Meta { get; set; }
-
-        //public List<Asset> Assets { get; set; } = new List<Asset>();
 
         public GameObject SceneRoot { get; set; } = new GameObject("Scene Root");
 
@@ -53,7 +51,7 @@ namespace BrokenEngine.SceneGraph
             };
             scene.Meta = meta;
 
-            scene.SceneRoot.AddChild(new GameObject("Test 5", new Vector3(-5, 0, 0)).AddComponent(new MeshRenderer(new Model("a123", "models/cube"), new Material("testssss", "shaders/vertex_color.glsl", new VertexColorShader())), false));
+            scene.SceneRoot.AddChild(new GameObject("Test 5", new Vector3(-5, 0, 0)).AddComponent(new MeshRenderer(new Model("models/cube"), new VertexColorMaterial("shaders/vertex_color.glsl"))));
 
             var cameraObj = new GameObject("Camera", new Vector3(0, 0, 0));
             scene.SceneRoot.AddChild(cameraObj);

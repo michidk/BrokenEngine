@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Serialization;
-using BrokenEngine.Assets;
 using BrokenEngine.Materials;
 using BrokenEngine.Models;
 using BrokenEngine.OpenGL;
@@ -18,11 +17,6 @@ namespace BrokenEngine.Components
     public class MeshRenderer : Component, IRenderable
     {
 
-        [XmlIgnore]
-        public Model Model { get; protected set; }
-        [XmlIgnore]
-        public Material Material { get; protected set; }
-
         private Buffer<Vertex> vertexBuffer;
         private Buffer<ushort> indexBuffer;
         private VertexArray<Vertex> vertexArray;
@@ -30,18 +24,19 @@ namespace BrokenEngine.Components
         private SubmeshRenderer[] subMeshRenderers;
 
 
+        public Model Model;
+        public Material Material;
+
+
         [XmlConstructor]
         protected MeshRenderer()
         {
         }
 
-        public MeshRenderer(Model model, Material material)
+        public MeshRenderer(Model model, Material shader)
         {
-            Model = model;
-            Material = material;
-
-            if (model == null)
-                throw new ArgumentNullException(nameof(model), "Model can't be null!");
+            this.Model = model;
+            this.Material = shader;
         }
 
         public override void OnInitialize()
@@ -68,7 +63,7 @@ namespace BrokenEngine.Components
             unsafe
             {
                 vertexArray = new VertexArray<Vertex>(
-                   vertexBuffer, Material.Shader.ShaderCompiler.Program,
+                   vertexBuffer, Material.ShaderCompiler.Program,
                    new VertexAttribute("v_position", 3, VertexAttribPointerType.Float, Vertex.Size, 0),
                    new VertexAttribute("v_color", 4, VertexAttribPointerType.Float, Vertex.Size, sizeof(Vector3)),  // TODO: make builder, which calc size automaticly
                    new VertexAttribute("v_normal", 3, VertexAttribPointerType.Float, Vertex.Size, sizeof(Vector3) + sizeof(Color4)),
@@ -89,7 +84,7 @@ namespace BrokenEngine.Components
                 if (subMeshRenderers[c] == null)
                 {
                     var go = new GameObject(submesh.Name, parent: this.GameObject);
-                    var comp = new SubmeshRenderer(submesh, Material.Shader);
+                    var comp = new SubmeshRenderer(submesh, Material);
                     go.AddComponent(comp);
                     subMeshRenderers[c] = comp;
                 }
@@ -104,7 +99,7 @@ namespace BrokenEngine.Components
 
         public void Render(Matrix4 viewMatrix, Matrix4 viewProjectionMatrix)
         {
-            SetDefaultMaterialParameter(Material.Shader, this.GameObject.LocalToWorldMatrix, viewMatrix, viewProjectionMatrix, GameObject.NormalMatrix);
+            SetDefaultMaterialParameter(Material, this.GameObject.LocalToWorldMatrix, viewMatrix, viewProjectionMatrix, GameObject.NormalMatrix);
 
             vertexBuffer.Bind();
             vertexBuffer.BufferData();
@@ -123,10 +118,10 @@ namespace BrokenEngine.Components
             vertexArray.Reset();
             vertexBuffer.Reset();
             indexBuffer.Reset();
-            Material.Shader.CleanUp();
+            Material.CleanUp();
         }
 
-        public static void SetDefaultMaterialParameter(Shader shader, Matrix4 modelMatrix, Matrix4 viewMatrix, Matrix4 viewProjectionMatrix, Matrix4 normalMatrix)
+        public static void SetDefaultMaterialParameter(Material shader, Matrix4 modelMatrix, Matrix4 viewMatrix, Matrix4 viewProjectionMatrix, Matrix4 normalMatrix)
         {
             // global variables
             shader.CameraPosition = Globals.CurrentCamera.GameObject.Position;

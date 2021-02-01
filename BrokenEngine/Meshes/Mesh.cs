@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using BrokenEngine.Models.MeshParser;
+using BrokenEngine.Utils.Attributes;
 using OpenTK;
 using OpenTK.Mathematics;
 
@@ -8,16 +10,34 @@ namespace BrokenEngine.Models
 {
     public class Mesh
     {
-
+        [XmlIgnore]
         public string Name;
+        [XmlIgnore]
         public string Comments;
 
+        [XmlIgnore]
         public Vertex[] Vertices;
+        [XmlIgnore]
         public Face[] Faces;
 
+        [XmlIgnore]
         public List<Submesh> Submeshes = new List<Submesh>();
 
-        public Mesh(string name, int vertices, int faces) : this (new Vertex[vertices], new Face[faces])
+        public string FilePath;
+
+
+        [XmlConstructor]
+        protected Mesh()
+        {
+
+        }
+
+        public Mesh(string filePath) {
+            this.FilePath = filePath;
+            ObjParser.ParseFile(filePath);
+        }
+
+        public Mesh(string name, int vertices, int faces) : this(new Vertex[vertices], new Face[faces])
         {
             Name = name;
         }

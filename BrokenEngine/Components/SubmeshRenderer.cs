@@ -12,11 +12,11 @@ namespace BrokenEngine.Components
     {
 
         public Submesh Submesh;
-        public Shader Shader;
+        public Material Shader;
 
         private Buffer<ushort> indexBuffer;
 
-        public SubmeshRenderer(Submesh submesh, Shader shader)
+        public SubmeshRenderer(Submesh submesh, Material shader)
         {
             this.Submesh = submesh;
             this.Shader = shader;
