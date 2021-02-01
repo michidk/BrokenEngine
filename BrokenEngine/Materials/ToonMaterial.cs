@@ -1,6 +1,8 @@
 ﻿using OpenTK;
+using OpenTK.Mathematics;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using BrokenEngine.Utils.Attributes;
 
 namespace BrokenEngine.Materials
 {
@@ -11,12 +13,12 @@ namespace BrokenEngine.Materials
         public float OutlineThickness { get; set; }
 
 
-        public ToonMaterial()
-        {
-            
+        [XmlConstructor]
+        protected ToonMaterial() {
+
         }
 
-        public ToonMaterial(Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor, float shades = 5.0f, float outlineThickness = 0.25f) : base(albedoColor, lightDirection, ambientColor, "toon")
+        public ToonMaterial(string shaderFileName, Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor, float shades = 5.0f, float outlineThickness = 0.25f) : base(shaderFileName, albedoColor, lightDirection, ambientColor)
         {
             this.Shades = shades;
             this.OutlineThickness = outlineThickness;

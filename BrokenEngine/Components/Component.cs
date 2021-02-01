@@ -1,8 +1,30 @@
-﻿namespace BrokenEngine.Components
+﻿using System.Xml.Serialization;
+using BrokenEngine.SceneGraph;
+using BrokenEngine.Utils.Attributes;
+
+namespace BrokenEngine.Components
 {
     public abstract class Component
     {
-        public GameObject GameObject;
+        [XmlIgnore]
+        public GameObject GameObject { get; private set; }
+
+        
+        [XmlConstructor]
+        protected Component()
+        {
+
+        }
+
+        internal void Assign(GameObject gameObject)
+        {
+            this.GameObject = gameObject;
+        }
+
+        public virtual void OnInitialize()
+        {
+
+        }
 
         public virtual void OnStart()
         {

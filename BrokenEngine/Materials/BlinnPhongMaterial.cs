@@ -1,6 +1,8 @@
 ﻿using OpenTK;
+using OpenTK.Mathematics;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using BrokenEngine.Utils.Attributes;
 
 namespace BrokenEngine.Materials
 {
@@ -10,11 +12,12 @@ namespace BrokenEngine.Materials
         public bool Blinn { get; set; }     // use blinn highlights?
 
 
-        public BlinnPhongMaterial()
-        {
+        [XmlConstructor]
+        protected BlinnPhongMaterial() {
+
         }
 
-        public BlinnPhongMaterial(Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor, bool blinn = true) : base(albedoColor, lightDirection, ambientColor, "phong")
+        public BlinnPhongMaterial(string shaderFileName, Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor, bool blinn = true) : base(shaderFileName, albedoColor, lightDirection, ambientColor)
         {
             this.Blinn = blinn;
         }

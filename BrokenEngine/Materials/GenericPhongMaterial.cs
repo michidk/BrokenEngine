@@ -1,6 +1,8 @@
 ﻿using OpenTK;
+using OpenTK.Mathematics;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using BrokenEngine.Utils.Attributes;
 
 namespace BrokenEngine.Materials
 {
@@ -15,17 +17,18 @@ namespace BrokenEngine.Materials
 
         public float SpecularIntensity { get; set; }
         public float SpecularShininess { get; set; }
-        
+
         public Color4 AmbientColor { get; set; }
         public float AmbientIntensity { get; set; }
 
 
-        // has to be public because of https://github.com/wojtpl2/ExtendedXmlSerializer/issues/8
-        public GenericPhongMaterial()
-        {    
+        [XmlConstructor]
+        protected GenericPhongMaterial() {
+
         }
 
-        public GenericPhongMaterial(Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor, string shaderFileName) : base(shaderFileName)
+
+        public GenericPhongMaterial(string shaderFilePath, Color4 albedoColor, Vector3 lightDirection, Color4 ambientColor) : base(shaderFilePath)
         {
             AlbedoColor = albedoColor;
             LightDirection = lightDirection;

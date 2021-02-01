@@ -1,10 +1,11 @@
 ﻿using OpenTK;
+using OpenTK.Mathematics;
 
 namespace BrokenEngine.Utils
 {
     public static class Vector3Extensions
     {
-        
+
         public static void Mod(this Vector3 vec, float value)
         {
             vec.X = vec.X % value;
