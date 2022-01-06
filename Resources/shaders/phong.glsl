@@ -1,6 +1,6 @@
 ﻿//# Name Blinn-Phong Lightning
 //# Author Michael Lohr
-//# Description A blinn-phong lightning implementation
+//# Description A blinn-phong lighting implementation
 
 //# Type VERTEX
 #version 420
@@ -32,10 +32,10 @@ void main()
 	// gl_Position is a special variable of OpenGL that must be set
 	// convert position in clip space for the rasterizer
     gl_Position = u_modelViewProjMatrix * pos4;
-	
-	// convert position & normals in world space, to better calculate lightning
+
+	// convert position & normals in world space, to better calculate lighting
 	f_position = vec3(u_modelWorldMatrix * pos4);
-	f_normal = vec3(u_normalMatrix * vec4(normal, 0));	
+	f_normal = vec3(u_normalMatrix * vec4(normal, 0));
 	f_color = v_color;
 }
 
@@ -75,7 +75,7 @@ vec4 diffuse(vec3 normal) {
 
 vec4 specular(vec3 normal) {
 	vec3 viewDir = normalize(u_cameraPosition - f_position);
-	
+
 	// fork for blinn highlights
 	float specularAmount;
 	// fixes phong cutoff issue with point lightning and is cheaper to calculate because no reflection is needed
@@ -104,7 +104,7 @@ void main()
 {
 	// variables
 	vec3 normal = normalize(f_normal);
-	
+
 	// components
 	vec4 diffuse = diffuse(normal);
 	vec4 specular = specular(normal);
@@ -112,7 +112,7 @@ void main()
 
 	// final composition
 	vec4 result = (diffuse + specular + ambient) * u_albedo;
-	
+
 	// output
 	result.a = 1;			// ignore alpha value
 	f_fragColor = result;
